@@ -1,5 +1,5 @@
 // Angular modules
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule, Injector } from '@angular/core';
 import { BrowserModule }        from '@angular/platform-browser';
 import { DatePipe }             from '@angular/common';
@@ -20,6 +20,7 @@ import { StaticModule }         from './static/static.module';
 // Services
 import { AppService }           from '@services/app.service';
 import { StoreService }         from '@services/store.service';
+import { Interceptor } from '@helpers/auth.interceptor';
 
 // Components
 import { AppComponent }         from './app.component';
@@ -50,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    HttpClientModule,
 
     // Internal modules
     SharedModule,
@@ -66,8 +68,13 @@ import { ToastrModule } from 'ngx-toastr';
       useFactory : appInitFactory,
       deps       : [ TranslateService, Injector ],
       multi      : true
-    },    
-    provideHttpClient(),
+    },
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: Interceptor, 
+      multi: true
+    },
+    // provideHttpClient(),
     // Services
     AppService,
     StoreService,

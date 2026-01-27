@@ -16,7 +16,7 @@ export class UtilityService {
     if (user) {
       this.permissionsService.setUserContext({
         //role: user.roles,
-        role: user.data.isSuperAdmin ? ['superAdmin'] : user.data.isManager ? ['manager'] : ['employee'],
+        role: user.isSuperAdmin ? ['superAdmin'] : user.isManager ? ['manager'] : ['employee'],
         permissions: this.userPermissions
       });
     }
@@ -63,5 +63,9 @@ export class UtilityService {
 
       return newItem;
     });
+  }
+
+  hasActiveModule(modules = this.loggedInUser.companyFeatures.modules): boolean {
+    return Object.values(modules).some((module:any) => module.active);
   }
 }

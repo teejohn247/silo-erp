@@ -21,6 +21,9 @@ import { AuthRoutingModule } from '../auth-routing.module';
 import { SharedModule } from '@sharedWeb/shared.module';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { AuthModule } from '../auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Interceptor } from '@helpers/auth.interceptor';
+import { UtilityService } from '@sharedWeb/services/utils/utility.service';
 
 @Component({
   selector    : 'app-login',
@@ -34,6 +37,13 @@ import { AuthModule } from '../auth.module';
     ReactiveFormsModule,
     NgOtpInputModule,
     SharedModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: Interceptor, 
+      multi: true
+    },
   ],
   animations: [authPageStagger],
   standalone: true
@@ -66,6 +76,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private utilityService: UtilityService,
     private notifyService: NotificationService,
   ){
     this.initFormGroup();
@@ -402,12 +413,12 @@ export class LoginComponent implements OnInit {
           console.log(res);
           if(res.status == 200) {
             this.loggedInUser = res.data;
-            if(res.data.firstTimeLogin) {
+            if(this.loggedInUser.firstTimeLogin) {
               this.isLoading = false;
               this.router.navigate(['/onboarding']);
             }
             else {
-              if(res.data.isSuperAdmin) {
+              if(this.loggedInUser.isSuperAdmin) {
                 this.isLoading = false
                 this.router.navigate(['/app']);
                 // if(res.data.firstTimeLogin) this.router.navigate(['./onboarding']);
@@ -421,7 +432,7 @@ export class LoginComponent implements OnInit {
               }
               else {
                 this.isLoading = false
-                this.router.navigate(['app/human-resources/dashboard']);
+                this.loggedInUser.onboardingProgress.isComplete ? this.router.navigate(['app/hr/dashboard']) : this.router.navigate(['/onboarding']);
               }
             }
             
@@ -455,14 +466,15 @@ export class LoginComponent implements OnInit {
       this.authService.setPassword(payload).subscribe({
         next: res => {
           //console.log('Reset', res);
-          if (res.success) {
+          if (res.status == 200) {
             this.notifyService.showSuccess(res.message);
             this.login(<string>email)
             this.isLoading = false;   
           }
         },
         error: err => {
-          this.notifyService.showError(err.error.message);
+          console.log(err)
+          //this.notifyService.showError(err.error.message);
           this.isLoading = false;  
         }
       })

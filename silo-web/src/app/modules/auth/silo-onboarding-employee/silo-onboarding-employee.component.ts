@@ -92,15 +92,17 @@ export class SiloOnboardingEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loggedInUser = this.authService.loggedInUser;
+    
   }
 
   private initFormGroup(): void {
+    this.loggedInUser = this.authService.loggedInUser;
+    console.log(this.loggedInUser)
     this.form = new FormGroup(
       {
-        firstName: new FormControl('', Validators.required),
-        lastName: new FormControl('', Validators.required),
-        email: new FormControl('', [Validators.required, Validators.email]),
+        firstName: new FormControl(this.loggedInUser.firstName, Validators.required),
+        lastName: new FormControl(this.loggedInUser.lastName, Validators.required),
+        email: new FormControl(this.loggedInUser.email, [Validators.required, Validators.email]),
         phone: new FormControl(''),
         companyName: new FormControl(this.loggedInUser ? this.loggedInUser.companyName : 'SILO', Validators.required),
         dateOfBirth: new FormControl('', Validators.required),

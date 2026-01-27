@@ -23,14 +23,19 @@
 .cta {
     font-size: 1rem;
     font-family: var(--font-medium);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     letter-spacing: 0.06rem;
     border-radius: 0.5rem;
+    white-space: nowrap;
     background: var(--primary);
     transition: all 0.4s ease;
     padding: 0.6rem;
     color: white;
     outline: none;
     border: none;
+    gap: 0.5rem;
 
     @include screen-media-min(md) {
       font-size: 1.2rem;

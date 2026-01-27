@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { authPageStagger } from '@animations/auth-page-animations';
+import { HrService } from '@sharedWeb/services/hr/hr.service';
 import { AuthService } from '@sharedWeb/services/utils/auth.service';
+import { NotificationService } from '@sharedWeb/services/utils/notification.service';
+import { UtilityService } from '@sharedWeb/services/utils/utility.service';
 import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
@@ -79,13 +83,18 @@ export class SiloOnboardingAdminComponent implements OnInit {
   ]
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private hrService: HrService,
+    private notifyService: NotificationService,
+    private utilityService: UtilityService,
+    private router: Router
   ) {
     this.initFormGroup();
   }
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
+    this.utilityService.hasActiveModule() ? this.currentStep = 4 : this.currentStep = 1;
     this.addEmployee();
   }
 
@@ -113,8 +122,6 @@ export class SiloOnboardingAdminComponent implements OnInit {
     return this.formCtrls['employees'] as FormArray<FormControl<string | null>>;
   }
 
-
-
   goToStep(stepNo:number) {
     this.currentStep = stepNo;
   }
@@ -122,34 +129,41 @@ export class SiloOnboardingAdminComponent implements OnInit {
   goToNextStep() {
     if(this.currentStep == 4 || this.currentStep == 0) {
       //Go to dashboard
-      return
+      this.goToDashboard()
     }
-    if(this.stepValid(this.currentStep)) this.currentStep = this.currentStep + 1;
+    this.checkStep(this.currentStep);
   }
 
   goToPrevStep() {
     this.currentStep = this.currentStep - 1;
   }
 
-  stepValid(stepNo: number): boolean {
+  checkStep(stepNo: number): boolean {
     let isValid = false;
     switch (stepNo) {
       case 1:
         this.formCtrls['industry'].markAsTouched();
         this.formCtrls['companySize'].markAsTouched();
         isValid = this.formCtrls['industry'].valid && this.formCtrls['companySize'].valid;
+        if(isValid) this.saveCompanyInfo();
         break;
       case 2:
         isValid = this.formCtrls['modules'].valid
+        if(isValid) this.saveCompanyModules();
         break;
       case 3:
         isValid = true;
+        this.form.value.employees.length > 0 ? this.sendEmployeeInvites() : this.goToStep(this.currentStep + 1); 
         break;
       default:
         break;
     }
     return isValid
   } 
+
+  goToDashboard() {
+    this.router.navigate(['/app']);
+  }
 
   isModuleSelected(moduleName: string): boolean {
     return this.modulesCtrl.value.includes(moduleName);
@@ -174,6 +188,76 @@ export class SiloOnboardingAdminComponent implements OnInit {
 
   removeEmployee(index: number): void {
     this.employeesCtrl.removeAt(index);
+  }
+
+  saveCompanyInfo() {
+    this.isLoading = true;
+    const payload = {
+      companyName: this.form.value.companyName,
+      industry: this.form.value.industry,
+      companySize: this.form.value.companySize,
+      //"companyAddress": "123 Main St, City, Country"
+    }
+    this.hrService.saveCompanyDetails(payload).subscribe({
+      next: (res:any) => {
+        //console.log(res);
+        if (res.status == 200) {
+          this.isLoading = false;
+          this.notifyService.showSuccess(res.message);
+          this.currentStep = this.currentStep + 1
+        }
+      },
+      error: (err: any) => {
+        this.isLoading = false; 
+      }
+    })
+  }
+
+  saveCompanyModules() {
+    this.isLoading = true;
+    const payload = {
+      modules: {
+        HumanResources: {
+          active: this.isModuleSelected('HR Module')
+        },
+        CRM: {
+          active: this.isModuleSelected('CRM Module')
+        }
+      }
+    }
+    this.hrService.saveCompanyModules(payload).subscribe({
+      next: (res:any) => {
+        //console.log(res);
+        if (res.status == 200) {
+          this.isLoading = false;
+          this.notifyService.showSuccess(res.message);
+          this.currentStep = this.currentStep + 1
+        }
+      },
+      error: (err: any) => {
+        this.isLoading = false; 
+      }
+    })
+  }
+
+  sendEmployeeInvites() {
+    this.isLoading = true;
+    const payload = {
+      employees: this.form.value.employees
+    }
+    this.hrService.sendEmployeeInvites(payload).subscribe({
+      next: (res:any) => {
+        //console.log(res);
+        if (res.status == 200) {
+          this.isLoading = false;
+          this.notifyService.showSuccess(res.message);
+          this.currentStep = this.currentStep + 1
+        }
+      },
+      error: (err: any) => {
+        this.isLoading = false; 
+      }
+    })
   }
 
 }

@@ -2,7 +2,7 @@
     <div class="pg-hdr d-flex flex-column anim-item text-center text-primary">
         <img *ngIf="currentStep != 4" routerLink="/" class="logo anim-item" src="assets/img/brand/silo-logo.svg" alt="silo">
         <div *ngIf="currentStep == 1" class="step-info mb-4">
-            <h3 class="anim-item"> Welcome, {{'Richard'}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></h3>
+            <h3 class="anim-item"> Welcome, {{loggedInUser?.firstName}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></h3>
             <p class="anim-item">Let's set up your personal information so your team can recognize you.</p>
         </div>
 
@@ -78,7 +78,7 @@
             </div>
 
             <div *ngIf="currentStep == 1" class="actions anim-item text-center">
-                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary anim-item my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary anim-item my-4 px-5" role="button">Save & Continue <span *ngIf="isLoading" class="loader"></span></button>
             </div>
 
             <div *ngIf="currentStep == 2" class="field-group">
@@ -112,7 +112,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="field w-48 anim-item" appearance="outline">
-                    <mat-label>Job Title</mat-label>
+                    <mat-label>Job Role</mat-label>
                     <input matInput formControlName="jobTitle" id="jobTitle" name="jobTitle" placeholder="Enter job title">
                 </mat-form-field>
 
@@ -130,8 +130,8 @@
             </div>
 
             <div *ngIf="currentStep == 2" class="actions d-flex gap-5 anim-item text-center mt-4">
-                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
-                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button">Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button">Save & Continue <span *ngIf="isLoading" class="loader"></span></button>
             </div>
 
             <div *ngIf="currentStep == 3" class="field-group" @authPageStagger>
@@ -167,8 +167,8 @@
             </div>
 
             <div *ngIf="currentStep == 3" class="actions d-flex gap-5 anim-item text-center mt-4">
-                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
-                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Continue</button>
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button">Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button">Continue</button>
             </div>
 
             <div *ngIf="currentStep == 4" class="glass-card anim-item" @authPageStagger>
