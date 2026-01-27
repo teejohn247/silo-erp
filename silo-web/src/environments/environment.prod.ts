@@ -9,7 +9,8 @@ const host   = 'localhost';
 const port   = ':5000';
 const path   = '/api/';
 
-const baseUrl = scheme + host + port + path;
+// const baseUrl = scheme + host + port + path;
+const baseUrl = 'https://erp-bk-staging-766078353087.us-central1.run.app/api/v1'
 
 export const environment = {
   production      : true,
