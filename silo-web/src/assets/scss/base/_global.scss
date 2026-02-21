@@ -658,6 +658,13 @@ a {
 
 //MAT FORM FIELDS STYLES
 .mat-mdc-form-field {
+  font-size: 0.85rem !important;
+  font-family: var(--font-regular) !important;
+}
+
+/* Select trigger text */
+.mat-mdc-select {
+  font-size: 0.85rem !important;
   font-family: var(--font-regular) !important;
 }
 

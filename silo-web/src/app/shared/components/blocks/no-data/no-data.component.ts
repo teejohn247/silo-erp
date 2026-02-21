@@ -12,6 +12,7 @@ export class NoDataComponent {
   @Input() icon:string = 'folderOpen';
   @Input() imageUrl:string = '';
   @Input() iconSize:number = 80;
+  @Input() iconHeight:string = '5rem';
   @Input() message:string = 'No records exist';
   @Input() messageFontSize:string = '1rem';
 

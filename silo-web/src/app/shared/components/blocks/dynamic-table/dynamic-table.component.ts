@@ -22,6 +22,8 @@ export class DynamicTableComponent implements OnInit {
   @Input() loading = false;
   @Input() filters: any[] = [];
   @Input() showCheckbox = false;
+  @Input() emptyDataImage:string = '';
+  @Input() emptyDataMessage:string = 'No records exist';
   @Input() bulkActions: { label: string; action: string }[] = [];
   @Input() statusConfig: { [key: string]: { label: string; class: string } } = {
     pending: { label: 'Pending', class: 'table-status status-pending' },
@@ -51,6 +53,13 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
       
+  }
+
+  get showPagination(): boolean {
+    if (!this.paging?.total || !this.paging?.pageSize) return false;
+
+    const totalPages = Math.ceil(this.paging.total / this.paging.pageSize);
+    return totalPages > 1;
   }
 
   toggleRow(row: any) {

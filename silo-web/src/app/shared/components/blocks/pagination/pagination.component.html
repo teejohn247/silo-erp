@@ -18,24 +18,22 @@
     </mat-form-field>
 
     <!-- Page Controls -->
-    <div class="page-controls">
+    <div class="page-controls d-flex gap-2">
 
         <!-- First -->
         <button
-            mat-icon-button
             (click)="goTo(1)"
             [disabled]="paging.page === 1"
         >
-        «
+            <app-icon [iconName]="'chevronsLeft'" [iconStrokeWidth]="2" [iconWidth]="16" [iconHeight]="16"></app-icon>
         </button>
 
         <!-- Previous -->
         <button
-            mat-icon-button
             (click)="goTo(paging.page - 1)"
             [disabled]="paging.page === 1"
         >
-        ‹
+          <app-icon [iconName]="'chevronLeft'" [iconStrokeWidth]="2" [iconWidth]="16" [iconHeight]="16"></app-icon>
         </button>
 
         <!-- Ellipsis Before -->
@@ -46,7 +44,6 @@
         <!-- Page Numbers -->
         <button
             *ngFor="let p of pages"
-            mat-button
             [class.active]="p === paging.page"
             (click)="goTo(p)"
         >
@@ -60,20 +57,18 @@
 
         <!-- Next -->
         <button
-            mat-icon-button
             (click)="goTo(paging.page + 1)"
             [disabled]="paging.page === totalPages"
         >
-        ›
+            <app-icon [iconName]="'chevronRight'" [iconStrokeWidth]="2" [iconWidth]="16" [iconHeight]="16"></app-icon>
         </button>
 
         <!-- Last -->
         <button
-            mat-icon-button
             (click)="goTo(totalPages)"
             [disabled]="paging.page === totalPages"
         >
-        »
+            <app-icon [iconName]="'chevronsRight'" [iconStrokeWidth]="2" [iconWidth]="16" [iconHeight]="16"></app-icon>
         </button>
 
     </div>

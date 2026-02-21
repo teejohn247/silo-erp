@@ -102,7 +102,7 @@ export class EmployeeListComponent implements OnInit {
     },
     {
       key: "actions",
-      label: "Actions",
+      label: "",
       order: 11,
       columnWidth: "10%",
       sortable: false,
@@ -288,7 +288,7 @@ export class EmployeeListComponent implements OnInit {
             if(res.status == 200) {
               this.notify.showInfo('The employee has been deleted successfully');
             }
-            //this.getPageData();
+            this.search$.next('');
           },
           error: err => {
             //console.log(err)

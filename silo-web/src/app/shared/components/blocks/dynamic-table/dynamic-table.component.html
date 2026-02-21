@@ -141,19 +141,25 @@
         </table>
 
         <!-- LOADER -->
-        <div *ngIf="loading" class="loader-overlay">
-            <div class="spinner"></div>
+        <div *ngIf="loading" class="loader-wrap" [class.hasData]="data.length > 0">
+            <div class="spinner-border color-theme-red" style="width: 1.5rem; height: 1.5rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
 
         <!-- NO DATA -->
         <div *ngIf="!loading && data.length === 0" class="no-data">
-            <app-no-data></app-no-data>
+            <app-no-data
+                [height]="'15rem'"
+                [imageUrl]="emptyDataImage"
+                [message]="emptyDataMessage"
+            ></app-no-data>
         </div>
 
     </div>
 
     <!-- PAGINATION -->
-    <div *ngIf="data.length > 0" class="pagination-wrap px-3 pt-3">
+    <div *ngIf="showPagination" class="pagination-wrap px-3 pt-3">
         <app-pagination
             [paging]="paging"
             (pagingChange)="onPageChange($event)"
