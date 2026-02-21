@@ -292,34 +292,29 @@ export class EmployeeInfoComponent implements OnInit {
   }
 
   handleFormAction(event: any) {
-    this.isLoading = true;
-    const official = this.form.value.official;
-    const personal = this.form.value.personal;
-    const profilePhoto = this.form.value.profilePhoto;
+    const official = this.officialFormGroup.value;
+    const personal = this.personalFormGroup.value;
+    const profilePhoto = this.form.value.profilePhoto; // Or get from formControl
 
-    const formData = new FormData();
+    console.log('Event', event.value);
+    console.log('Official', official);
+    console.log('Personal', personal);
 
-    if (profilePhoto) {
-      formData.append('profilePhoto', profilePhoto);
+    if(this.data.isExisting) {
+      const formData = new FormData();
+      if (profilePhoto) formData.append('profilePhoto', profilePhoto);
+
+      Object.keys(official).forEach(k => formData.append(k, official[k] ?? ''));
+
+      if (this.data.isExisting) {
+        Object.keys(personal).forEach(k => formData.append(k, personal[k] ?? ''));
+      }
+      this.updateEmployee(formData)
     }
 
-    if (this.data.isExisting) {
-      // Official
-      Object.keys(official).forEach(key => {
-        formData.append(key, official[key] ?? '');
-      });
-      
-      // Personal
-      Object.keys(personal).forEach(key => {
-        formData.append(key, personal[key] ?? '');
-      });
-      this.updateEmployee(formData);
-    } 
     else {
-      const payload = event.value;
-      console.log(payload);
-      this.createEmployee(payload);
-    }    
+      this.createEmployee(official);
+    }
   }
 
   updateEmployee(payload:any) {

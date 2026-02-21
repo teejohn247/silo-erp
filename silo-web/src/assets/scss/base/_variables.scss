@@ -21,6 +21,7 @@ $utilities: (
   --primary-dark: #0A122F;
 
   --primary-light: rgba(36, 133, 129, 0.25);
+  --primary-lightest: #e6edf2;
 
   --font-family: 'PR';
   --font-light: 'PL';
@@ -73,6 +74,7 @@ $utilities: (
   --radius-xl: 18px;
 
   --card-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  --box-shadow-1: rgba(0, 0, 0, 0.09) 0px 3px 12px;
 
   //TRANSITIONS
   --transition-norm: all 0.4s ease;

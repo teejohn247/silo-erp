@@ -59,6 +59,10 @@ import { DynamicFormComponent } from './components/forms/dynamic-form/dynamic-fo
 import { NoDataComponent } from './components/blocks/no-data/no-data.component';
 import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 import { FileUploadComponent } from './components/forms/file-upload/file-upload.component';
+import { PaginationComponent } from './components/blocks/pagination/pagination.component';
+import { TableFilterComponent } from './components/blocks/table-filter/table-filter.component';
+import { DynamicTableComponent } from './components/blocks/dynamic-table/dynamic-table.component';
+import { CdkOverlayOrigin } from "@angular/cdk/overlay";
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -87,12 +91,12 @@ const SHARED_COMP = [
     ReactiveFormsModule,
     HighchartsChartModule,
     NgxChartsModule,
-
     // External modules
     TranslateModule,
     AngularSvgIconModule,
     NgbModule,
-  ],
+    CdkOverlayOrigin
+],
   declarations: [
     // Components
     ToastComponent,
@@ -101,6 +105,9 @@ const SHARED_COMP = [
     PieChartComponent,
     ProgressBarComponent,
     ConfirmationModalComponent,
+    PaginationComponent,
+    TableFilterComponent,
+    DynamicTableComponent,
     NoDataComponent,
 
     // Forms
@@ -150,6 +157,9 @@ const SHARED_COMP = [
     AreaChartComponent,
     PieChartComponent,
     ProgressBarComponent,
+    PaginationComponent,
+    TableFilterComponent,
+    DynamicTableComponent,
     IconComponent,
 
     // Forms

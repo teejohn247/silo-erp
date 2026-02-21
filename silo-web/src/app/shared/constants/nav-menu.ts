@@ -3,7 +3,7 @@ import { MenuItem } from "@models/general/menu-item";
 export const navMenuData: MenuItem[] = [
     {
         routeLink: 'hr/dashboard',
-        icon: 'userStar',
+        icon: 'usersRound',
         label: 'Human Resources',
         mobileLabel: 'HR Module',
         subMenu: [

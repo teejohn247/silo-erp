@@ -1,0 +1,163 @@
+<div class="table-container">
+    <!-- SEARCH + FILTER HEADER -->
+    <div class="table-toolbar px-3 pt-4">
+        <mat-form-field appearance="outline" class="table-search compact-field lg">
+            <mat-label>Search</mat-label>
+            <input
+                matInput
+                type="text"
+                [value]="searchTerm"
+                (input)="onSearch($event)"
+                placeholder="Type to search..."
+            >
+            <div matPrefix class="icon">
+                <app-icon [iconName]="'search'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+            </div>
+        </mat-form-field>
+
+        <button class="filter-trigger" (click)="showFilter = !showFilter">
+            Filter <app-icon [iconName]="'listFilter'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </button>
+
+        <ng-container *ngIf="selectedRows.size > 0">
+            <button
+                *ngFor="let action of bulkActions"
+                (click)="onBulk(action.action)"
+            >
+                {{ action.label }}
+            </button>
+        </ng-container>
+    </div>
+
+    <!-- FILTER -->
+    <div *ngIf="showFilter" class="filter-slide px-3">
+        <app-table-filter
+            [filters]="filters"
+            (filtersChange)="filterChange.emit($event)"
+        ></app-table-filter>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <table>
+            <thead>
+                <tr>
+                    <th *ngIf="showCheckbox" [style.width]="'5%'">
+                        <mat-checkbox
+                            [checked]="selectedRows.size === data.length && data.length > 0"
+                            [indeterminate]="selectedRows.size > 0 && selectedRows.size < data.length"
+                            color="primary"
+                            class="table-checkbox"
+                            (change)="toggleAll()"
+                        ></mat-checkbox>
+                    </th>
+
+                    <th
+                        *ngFor="let col of columns"
+                        [class.frozen]="col.frozen"
+                        [style.width]="col.columnWidth"
+                    >
+                        {{ col.label }}
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr
+                    *ngFor="let row of data; trackBy: trackByFn"
+                    (click)="rowClick.emit(row)"
+                >
+                    <td *ngIf="showCheckbox">
+                        <mat-checkbox
+                            [checked]="selectedRows.has(row)"
+                            (click)="$event.stopPropagation()"
+                            color="primary"
+                            class="table-checkbox"
+                            (change)="toggleRow(row)"
+                        ></mat-checkbox>
+                    </td>
+
+                    <td
+                        *ngFor="let col of columns"
+                        [class.frozen]="col.frozen"
+                        (click)="col.clickable ? handleCellClick(row, col, $event) : null"
+                    >
+                        <ng-container [ngSwitch]="col.type">
+
+                            <span *ngSwitchCase="'currency'">
+                                {{ row[col.key] | currency: col.currencyCode || 'USD' }}
+                            </span>
+
+                            <span *ngSwitchCase="'date'">
+                                {{ row[col.key] | date: 'mediumDate' }}
+                            </span>
+
+                            <span *ngSwitchCase="'datetime'">
+                                {{ row[col.key] | date: 'medium' }}
+                            </span>
+
+                            <!-- IMAGE CELL -->
+                            <span *ngSwitchCase="'profile'" class="img-wrap">
+                                <ng-container *ngIf="row[col.key]; else noImage">
+                                    <img [src]="row[col.key]" class="profile-img" />
+                                </ng-container>
+
+                                <ng-template #noImage>
+                                    <div class="profile-placeholder">
+                                        <app-icon [iconName]="'user'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+                                    </div>
+                                </ng-template>
+                            </span>
+                            
+                            <!-- STATUS CELL -->
+                            <span *ngSwitchCase="'status'" [ngClass]="getStatusClass(row, col)">
+                                {{ getStatusLabel(row, col) }}
+                            </span>
+
+                            <!-- ACTIONS CELL -->
+                            <ng-container *ngSwitchCase="'actions'" [style.width]="col.columnWidth">
+                                <ng-container *ngFor="let act of col.actions">
+                                    <button 
+                                        type="button" 
+                                        class="action-btn"
+                                        title="{{ act.tooltip }}"
+                                        [style.color]="act.color"
+                                        (click)="act.callback(row); $event.stopPropagation()"
+                                    >
+                                        <app-icon [iconName]="act.icon" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+
+                            <span *ngSwitchDefault>
+                                {{ row[col.key] }}
+                            </span>
+
+                        </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- LOADER -->
+        <div *ngIf="loading" class="loader-overlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- NO DATA -->
+        <div *ngIf="!loading && data.length === 0" class="no-data">
+            <app-no-data></app-no-data>
+        </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div *ngIf="data.length > 0" class="pagination-wrap px-3 pt-3">
+        <app-pagination
+            [paging]="paging"
+            (pagingChange)="onPageChange($event)"
+        ></app-pagination>
+    </div>
+
+</div>

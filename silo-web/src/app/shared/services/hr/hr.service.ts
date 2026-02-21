@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthService } from '../utils/auth.service';
+import { buildUrlWithParams } from '@helpers/query-params.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -72,8 +73,12 @@ export class HrService {
   }
 
   //Get the list of all employees
-  public getEmployees(pageNo:number = 1, pageSize:number = 10, searchParam:string = '', filter:string = ''): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchEmployees?page=${pageNo}&limit=${pageSize}&search=${searchParam}&filter=${filter}`, this.requestOptions);
+  public getEmployees(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
+    if (searchParam) params['search'] = searchParam; 
+    Object.assign(params, filters || {});
+    const url = buildUrlWithParams(`${this.baseUrl}/fetchEmployees`, params);
+    return this.http.get<any>(url, this.requestOptions);
   }
 
   //Get an employee details

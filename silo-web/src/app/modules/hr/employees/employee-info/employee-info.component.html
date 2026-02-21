@@ -1,4 +1,4 @@
-<form class="modal-wrap">
+<form class="modal-wrap" [formGroup]="form">
     <section class="modal-header">
         <div class="illustration">
             <div *ngIf="!data.isExisting" class="img-wrap">
@@ -7,9 +7,8 @@
 
             <ng-container *ngIf="data.isExisting">
                 <app-file-upload
-                    *ngSwitchCase="'profile'"
                     formControlName="profilePhoto"
-                    [defaultImage]="data.isExisting ? this.data.data.profilePic : ''"
+                    [defaultImage]="data.isExisting ? this.data.data.profilePic : 'assets/img/project/illustrations/user.webp'"
                     mode="profile"
                 ></app-file-upload>
             </ng-container>
@@ -17,7 +16,7 @@
 
         <div class="details">
             <div class="title">{{ data.isExisting ? data.data.fullName : 'Create Employee' }}</div>
-            <div class="preamble">Enter the employee information</div>        
+            <div class="preamble">{{ data.isExisting ? 'Edit information' : 'Enter the employee information'}}</div>        
         </div>        
     </section>
 

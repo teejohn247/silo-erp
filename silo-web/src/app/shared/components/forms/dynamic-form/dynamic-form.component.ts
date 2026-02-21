@@ -29,14 +29,21 @@ export class DynamicFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
   
   ngOnInit(): void {
-
     this.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-    this.form = this.fb.group({});
+
+    // Only create a new form if none is passed
+    if (!this.form) {
+      this.form = this.fb.group({});
+    }
+
     this.fields.forEach(field => {
-      this.form.addControl(
-        field.controlName,
-        this.fb.control(field.initialValue, field.validators || [])
-      );
+      // Only add control if it does not exist
+      if (!this.form.contains(field.controlName)) {
+        this.form.addControl(
+          field.controlName,
+          this.fb.control(field.initialValue, field.validators || [])
+        );
+      }
     });
   }
 
@@ -75,22 +82,4 @@ export class DynamicFormComponent implements OnInit {
       array.splice(index, 1);
     }
   }
-
-  // registerFileInput(fieldName: string, input: HTMLInputElement) {
-  //   this.fileInputs[fieldName] = input;
-  // }
-
-  // // File upload handler
-  // handleFileChange(event: any, fieldName: string) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.files[fieldName] = file;
-  //     this.fileNames[fieldName] = file.name;
-  //     this.form.get(fieldName)?.setValue(file); // Update FormControl
-  //   }
-  // }
-
-  // triggerFileInput(fieldName: string) {
-  //   this.fileInputs[fieldName]?.click();
-  // }
 }

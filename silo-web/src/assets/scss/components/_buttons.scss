@@ -81,6 +81,16 @@
         }
     }
 
+    &-light-border {
+        background: white;
+        border: 1px solid var(--primary-light);
+        color: var(--primary);
+
+        &:hover {
+            background: white;
+        }
+    }
+
     &.xl {
         font-size: 1.1rem;
         font-family: var(--font-medium);
@@ -131,7 +141,7 @@
 
     &.sm-bd {
         font-size: 0.785rem;
-        font-weight: 400;
+        font-family: var(--font-regular);
         border: none;
         border-radius: 1rem;
         letter-spacing: 0.05rem;

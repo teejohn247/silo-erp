@@ -1,0 +1,68 @@
+<!-- filter.component.html -->
+<div class="filter-row compact-forms d-flex align-items-start">
+    <ng-container *ngFor="let f of filters">
+        <div class="filter-item" [ngSwitch]="f.type">
+            <!-- Single select -->
+            <mat-form-field *ngSwitchCase="'select'" class="compact-field md" [style.width]="fWidth" appearance="outline" [ngStyle]="fStyle">
+                <mat-label>{{f.label}}</mat-label>
+                <mat-select
+                    class="selectField"
+                    disableOptionCentering
+                    panelClass="compact-dropdown lg"
+                    [value]="state[f.key]"
+                    (selectionChange)="onSelectChange(f.key, $event.value)"
+                >
+                    <mat-option *ngFor="let option of f.options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- <mat-form-field *ngSwitchCase="'select'" appearance="outline" class="compact-field" [style.width.px]="fWidth" [ngStyle]="fStyle">
+                <mat-label>{{f.label}}</mat-label>
+                <mat-select [value]="state[f.key]" (selectionChange)="onSelectChange(f.key, $event.value)">
+                <mat-option *ngFor="let opt of f.options" [value]="opt.value">{{opt.label}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <!-- Multi select -->
+            <mat-form-field *ngSwitchCase="'multiselect'" appearance="outline" class="compact-field md" [style.width]="fWidth" [ngStyle]="fStyle">
+                <mat-label>{{f.label}}</mat-label>
+                <mat-select [multiple]="true" [value]="state[f.key]" (selectionChange)="onSelectChange(f.key, $event.value)">
+                <mat-option *ngFor="let opt of f.options" [value]="opt.value">{{opt.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Single date -->
+            <mat-form-field *ngSwitchCase="'date'" appearance="outline" class="compact-field md" [style.width]="fWidth" [ngStyle]="fStyle">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput [matDatepicker]="picker" [value]="state[f.key]" (dateChange)="onDateChange(f.key, $event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker="matDatepicker"></mat-datepicker>
+            </mat-form-field>
+
+            <!-- Date range -->
+            <div *ngSwitchCase="'daterange'" class="date-range d-flex gap-2">
+                <mat-form-field appearance="outline" class="compact-field md" [style.width]="fWidth" [ngStyle]="fStyle">
+                    <mat-label>{{f.label}} Start</mat-label>
+                    <input matInput [matDatepicker]="startPicker" [value]="state[f.key]?.start" (dateChange)="onRangeChange(f.key, 'start', $event.value)">
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker="matDatepicker"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="compact-field md" [style.width]="fWidth" [ngStyle]="fStyle">
+                    <mat-label>{{f.label}} End</mat-label>
+                    <input matInput [matDatepicker]="endPicker" [value]="state[f.key]?.end" (dateChange)="onRangeChange(f.key, 'end', $event.value)">
+                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endPicker="matDatepicker"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <!-- Text -->
+            <!-- <mat-form-field *ngSwitchCase="'text'" appearance="outline" class="compact-field" [style.width]="fWidth" [ngStyle]="fStyle">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput [value]="state[f.key]" (input)="onTextChange(f.key, $event.target.value)">
+            </mat-form-field> -->
+        </div>
+    </ng-container>
+
+    <div (click)="clearAll()" class="cta cta-light-border md ms-3" style="font-family: var(--font-regular);">Clear Filters</div>
+</div>

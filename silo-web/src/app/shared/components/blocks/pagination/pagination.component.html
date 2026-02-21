@@ -1,0 +1,81 @@
+<div class="pagination-wrap">
+
+    <!-- Page Size Selector -->
+    <mat-form-field appearance="outline" class="page-size-field compact-field md">
+        <mat-label>Page Size</mat-label>
+            <mat-select
+                panelClass="compact-dropdown lg"
+                [value]="paging.pageSize"
+                (selectionChange)="changeSize($event.value)"
+            >
+            <mat-option
+                *ngFor="let size of pageSizeOptions"
+                [value]="size"
+            >
+                {{ size }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Page Controls -->
+    <div class="page-controls">
+
+        <!-- First -->
+        <button
+            mat-icon-button
+            (click)="goTo(1)"
+            [disabled]="paging.page === 1"
+        >
+        «
+        </button>
+
+        <!-- Previous -->
+        <button
+            mat-icon-button
+            (click)="goTo(paging.page - 1)"
+            [disabled]="paging.page === 1"
+        >
+        ‹
+        </button>
+
+        <!-- Ellipsis Before -->
+        <span *ngIf="pages.length && pages[0] > 1" class="ellipsis">
+        ...
+        </span>
+
+        <!-- Page Numbers -->
+        <button
+            *ngFor="let p of pages"
+            mat-button
+            [class.active]="p === paging.page"
+            (click)="goTo(p)"
+        >
+        {{ p }}
+        </button>
+
+        <!-- Ellipsis After -->
+        <span *ngIf="pages.length && pages[pages.length - 1] < totalPages" class="ellipsis">
+        ...
+        </span>
+
+        <!-- Next -->
+        <button
+            mat-icon-button
+            (click)="goTo(paging.page + 1)"
+            [disabled]="paging.page === totalPages"
+        >
+        ›
+        </button>
+
+        <!-- Last -->
+        <button
+            mat-icon-button
+            (click)="goTo(totalPages)"
+            [disabled]="paging.page === totalPages"
+        >
+        »
+        </button>
+
+    </div>
+
+</div>

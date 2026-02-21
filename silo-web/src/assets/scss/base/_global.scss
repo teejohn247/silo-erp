@@ -138,6 +138,20 @@ a {
       letter-spacing: 0.04rem;
       color: var(--darkest);
 
+      .count {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.04rem;
+        font-family: var(--font-medium);
+        border-radius: var(--radius-sm);
+        background: var(--primary-light);
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+        margin-left: 0.8rem;
+      }
+
       .back-btn {
         font-size: 1rem;
         display: inline-flex;
@@ -410,6 +424,27 @@ a {
   }
 }
 
+//STATUS STYLES
+.table-status {
+  font-size: 0.8rem;
+  line-height: 1;
+  border-radius: var(--radius-lg);
+  padding: 0.3rem 0.8rem;
+}
+
+.status {
+
+  &-pending {
+    background: var(--yellow-theme);
+    color: white;
+  }
+
+  &-active {
+    background: var(--green-theme);
+    color: white;
+  }
+}
+
 //ITEMS IN LIST FORMAT IN CARDS
 .listed-items {
 
@@ -620,26 +655,6 @@ a {
 }
 
 
-// ----------------------------------------------------------------------------------------------
-// NOTE Bootstrap --------------------------------------------------------------------- Overwrite
-// ----------------------------------------------------------------------------------------------
-
-// NOTE Pagination ------------------------------------------------------------------------------
-
-// NOTE Button ----------------------------------------------------------------------------------
-
-// NOTE Modal -----------------------------------------------------------------------------------
-
-// NOTE Toast -----------------------------------------------------------------------------------
-
-.toast-header {
-  background-color: transparent;
-}
-.toast-body {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-
-
 
 //MAT FORM FIELDS STYLES
 .mat-mdc-form-field {
@@ -655,7 +670,17 @@ a {
   &.lg {
     font-size: 0.85rem;
     --mat-form-field-container-height: 42px;
-    --mat-form-field-container-vertical-padding: 4px;
+    --mat-form-field-container-vertical-padding: 10px;
+
+    .selectField {
+      font-size: 0.85rem;
+    }
+  }
+
+  &.md {
+    font-size: 0.75rem;
+    --mat-form-field-container-height: 38px;
+    --mat-form-field-container-vertical-padding: 8px;
 
     .selectField {
       font-size: 0.85rem;
@@ -671,9 +696,9 @@ a {
 
   &.lg {
     .mat-mdc-option {
-      min-height: 36px !important;   /* default is ~48px */
+      min-height: 40px !important;   /* default is ~48px */
       font-size: 0.85rem !important; /* smaller text */
-      padding: 6px 12px !important;
+      padding: 10px 12px !important;
     }
 
     .mdc-list-item__primary-text {
@@ -685,6 +710,7 @@ a {
   .mat-mdc-option {
     min-height: 32px !important;   /* default is ~48px */
     font-size: 0.75rem !important; /* smaller text */
+    font-family: var(--font-regular);
     padding: 4px 12px !important;
   }
 

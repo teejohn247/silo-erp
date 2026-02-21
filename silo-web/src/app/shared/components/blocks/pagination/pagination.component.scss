@@ -1,0 +1,28 @@
+.pagination-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.page-size-field {
+    width: 140px;
+}
+
+.page-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+button.active {
+    background: var(--primary);
+    color: white;
+}
+
+.ellipsis {
+    padding: 0 0.5rem;
+    opacity: 0.6;
+}
