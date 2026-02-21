@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MenuItem, navMenuData } from '@models/general/nav-menu';
 import { PermissionsService } from './permissions.service';
+import { MenuItem } from '@models/general/menu-item';
+import { navMenuData } from '@sharedWeb/constants/nav-menu';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,14 @@ export class UtilityService {
       return JSON.parse(user);
     }
     return null;
+  }
+
+  get currency() {
+    const currency = sessionStorage.getItem('currency');
+    if (currency) {
+      return JSON.parse(currency);
+    }
+    return 'NGN';
   }
 
   get userPermissions() {
@@ -67,5 +76,15 @@ export class UtilityService {
 
   hasActiveModule(modules = this.loggedInUser.companyFeatures.modules): boolean {
     return Object.values(modules).some((module:any) => module.active);
+  }
+
+  //Converts an array to an Object of key value pairs
+  arrayToObject(arrayVar:any[], key:string) {
+    let reqObj = {}
+    reqObj = arrayVar.reduce((agg, item, index) => {
+      agg[item['_id']] = item[key];
+      return agg;
+    }, {})
+    return reqObj;
   }
 }

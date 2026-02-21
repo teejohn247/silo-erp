@@ -26,6 +26,18 @@
       "ES2021.String"
     ],
     "paths": {
+      "@helpers/*": [
+        "src/app/shared/helpers/*"
+      ],
+      "@models/*": [
+        "src/app/shared/models/*"
+      ],
+      "@interfaces/*": [
+        "src/app/shared/interfaces/*"
+      ],
+      "@services/*": [
+        "src/app/shared/services/*"
+      ],
       "@sharedWeb/*": [
         "src/app/shared/*"
       ],
@@ -64,18 +76,6 @@
       ],
       "@guards/*": [
         "src/app/shared/guards/*"
-      ],
-      "@helpers/*": [
-        "src/app/shared/helpers/*"
-      ],
-      "@models/*": [
-        "src/app/shared/models/*"
-      ],
-      "@interfaces/*": [
-        "src/app/shared/interfaces/*"
-      ],
-      "@services/*": [
-        "src/app/shared/services/*"
       ],
       "@animations/*": [
         "src/app/shared/animations/*"

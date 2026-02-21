@@ -1,1 +1,12 @@
-<p>confirmation-modal works!</p>
+<div class="remove-card">
+    <div class="inner-wrap">
+        <div class="card-title">{{data?.title}}</div>
+        <div class="card-details">
+            <p>{{data?.message}}</p>
+        </div>
+        <div class="btn-actions">
+            <div [mat-dialog-close]="false" class="cta cta-trans md">{{data?.cancelText}}</div>
+            <div [mat-dialog-close]="true" class="cta cta-primary md">{{data?.confirmText}}</div>
+        </div>
+    </div>
+</div>

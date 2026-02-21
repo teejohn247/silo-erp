@@ -1,0 +1,47 @@
+@import 'src/assets/scss/helpers/mixins';
+
+.remove-card {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding: 1.5rem;
+    border-radius: var(--radius-xs);
+    box-sizing: border-box;
+    //border: 1px solid #dadee2;
+    //box-shadow: 0 0 4px 4px rgb(224 224 224 / 30%);
+    background: var(--darker);
+
+    @include screen-media-min(md) {
+        width: 100%;
+        padding: 1.5rem 5%;
+        border-radius: var(--radius-sm);
+    }
+  
+    .card-title {
+        font-size: 1.1rem;
+        color: var(--warning);
+        font-family: var(--font-medium);
+        margin-bottom: 2vh;
+        padding-bottom: 2vh;
+        letter-spacing: 0.04rem;
+        border-bottom: 1px solid #e8edf2;
+    }
+  
+    .card-details {
+        margin: 2vh 0 4vh;
+        color: var(--black-tint);
+  
+        p {
+            font-size: 0.85rem;
+            font-family: var(--font-regular);
+            line-height: 1.5;
+            letter-spacing: 0.04rem;
+        }
+    }
+  
+    .btn-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+}

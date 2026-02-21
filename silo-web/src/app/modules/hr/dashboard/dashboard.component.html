@@ -1,1 +1,320 @@
-<p>dashboard works!</p>
+<div class="content-wrap">
+    <div class="inner-wrap">
+
+        <div class="row-section d-flex justify-content-between" @authPageStagger>
+            <div class="row-card anim-item card-xmlg card-ymd welcome-card {{dayStatus}}">
+                <div class="bkg-img" style="background-image: url('assets/img/project/home/{{dayStatus}}.png');"></div>
+                <div class="overlay"></div>
+                <div class="card-content">
+                    <div class="top">
+                        <div class="major text-capitalize">Good {{dayStatus === 'night' ? 'evening' : dayStatus}}, {{loggedInUser.companyName}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></div>
+                    </div>
+                    <div class="btm">
+                        <div class="date">
+                            <span>{{dateTime | date: 'hh:mm a'}}</span>
+                            <span>{{dateTime | date: 'EEE, d MMMM'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-card anim-item card-xmd card-ymd d-flex flex-column justify-content-between">
+                <div class="row-card anim-item w-100 card-yxs card-theme-blue">
+                    <div class="card-cont d-flex d-flex flex-column">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title">Employees</div>
+                            <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span>
+                        </div>
+                        <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                            <div class="card-icon">
+                                <app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                            </div>
+                            <div class="card-count ms-auto">120 <span>Staff</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row-card anim-item w-100 card-yxs">
+                    <div class="card-cont d-flex flex-column">
+                        <div class="card-title">Invite Employees</div>
+                        <div class="stacked-items d-flex justify-content-between align-items-center mt-auto">
+                            <div class="stack">
+                                <span style="background-image: url('assets/img/project/home/employee1.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee2.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee3.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee4.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee5.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee6.webp');"></span>
+                                <span>+9</span>
+                            </div>
+
+                            <div class="card-add-btn" role="button"><i class="bi bi-plus-square-fill"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <div class="row-section anim-item d-flex justify-content-between mt-3">
+            <div class="col-section card-xmlg d-flex flex-wrap justify-content-between" @authPageStagger>
+                <div class="row-card anim-item card-xmmd card-ysm card-theme-green">
+                    <div class="card-cont d-flex flex-column">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title">Today's Attendance</div>
+                            <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span>
+                        </div>
+                        <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                            <div class="card-icon">
+                                <app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                            </div>
+                            <div class="card-count ms-auto">70 <span>Employees</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-card anim-item card-xmmd card-ysm card-theme-yellow">
+                    <div class="card-cont d-flex flex-column">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title">Net Salary</div>
+                            <span class="percent-diff decrease"><i class="bi bi-arrow-down-right"></i> 4%</span>
+                        </div>
+                        <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                            <div class="card-icon">
+                                <app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                            </div>
+                            <div class="card-count ms-auto">₦ {{35000000 | localeString}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-card anim-item w-100 card-ylg mt-3">
+                    <div class="card-cont d-flex flex-column">
+                        <div class="top d-flex justify-content-between align-items-center">
+                            <div class="hdr">
+                                <div class="card-title color-theme-blue">Payroll Monthly</div>
+                                <div class="preamble mt-1">Values across months of the year</div>
+                            </div>
+
+                            <div class="actions">
+                                <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                                    <mat-label>Select Year</mat-label>
+                                    <mat-select
+                                        class="selectField"
+                                        disableOptionCentering
+                                        panelClass="compact-dropdown"
+                                        [(ngModel)]="payrollYear"
+                                        style="font-size: 0.7rem;"
+                                    >
+                                        <mat-option *ngFor="let option of payrollYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="btm mt-auto">
+                            <app-area-chart></app-area-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-section card-xmd" @authPageStagger>
+                <div class="row-card anim-item w-100 card-ylg">
+                    <div class="card-cont">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title sm color-theme-red">Notice Board</div>
+                        </div>
+                        <div class="btm mt-2">
+                            <div class="listed-items">
+                                <div *ngFor="let notice of announcements" class="item">
+                                    <!-- <div class="icon"><i class="bi bi-rocket-takeoff"></i></div> -->
+                                    <div class="content">
+                                        <div class="det">
+                                            <div class="minor">{{notice.timestamp | timeDuration}}</div>
+                                            <div class="major lg">{{notice.message}}</div>
+                                        </div>
+                                        <!-- <div class="det">
+                                            <div class="status sm approved">Approved</div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-card anim-item w-100 card-ysm mt-3">
+                    <div class="card-cont">
+                        <div class="top">
+                            <div class="card-title sm color-theme-blue">Appraisal Progress</div>
+                            <div class="preamble mt-1">Percentage completion of current period</div>
+                        </div>
+                        <div class="btm mt-4">
+                            <app-progress-bar
+                                [value]="40"
+                                [status]="'pending'"
+                            ></app-progress-bar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section anim-item d-flex justify-content-between mt-3" @authPageStagger>
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div class="card-cont">
+                    <div class="top">
+                        <div class="card-title sm color-theme-blue">Recent Approval Requests</div>
+                    </div>
+                    <div class="btm">
+                        <div class="listed-items mt-3">
+                            <div class="item">
+                                <div class="icon"><i class="bi bi-rocket-takeoff"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Leave Request</div>
+                                        <div class="minor">Ibrahim Babatunde</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm approved">Approved</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <div class="icon"><i class="bi bi-coin"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Expense Request</div>
+                                        <div class="minor">Matthew Reynolds</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm pending">Pending</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="icon"><i class="bi bi-stars"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Appraisal Request</div>
+                                        <div class="minor">Greg Buntler</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm pending">Pending</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="icon"><i class="bi bi-rocket-takeoff"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Leave Request</div>
+                                        <div class="minor">Ibrahim Babatunde</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm approved">Approved</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="icon"><i class="bi bi-stars"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Appraisal Request</div>
+                                        <div class="minor">Gartley Romart</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm approved">Reviewed</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="item">
+                                <div class="icon"><i class="bi bi-coin"></i></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">Reimbursement</div>
+                                        <div class="minor">Matthew Reynolds</div>
+                                    </div>
+                                    <div class="det">
+                                        <div class="status sm pending">Pending</div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div class="card-cont">
+                    <div class="top">
+                        <div class="hdr">
+                            <div class="card-title color-theme-blue">Expense Analysis</div>
+                            <!-- <div class="preamble mt-1">Comparison between different expense types</div> -->
+                        </div>
+                    </div>
+                    <div class="btm d-flex flex-column align-items-center justify-content-center">
+                        <ul class="chart-legend d-flex mt-1">
+                            <li *ngFor="let item of expenseAnalysisData; let i = index"> 
+                                <span class="code" [style.background]="expenseAnalysisColorScheme['domain'][i]"></span>{{item.name}}
+                            </li>
+                        </ul>
+                        <app-pie-chart
+                            [chartSize]="[260, 260]"
+                            [chartData]="expenseAnalysisData"
+                            [colorScheme]="expenseAnalysisColorScheme"
+                            [doughnut]="false"
+                        ></app-pie-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xsm card-ylg">
+                <div class="card-cont">
+                    <div class="trigger-card">
+                        <div class="triggers rd">
+                            <div (click)="cardTriggerVal = 'birthdays'" [class.active]="cardTriggerVal == 'birthdays'" class="trigger card-xmmd">Birthdays</div>
+                            <div (click)="cardTriggerVal = 'work'" [class.active]="cardTriggerVal != 'birthdays'" class="trigger card-xmmd">Work Anniversaries</div>
+                        </div>
+                        <div class="card-details">
+                            <div *ngIf="cardTriggerVal == 'birthdays'" class="listed-items mt-lg-3">
+                                <div *ngFor="let employee of birthdays | slice:0:5; let i = index" class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-3">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="major bd">{{employee?.dateOfBirth | date : 'd MMMM'}}</div>
+                                                <div class="minor">{{employee.fullName}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="cardTriggerVal != 'birthdays'" class="listed-items mt-lg-3">
+                                <div *ngFor="let employee of workAnniversaries | slice:0:5; let i = index" class="item">
+                                    <div *ngIf="employee?.employmentStartDate" class="content">
+                                        <div class="det d-flex align-items-end gap-3">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="major bd">{{employee.fullName}}</div>
+                                                <div class="minor">{{employee?.employmentStartDate | date : 'd MMMM'}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <!-- <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,38 +1,22 @@
-export interface MenuItem {
-    routeLink: string;
-    icon: string;
-    label: string;
-    mobileLabel?: string;
-    subMenu?: MenuItem[];
-    permissionKey?: string;
-    roles?: string[]; 
-    permission?: boolean;
-}
-
+import { MenuItem } from "@models/general/menu-item";
 
 export const navMenuData: MenuItem[] = [
     {
         routeLink: 'hr/dashboard',
-        icon: 'bi bi-person-vcard',
+        icon: 'userStar',
         label: 'Human Resources',
         mobileLabel: 'HR Module',
         subMenu: [
             { 
                 routeLink: 'hr/dashboard', 
-                icon: 'bi bi-columns-gap', 
+                icon: 'layoutDashboard', 
                 label: 'Dashboard' 
             },
             { 
                 routeLink: 'hr/employees', 
-                icon: 'bi bi-people lg', 
+                icon: 'users', 
                 label: 'Employees',
                 roles: ['superAdmin']
-            },
-            { 
-                routeLink: 'hr/payroll', 
-                icon: 'bi bi-cash-stack lg', 
-                label: 'Payroll',
-                roles: ['superAdmin'] 
             },
             { 
                 routeLink: 'hr/self-service/overview', 
@@ -48,9 +32,15 @@ export const navMenuData: MenuItem[] = [
             },
             { 
                 routeLink: 'hr/leave-management', 
-                icon: 'bi bi-calendar2-check', 
+                icon: 'palmTree', 
                 label: 'Leave Management',
                 roles: ['superAdmin', 'manager'] 
+            },
+            { 
+                routeLink: 'hr/payroll', 
+                icon: 'layers', 
+                label: 'Payroll',
+                roles: ['superAdmin'] 
             },
             { 
                 routeLink: 'hr/self-service/payroll', 
@@ -60,7 +50,7 @@ export const navMenuData: MenuItem[] = [
             },
             { 
                 routeLink: 'hr/expense-management', 
-                icon: 'bi bi-credit-card lg', 
+                icon: 'bankNote', 
                 label: 'Expense Management',
                 roles: ['superAdmin', 'manager'] 
             },
@@ -72,7 +62,7 @@ export const navMenuData: MenuItem[] = [
             },
             { 
                 routeLink: 'hr/appraisals', 
-                icon: 'bi bi-award lg', 
+                icon: 'userStar', 
                 label: 'Appraisal Management',
                 roles: ['superAdmin', 'manager'] 
             },
@@ -84,101 +74,101 @@ export const navMenuData: MenuItem[] = [
             },
             { 
                 routeLink: 'hr/recruitment', 
-                icon: 'bi bi-briefcase', 
+                icon: 'briefcase', 
                 label: 'Recruitment',
                 roles: ['superAdmin'] 
             },
             { 
                 routeLink: 'hr/calendar', 
-                icon: 'bi bi-calendar4-week lg', 
+                icon: 'calendarRange', 
                 label: 'Calendar' 
             },
             { 
                 routeLink: 'hr/attendance', 
-                icon: 'bi bi-card-checklist lg', 
+                icon: 'bookUser', 
                 label: 'Attendance' 
             },
             { 
                 routeLink: 'hr/visitors-log', 
-                icon: 'bi bi-building-check lg', 
+                icon: 'landmark', 
                 label: 'Visitors Log' 
             }
         ]
     },
     {
         routeLink: 'crm',
-        icon: 'bi bi-file-earmark-person',
+        icon: 'fileUser',
         label: 'CRM',
         mobileLabel: 'CRM',
         roles: ['superAdmin', 'crmAgent'],
         subMenu: [
             { 
                 routeLink: 'crm/dashboard', 
-                icon: 'bi bi-grid-fill', 
+                icon: 'layoutDashboard', 
                 label: 'Dashboard' 
             },
             { 
                 routeLink: 'crm/contacts', 
-                icon: 'bi bi-person-vcard-fill', 
+                icon: 'contactRound', 
                 label: 'Contacts' 
             },
             { 
                 routeLink: 'crm/leads', 
-                icon: 'bi bi-person-fill-up', 
+                icon: 'shieldUser', 
                 label: 'Leads' 
             },
             { 
                 routeLink: 'crm/communication', 
-                icon: 'bi bi-envelope-fill', 
+                icon: 'megaphone', 
                 label: 'Communication' 
             },
             { 
                 routeLink: 'crm/calendar', 
-                icon: 'bi bi-calendar2-week-fill', 
+                icon: 'calendarRange', 
                 label: 'Calendar' 
             },
             { 
                 routeLink: 'crm/support', 
-                icon: 'bi bi-headset', 
+                icon: 'headset', 
                 label: 'Support' 
             },
             { 
                 routeLink: 'crm/sales', 
-                icon: 'bi bi-receipt-cutoff', 
+                icon: 'scrollText', 
                 label: 'Sales' 
             },
             { 
                 routeLink: 'crm/agents', 
-                icon: 'bi bi-person-square', 
+                icon: 'squareUser', 
                 label: 'Agents' 
             },
             { 
                 routeLink: 'crm/reports', 
-                icon: 'bi bi-clipboard2-data-fill', 
+                icon: 'lineChart', 
                 label: 'Reports' 
             }
         ]
     },
     {
         routeLink: 'settings',
-        icon: 'bi bi-gear lg',
+        icon: 'cog',
         label: 'Settings',
         mobileLabel: 'Settings',
         roles: ['superAdmin'], 
         subMenu: [
             { 
-                routeLink: 'settings/general', 
-                icon: 'bi bi-box-fill', 
+                routeLink: 'settings/general-settings', 
+                icon: 'monitorCog', 
                 label: 'General',
             },
             { 
-                routeLink: 'settings/hr', 
-                icon: 'bi bi-people-fill', 
+                routeLink: 'settings/hr-settings', 
+                icon: 'userCog', 
                 label: 'Human Resources' 
             },
             { 
-                routeLink: 'settings/crm', 
-                icon: 'bi bi-microsoft-teams', 
+                routeLink: 'settings/crm-settings', 
+                icon: 'folderCog', 
                 label: 'CRM' 
             }
         ]

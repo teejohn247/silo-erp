@@ -25,8 +25,8 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.userDetails.data.isSuperAdmin) {
-      this.userName = this.userDetails.data.companyName + ' Company';
+    if(this.userDetails.isSuperAdmin) {
+      this.userName = this.userDetails.companyName;
       this.userRole = 'Super Admin';
       console.log('Logged In User', this.userDetails)
     }

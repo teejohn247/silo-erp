@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { HrRoutingModule } from './hr-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SharedModule } from '@sharedWeb/shared.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DashboardComponent
+  ],
   imports: [
     CommonModule,
-    HrRoutingModule
+    HrRoutingModule,
+    SharedModule,
+    DatePipe
   ]
 })
 export class HrModule { }

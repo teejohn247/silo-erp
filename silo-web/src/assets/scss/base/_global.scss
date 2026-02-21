@@ -1,0 +1,648 @@
+// ----------------------------------------------------------------------------------------------
+// NOTE Browser style : Reset --------------------------------------------------------- Overwrite
+// ----------------------------------------------------------------------------------------------
+
+@import '../helpers/mixins';
+
+html, 
+body { 
+  height: 100%; 
+  margin: 0;
+  font-family: var(--font-regular);
+  background-color: var(--bkg-1);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.w-48 {
+  width: 48%;
+}
+
+.w-49 {
+  width: 49%;
+}
+
+.g-padx { 
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.g-font, mat-error, mat-hint {
+  font-family: var(--font-family);
+  letter-spacing: 0.05rem;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.only-mobile {
+  display: block;
+
+  @include screen-media-min(md) {
+    display: none;
+  } 
+}
+
+.only-desktop {
+  display: none;
+
+  @include screen-media-min(md) {
+    display: block;
+  } 
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.only-desktop-flex {
+  display: none;
+
+  @include screen-media-min(md) {
+    display: flex;
+  } 
+}
+
+.bkg {
+  &-theme-blue {
+    background: var(--blue-theme);
+  }
+}
+
+.color-theme {
+  &-blue {
+    color: var(--blue-theme);
+  }
+
+  &-green {
+    color: var(--green-theme);
+  }
+
+  &-primary {
+    color: var(--primary);
+  }
+
+  &-red {
+    color: var(--red-theme);
+  }
+}
+
+// GENERAL PAGE STYLES
+.content-wrap {
+  height: 100%;
+  display: block;
+  overflow: hidden;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+
+  .inner-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 1rem 3%;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .page-header {
+      display: inline-flex;
+      align-items: center;
+      font-size: 1.7rem;
+      font-family: var(--font-medium);
+      letter-spacing: 0.04rem;
+      color: var(--darkest);
+
+      .back-btn {
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 1.5rem;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        background-color: var(--bkg-light);
+        border: 1px solid var(--border-grey);
+        color: var(--black-tint-md);
+        padding: 0.2rem 0.4rem;
+
+        &:hover {
+          background-color: var(--bkg-light);
+        }
+      }
+    }
+  }
+
+  //CARD STYLES
+  .card {
+    &-xxs {
+      width: var(--card-xxs);
+    }
+    &-xsm {
+      width: var(--card-xsm);
+    }
+    &-xmd {
+      width: var(--card-xmd);
+    }
+    &-xmmd {
+      width: var(--card-xmmd);
+    }
+    &-xmlg {
+      width: var(--card-xmlg);
+    }
+    &-xlg {
+      width: var(--card-xlg);
+    }
+
+    &-yxs {
+      height: var(--card-yxs);
+    }
+    &-ysm {
+      height: var(--card-ysm);
+    }
+    &-ymd {
+      height: var(--card-ymd);
+    }
+    &-ylg {
+      height: var(--card-ylg);
+    }
+  }
+
+  .row-card {
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--card-shadow);
+
+    &.card-theme-blue {
+      background: var(--blue-theme-lightest);
+      border: 1px solid var(--blue-theme-light);
+
+      .card-icon {
+        background: var(--blue-theme);
+      }
+    }
+
+    &.card-theme-green {
+      background: var(--green-theme-lightest);
+      border: 1px solid var(--green-theme-light);
+
+      .card-icon {
+        background: var(--green-theme);
+      }
+    }
+
+    &.card-theme-orange {
+      background: var(--orange-theme-lightest);
+      border: 1px solid var(--orange-theme-light);
+
+      .card-icon {
+        background: var(--orange-theme);
+      }
+    }
+
+    &.card-theme-red {
+      background: var(--red-theme-lightest);
+      border: 1px solid var(--red-theme-light);
+
+      .card-icon {
+        background: var(--red-theme);
+      }
+    }
+
+    &.card-theme-yellow {
+      background: var(--yellow-theme-lightest);
+      border: 1px solid var(--yellow-theme-light);
+
+      .card-icon {
+        background: var(--yellow-theme);
+      }
+    }
+
+    .card-cont {
+      width: 100%;
+      height: 100%;
+      padding: 1rem 1rem;
+      color: var(--black-tint-lg);
+
+      .card-title {
+        font-size: 1.1rem;
+        letter-spacing: 0.03rem;
+        font-family: var(--font-medium);
+
+        &.lg {
+          font-size: 1.4rem;
+        }
+
+        &.sm {
+          font-size: 1rem;
+        }
+      }
+
+      .preamble {
+        font-size: 0.85rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.04rem;
+        color: var(--text-dark-4);
+      }
+
+      .card-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: var(--radius-sm);
+        box-shadow: var(--card-shadow);
+        color: white;
+      }
+
+      .card-count {
+        font-size: 1.6rem;
+        letter-spacing: 0.04rem;
+        font-family: var(--font-medium);
+
+        span {
+          font-size: 0.9rem;
+          font-family: var(--font-regular);
+        }
+      }
+
+      .card-add-btn {
+        font-size: 2.2rem;
+        color: var(--primary);
+      }
+
+      .percent-diff {
+        font-size: 0.7rem;
+        line-height: 1;
+        font-family: var(--font-medium);
+        letter-spacing: 0.03rem;
+        border-radius: var(--radius-lg);
+        margin-left: 1rem;
+        padding: 0.3rem 0.6rem;
+        display: inline-block;
+
+        &.increase {
+          background: var(--green-theme-light);
+          //color: white;
+        }
+
+        &.decrease {
+          background: var(--red-theme-light);
+          //color: white;
+        }
+      }
+    }
+  }
+
+  .stacked-items {
+    .stack {
+      display: flex;
+      align-items: center;
+      margin-top: 0.3rem;
+
+      &.fill {
+        flex-wrap: wrap;
+
+        span {
+          width: 2.5rem;
+          height: 2.5rem;
+          margin: 0.2rem 0.2rem;
+        }
+      }
+
+      span {
+        width: 2.2rem;
+        height: 2.2rem;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        display: inline-flex;
+        border-radius: 50%;
+        align-items: center;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: white;
+        border: 1px solid var(--border-grey);
+        text-transform: uppercase;
+        color: var(--darkest);
+
+        &:nth-child(n+2) {
+          margin-left: -0.5rem;
+        }
+      }
+    }
+  }
+
+}
+
+//ITEMS IN LIST FORMAT IN CARDS
+.listed-items {
+
+  .item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .image {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+
+      &.rd {
+        width: 2.3rem;
+        height: 2.3rem;
+      }
+    }
+
+    &:nth-child(n+2) {
+      margin-top: 0.6rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--border-black-lightest);
+    }
+
+    .icon {
+      font-size: 1.2rem;
+      color: var(--black-tint);
+
+      &.adobe {
+        color: var(--adobe);
+      }
+
+      &.doc {
+        color: var(--doc);
+      }
+    }
+
+    .rating-icon {
+      color: var(--pending);
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .det {
+
+        &.right {
+          text-align: right;
+        }
+      }
+
+      .action {
+        display: inline-flex;
+        margin: 0.4rem 0;
+        gap: 5px;
+
+        .status {
+          padding: 0rem 0.6rem;
+        }
+      }
+
+      .major {
+        font-size: 0.75rem;
+        font-family: var(--font-medium);
+        line-height: 1.2;
+        letter-spacing: 0.04rem;
+        color: var(--darkest);
+
+        &.lg {
+          font-size: 0.85rem;
+          line-height: 1.4;
+        }
+      }
+
+      .minor {
+        font-size: 0.65rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.03rem;
+        color: var(--black-tint);
+
+        &.bd {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+//STATUS STYLES
+.status {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.3rem 0.8rem;
+  font-family: var(--font-regular);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+
+  &.sm {
+    font-size: 0.65rem;
+    letter-spacing: 0.03rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  &.grey {
+    background-color: rgba(0,0,0,0.1);
+
+    &.active {
+      background-color: var(--primary);
+      color: white;
+    }
+  }
+
+  &.started {
+    background-color: var(--primary);
+
+    &.light {
+      background-color: var(--primary-light);
+    }
+  }
+
+  &.considered {
+    background-color: var(--considered);
+
+    &.light {
+      background-color: var(--considered-light);
+    }
+  }
+
+  &.pending {
+    background-color: var(--yellow-theme);
+
+    &.light {
+      background-color: var(--yellow-theme-light);
+    }
+  }
+
+  &.approved {
+    background-color: var(--green-theme);
+
+    &.light {
+      background-color: var(--green-theme-light);
+    }
+  }
+
+  &.rejected,
+  &.warning {
+    background-color: var(--red-theme);
+
+    &.light {
+      background-color: var(--red-theme-light);
+    }
+  }
+}
+
+//HIGHCHARTS
+.highcharts-axis.highcharts-xaxis path {
+  stroke: var(--black-tint-mmd) !important;
+}
+
+.highcharts-axis-labels.highcharts-xaxis-labels text,
+.highcharts-axis-labels.highcharts-yaxis-labels text {
+  color: var(--text-dark-4) !important;
+  letter-spacing: 0.03rem !important;
+  fill: var(--text-dark-4) !important;
+  letter-spacing: 0.02rem !important;
+}
+
+.ngx-charts-tooltip-content {
+  letter-spacing: 0.03rem;
+  font-family: var(--font-regular) !important;
+  font-size: 0.8rem;
+}
+
+.ngx-charts-tooltip-content .tooltip-val {
+  font-size: 0.75rem !important;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.7rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    font-size: 0.72rem;
+    font-family: var(--font-regular);
+    white-space: nowrap;
+    letter-spacing: 0.03rem;
+    color: var(--black-tint);
+    padding-left: 0;
+    position: relative;
+    gap: 0.2rem;
+
+    span {
+      display: inline-block;
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 50%;
+    }
+  }
+}
+
+
+
+// ----------------------------------------------------------------------------------------------
+// NOTE Bootstrap --------------------------------------------------------------------- Overwrite
+// ----------------------------------------------------------------------------------------------
+
+// NOTE Pagination ------------------------------------------------------------------------------
+
+// NOTE Button ----------------------------------------------------------------------------------
+
+// NOTE Modal -----------------------------------------------------------------------------------
+
+// NOTE Toast -----------------------------------------------------------------------------------
+
+.toast-header {
+  background-color: transparent;
+}
+.toast-body {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+
+
+//MAT FORM FIELDS STYLES
+.mat-mdc-form-field {
+  font-family: var(--font-regular) !important;
+}
+
+.compact-field {
+  font-size: 0.75rem;
+  font-family: var(--font-regular);
+  --mat-form-field-container-height: 34px;
+  --mat-form-field-container-vertical-padding: 5px;
+
+  &.lg {
+    font-size: 0.85rem;
+    --mat-form-field-container-height: 42px;
+    --mat-form-field-container-vertical-padding: 4px;
+
+    .selectField {
+      font-size: 0.85rem;
+    }
+  }
+
+  .selectField {
+    font-size: 0.75rem;
+  }
+}
+
+.compact-dropdown {
+
+  &.lg {
+    .mat-mdc-option {
+      min-height: 36px !important;   /* default is ~48px */
+      font-size: 0.85rem !important; /* smaller text */
+      padding: 6px 12px !important;
+    }
+
+    .mdc-list-item__primary-text {
+      font-size: 0.85rem !important;
+      line-height: 1.2 !important;
+    }
+  }
+
+  .mat-mdc-option {
+    min-height: 32px !important;   /* default is ~48px */
+    font-size: 0.75rem !important; /* smaller text */
+    padding: 4px 12px !important;
+  }
+
+  .mdc-list-item__primary-text {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .mat-mdc-option-pseudo-checkbox {
+    transform: scale(0.7); /* default is 1 */
+  }
+}

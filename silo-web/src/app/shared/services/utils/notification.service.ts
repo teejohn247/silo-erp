@@ -16,7 +16,7 @@ export class NotificationService {
   ) { }
 
   showSuccess(message: string = "Successful") {
-    console.log('Show success')
+    //console.log('Show success')
     this.toastr.success(message, "Success")
   }
 
@@ -58,7 +58,7 @@ export class NotificationService {
       ConfirmationModalComponent, 
       {
         data,
-        width: '40%',
+        width: '35%',
         height: 'auto',
         disableClose: true,
       }

@@ -18,12 +18,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips'; 
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
+
 import { LottieComponent, provideLottieOptions } from 'ngx-lottie';
 import player from 'lottie-web';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // Components
 import { ToastComponent }             from './components/blocks/toast/toast.component';
-import { ProgressBarComponent }       from './components/blocks/progress-bar/progress-bar.component';
 
 // Forms
 import { FormConfirmComponent }      from './components/forms/form-confirm/form-confirm.component';
@@ -43,6 +48,16 @@ import { LayoutFooterComponent } from './components/layouts/layout-footer/layout
 import { HasPermissionDirective } from './directives/has-permission.directive';
 import { HasRoleDirective } from './directives/has-role.directive';
 import { LottieAnimationComponent } from './animations/lottie-animation.component';
+import { TruncateWordsPipe } from './pipes/truncate-words.pipe';
+import { IconComponent } from './components/blocks/icon/icon.component';
+import { LocaleStringPipe } from './pipes/locale-string.pipe';
+import { AreaChartComponent } from './components/charts/area-chart/area-chart.component';
+import { TimeDurationPipe } from './pipes/time-duration.pipe';
+import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { ProgressBarComponent } from './components/charts/progress-bar/progress-bar.component';
+import { DynamicFormComponent } from './components/forms/dynamic-form/dynamic-form.component';
+import { NoDataComponent } from './components/blocks/no-data/no-data.component';
+import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -54,6 +69,9 @@ const SHARED_COMP = [
   MatButtonModule,
   MatDialogModule,
   MatCheckboxModule,
+  MatChipsModule,
+  NgxMaterialTimepickerModule,
+  IconComponent
 ];
 
 
@@ -66,6 +84,8 @@ const SHARED_COMP = [
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    HighchartsChartModule,
+    NgxChartsModule,
 
     // External modules
     TranslateModule,
@@ -75,11 +95,16 @@ const SHARED_COMP = [
   declarations: [
     // Components
     ToastComponent,
-    ProgressBarComponent,
     LottieAnimationComponent,
+    AreaChartComponent,
+    PieChartComponent,
+    ProgressBarComponent,
+    ConfirmationModalComponent,
+    NoDataComponent,
 
     // Forms
     FormConfirmComponent,
+    DynamicFormComponent,
 
     // Modals
     ModalWrapperComponent,
@@ -89,6 +114,9 @@ const SHARED_COMP = [
     PageLayoutComponent,
 
     // Pipes
+    TruncateWordsPipe,
+    LocaleStringPipe,
+    TimeDurationPipe,
 
     // Directives
     ModalWrapperDirective,
@@ -105,6 +133,8 @@ const SHARED_COMP = [
     ReactiveFormsModule,
     ...SHARED_COMP,
     LottieAnimationComponent,
+    ConfirmationModalComponent,
+    NoDataComponent,
 
     // External modules
     TranslateModule,
@@ -114,9 +144,14 @@ const SHARED_COMP = [
     // Components
     ToastComponent,
     ProgressBarComponent,
+    AreaChartComponent,
+    PieChartComponent,
+    ProgressBarComponent,
+    IconComponent,
 
     // Forms
     FormConfirmComponent,
+    DynamicFormComponent,
 
     // Modals
     ModalWrapperComponent,
@@ -126,6 +161,9 @@ const SHARED_COMP = [
     PageLayoutComponent,
 
     // Pipes
+    TruncateWordsPipe,
+    LocaleStringPipe,
+    TimeDurationPipe,
 
     // Directives
     ModalWrapperDirective,

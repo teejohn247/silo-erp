@@ -33,6 +33,10 @@ export class AuthService {
     return null;
   }
 
+  public getUser(token: string) {
+    return JSON.parse(atob(token.split('.')[1]))
+  }
+
   public createAccount(payload:any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/signUp`, payload);
   }

@@ -1,0 +1,104 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">HR Settings</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div class="cta cta-primary icon lg"><i class="bi bi-hdd-fill"></i>Save Changes</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="col-card anim-item card-xmlg pe-4 d-flex flex-column justify-content-between">
+                <form class="settings-form card-xxl" [formGroup]="form" novalidate autocomplete="off">
+                    <div class="form-wrap d-flex flex-wrap justify-content-between w-100">
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Department</mat-label>
+                                <input matInput formControlName="department" id="department" name="department" placeholder="Enter department name">
+                            </mat-form-field>
+                            <div (click)="openDepartmentModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Leave Type</mat-label>
+                                <input matInput formControlName="leaveType" id="leaveType" name="leaveType" placeholder="Enter leave type">
+                            </mat-form-field>
+                            <div (click)="openLeaveTypeModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Designation</mat-label>
+                                <input matInput formControlName="designation" id="designation" name="designation" placeholder="Enter designation">
+                            </mat-form-field>
+                            <div (click)="openDesignationModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Holiday</mat-label>
+                                <input matInput formControlName="holidayName" id="holidayName" name="holidayName" placeholder="Enter holiday name">
+                            </mat-form-field>
+                            <div (click)="openHolidayModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Expense Type</mat-label>
+                                <input matInput formControlName="expenseType" id="expenseType" name="expenseType" placeholder="Enter expense type name">
+                            </mat-form-field>
+                            <div (click)="openExpenseTypeModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-card anim-item card-xmd d-flex flex-column justify-content-between">
+                <div class="accordion accordion-flush">
+                    <div *ngFor="let item of accordionItems; let i = index" class="accordion-item">
+                        <div class="accordion-header" id="{{'flush-heading-scale'+i}}">
+                            <button (click)="toggleAccordionInfo(i)" class="accordion-button collapsed d-flex justify-content-between" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+'flush-scale'+i" aria-expanded="false" [attr.aria-controls]="'flush-scale'+i">
+                                <div class="name">{{item.label}}</div>
+                                <div class="count">{{item?.list.length}}</div>
+                                <!-- <div class="open-status">
+                                    <span></span>
+                                </div> -->
+                                <!-- <div class="app-switch">
+                                    <input type="checkbox">
+                                </div> -->
+                            </button>
+                        </div>
+
+                        <div [class.show]="activeTab == i" id="{{'flush-level'+i}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading-scale'+i" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body pb-lg-4">
+                                <div *ngIf="item.loading" class="text-center my-4">
+                                    <!-- <span class="loader lg" role="status"></span>  -->
+                                    <div class="spinner-border color-theme-red" style="width: 1.5rem; height: 1.5rem;" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <!-- Empty State -->
+                                <ng-container *ngIf="!item.loading && item.list.length === 0">
+                                    <app-no-data class="mt-2" [message]="item.emptyText" [imageUrl]="item.emptyImage" [messageFontSize]="'0.85rem'"></app-no-data>
+                                </ng-container>
+
+                                <div *ngIf="!item.loading && item.list.length > 0" class="list-wrap">
+                                    <div *ngFor="let entity of item.list" class="list-hld">
+                                        <div class="name">{{ item.display(entity) }}</div>
+                                        <div class="actions">
+                                            <i (click)="editEntity(item.key, entity)" class="bi bi-pen-fill"></i>
+                                            <i (click)="deleteEntity(item.key, entity)" class="bi bi-trash3-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

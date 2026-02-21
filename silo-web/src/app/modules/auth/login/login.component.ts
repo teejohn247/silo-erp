@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
   showConfirmPassword: boolean = false;
   isLoading:boolean = false;
   verifyingOtp:boolean = false;
+  verificationToken!:string;
   userEmail:string = '';
 
   resendingOtp:boolean = false;
@@ -104,7 +105,7 @@ export class LoginComponent implements OnInit {
           break;
         case 'set-password':
           this.userAction = 'change';
-          this.setUserEmail();
+          this.checkSetPasswordToken();
           break;
         case 'onboarding':
           this.userAction = 'onboard';
@@ -146,6 +147,24 @@ export class LoginComponent implements OnInit {
       }
 
       this.setUserEmail();
+    });
+  }
+
+  checkSetPasswordToken() {
+    this.route.queryParams.subscribe(params => {
+      const token = params['token'];
+      this.verificationToken = token;
+      if (token) {
+        console.log('Set password token:', token);
+        // ✅ token exists → proceed
+        const authDetails = this.authService.getUser(token);
+        console.log('From Token', authDetails)
+        this.setUserEmail(authDetails.email);
+      } 
+      else {
+        console.warn('No token found');
+        this.setUserEmail();
+      }
     });
   }
 
@@ -192,8 +211,8 @@ export class LoginComponent implements OnInit {
     return this.authForm.controls;
   }
 
-  setUserEmail() {
-    const userEmail = <string>sessionStorage.getItem('userEmail')
+  setUserEmail(email?:string) {
+    const userEmail = email ? email : <string>sessionStorage.getItem('userEmail')
     userEmail && this.authForm.controls['email'].setValue(userEmail);
   }
 
@@ -343,7 +362,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: err => {
-        this.notifyService.showError(err.error.message);
+        //this.notifyService.showError(err.error.message);
         this.isLoading = false;  
       }
     })   
@@ -413,7 +432,7 @@ export class LoginComponent implements OnInit {
           console.log(res);
           if(res.status == 200) {
             this.loggedInUser = res.data;
-            if(this.loggedInUser.firstTimeLogin) {
+            if(!res.onboardingCompleted) {
               this.isLoading = false;
               this.router.navigate(['/onboarding']);
             }
@@ -455,7 +474,7 @@ export class LoginComponent implements OnInit {
   setPassword() {
     //this.changeState('verify');
     const email = sessionStorage.getItem('userEmail');
-    const token = JSON.parse(sessionStorage.getItem('verificationToken')!);
+    const token = this.verificationToken ? this.verificationToken : JSON.parse(sessionStorage.getItem('verificationToken')!);
     //if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
     if(this.authForm.controls['password'].valid && this.authForm.controls['confirmPassword'].valid) {
       this.isLoading = true;

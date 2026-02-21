@@ -1,0 +1,22 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/calendar.webp" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Holiday' : 'Create Holiday' }}</div>
+            <div class="preamble">Enter the holiday information</div>        
+        </div>        
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>

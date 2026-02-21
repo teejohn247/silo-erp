@@ -1,4 +1,4 @@
-@import './mixins.scss';
+@import '../helpers/mixins';
 
 .loader {
     width: 1.3rem;
@@ -9,6 +9,11 @@
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+
+    &.lg {
+        width: 2rem;
+        height: 2rem;
+    }
 }
 
 @keyframes rotation {
@@ -31,6 +36,7 @@
     white-space: nowrap;
     background: var(--primary);
     transition: all 0.4s ease;
+    cursor: pointer;
     padding: 0.6rem;
     color: white;
     outline: none;
@@ -43,7 +49,16 @@
     }
 
     &:hover {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
+    }
+
+    &-primary {
+        background-color: var(--primary);
+        color: var(--white);
+
+        &:hover {
+            opacity: 0.9;
+        }
     }
 
     &-trans {
@@ -63,6 +78,54 @@
 
         &:hover {
             background: white;
+        }
+    }
+
+    &.xl {
+        font-size: 1.1rem;
+        font-family: var(--font-medium);
+        letter-spacing: 0.04rem;
+        padding: 0.6rem 1rem;
+        border-radius: var(--radius-md);
+
+        &.icon {
+
+            i {
+                font-size: 1.3rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    &.lg {
+        font-size: 1rem;
+        font-family: var(--font-medium);
+        letter-spacing: 0.04rem;
+        padding: 0.6rem 1rem;
+        border-radius: var(--radius-md);
+
+        &.icon {
+
+            i {
+                font-size: 1.3rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    &.md {
+        font-size: 0.9rem;
+        font-family: var(--font-medium);
+        letter-spacing: 0.04rem;
+        padding: 0.4rem 1rem;
+        border-radius: var(--radius-md);
+
+        &.icon {
+
+            i {
+                font-size: 1.3rem;
+                margin-right: 0.5rem;
+            }
         }
     }
 

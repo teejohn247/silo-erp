@@ -1,0 +1,124 @@
+<form class="" [formGroup]="form">
+    <div class="form-wrap d-flex flex-wrap justify-content-between">
+        <ng-container *ngFor="let field of fields">
+            <ng-container [ngSwitch]="field.controlType">
+                <!-- Text Input -->
+                <mat-form-field *ngSwitchCase="'text'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                    <mat-label>{{ field.controlLabel }}</mat-label>
+                    <input matInput [formControlName]="field.controlName">
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('email')">Please enter a valid email</mat-error>
+                </mat-form-field>
+
+                <!-- Text Area -->
+                <mat-form-field *ngSwitchCase="'textarea'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                    <mat-label>{{field.controlLabel}}</mat-label>
+                    <textarea type="field.controlType" rows="3" matInput [formControlName]="field.controlName"></textarea>
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                </mat-form-field>
+
+                <!-- Number -->
+                <mat-form-field *ngSwitchCase="'number'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                    <mat-label>{{field.controlLabel}}</mat-label>
+                    <input matInput min="0" type="number" [formControlName]="field.controlName">
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                </mat-form-field>
+
+                <!-- Single Select -->
+                <mat-form-field *ngSwitchCase="'select'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                    <mat-label>{{ field.controlLabel }}</mat-label>
+                    <mat-select [formControlName]="field.controlName" panelClass="compact-dropdown lg">
+                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue" [value]="opt.key">{{ opt.value }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                </mat-form-field>
+
+                <!-- Multiple Select -->
+                <mat-form-field *ngSwitchCase="'mutipleSelect'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                    <mat-label>{{ field.controlLabel }}</mat-label>
+                    <mat-select [formControlName]="field.controlName" multiple>
+                        <!-- Trigger shows selected chips -->
+                        <mat-select-trigger>
+                            <mat-chip-grid>
+                                <mat-chip-row *ngFor="let val of form.value[field.controlName]" (removed)="removeMultiSelectValue(field.controlName, val)">
+                                    {{ field.selectOptions?.[val] || val }}
+                                    <button matChipRemove>&times;</button>
+                                </mat-chip-row>
+                            </mat-chip-grid>
+                        </mat-select-trigger>
+
+                        <!-- Options -->
+                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue" [value]="opt.key">{{ opt.value }}</mat-option>
+
+                    </mat-select>
+
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">
+                        {{ field.controlLabel }} is required
+                    </mat-error>
+                </mat-form-field>
+
+
+                <!-- Date -->
+                <mat-form-field *ngSwitchCase="'date'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                    <mat-label>{{ field.controlLabel }}</mat-label>
+
+                    <input matInput [matDatepicker]="picker" [formControlName]="field.controlName" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                </mat-form-field>
+
+                <!-- Time -->
+                <mat-form-field *ngSwitchCase="'time'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                    <mat-label>{{ field.controlLabel }}</mat-label>
+                    <input matInput [ngxTimepicker]="timePicker" [formControlName]="field.controlName">
+                    <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                </mat-form-field>
+
+
+                <!-- File Upload -->
+                <div *ngSwitchCase="'file'" class="upload-wrap" (click)="triggerFileInput(field.controlName)">
+                    <input type="file" #fileInputs (change)="handleFileChange($event, field.controlName)" hidden>
+                    <div class="icon"><i class="bi bi-file-earmark-arrow-up-fill"></i></div>
+                    <div class="info">Click to upload a file</div>
+                    <span class="file-name">{{ fileNames[field.controlName] || 'No file uploaded' }}</span>
+                </div>
+
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <!-- BUTTON SECTION -->
+    <div class="btn-hld w-100 d-flex gap-2">
+
+        <!-- ✅ If buttons were passed -->
+        <ng-container *ngIf="buttons?.length; else defaultButton">
+            <button
+                *ngFor="let btn of buttons"
+                [type]="btn.type || 'button'"
+                [ngClass]="btn.class"
+                class="w-100"
+                [disabled]="isLoading"
+                (click)="triggerAction(btn.key)"
+            >
+                {{ btn.label }}
+                <!-- Spinner only for clicked button -->
+                <span *ngIf="isLoading && loadingButtonKey === btn.key" class="loader"></span>
+            </button>
+        </ng-container>
+
+        <!-- ✅ Default single submit button -->
+        <ng-template #defaultButton>
+            <button
+                type="button"
+                class="cta cta-primary xl w-100"
+                (click)="triggerAction('submit')"
+            >
+                {{ buttonSaveLabel }} <span *ngIf="isLoading" class="loader"></span> 
+            </button>
+        </ng-template>
+
+    </div>
+</form>

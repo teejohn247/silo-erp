@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from '@sharedWeb/models/general/nav-menu';
+import { MenuItem } from '@models/general/menu-item';
 import { AuthService } from '@sharedWeb/services/utils/auth.service';
 import { NotificationService } from '@sharedWeb/services/utils/notification.service';
 import { UtilityService } from '@sharedWeb/services/utils/utility.service';
@@ -14,7 +14,7 @@ import { UtilityService } from '@sharedWeb/services/utils/utility.service';
 export class MenuComponent implements OnInit {
 
   @Input() userDetails:any;
-  collapsed = true;
+  collapsed = false;
   navMenuInfo:MenuItem[] = [];
 
   currentLink = 'Human Resources';
@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit {
   }
 
   menuLinksConfig() {
-    if(this.userDetails.data.isSuperAdmin) {
+    if(this.userDetails.isSuperAdmin) {
       this.collapsed = false;
       this.currentLink = 'Human Resources';
     };

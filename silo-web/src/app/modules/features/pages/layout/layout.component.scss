@@ -8,7 +8,7 @@
         height: 100%;
         min-width: 200px;
         //max-width: 280px;
-        background: #f8f9fa;
+        background: var(--bkg-1);
         overflow-y: auto;
     }
 
@@ -29,8 +29,8 @@
         .page-content {
             flex: 1 1 auto;
             overflow-y: auto; // scrollable if content exceeds space
-            padding: 1rem; // optional
-            background: var(--bkg-1);
+            padding: 0; // optional
+            background: var(--bkg-2);
         }
     }
 }

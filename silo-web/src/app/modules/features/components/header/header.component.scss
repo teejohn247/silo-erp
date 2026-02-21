@@ -1,8 +1,8 @@
-@import 'src/assets/scss/mixins';
+@import 'src/assets/scss/helpers/mixins';
 
 .header {
     align-items: center;
-    padding: 0 4%;
+    padding: 0 3%;
     position: relative;
     height: 100%;
     border-bottom: 1px solid var(--border-black-lightest);
@@ -131,7 +131,7 @@
                 border-radius: 50%;
                 cursor: pointer;
                 background: var(--primary);
-                font-family: var(--font-bold);
+                font-family: var(--font-medium);
                 box-shadow: var(--card-shadow);
                 color: white;
 

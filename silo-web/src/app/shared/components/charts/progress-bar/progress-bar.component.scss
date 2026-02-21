@@ -1,0 +1,27 @@
+.progress-bar-container {
+    width: 100%;
+    position: relative;
+    margin-top: 1rem;
+    background: var(--black-tint-sm);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+
+    .progress-bar-fill {
+        height: 100%;
+        position: absolute;
+        border-top-left-radius: var(--radius-lg);
+        border-bottom-left-radius: var(--radius-lg);
+        transition: all 0.8s ease;
+        top: 0;
+        left: 0;
+    }
+
+    .value {
+        font-size: 0.75rem;
+        font-family: var(--font-regular);
+        transition: all 0.8s ease;
+        letter-spacing: 0.03rem;
+        position: absolute;
+        top: -1.5rem;
+    }
+}

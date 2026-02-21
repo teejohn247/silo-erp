@@ -5,9 +5,15 @@
     </div>
 
     <div class="user-actions">
-        <span><i class="bi bi-question-circle"></i></span>
-        <span><i class="bi bi-bell"></i></span>
-        <span><i class="bi bi-calendar2-week"></i></span>
+        <span>
+            <app-icon [iconName]="'circleQuestionMark'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+        </span>
+        <span>
+            <app-icon [iconName]="'bell'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+        </span>
+        <span>
+            <app-icon [iconName]="'calendarRange'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+        </span>
         <div class="user">
             <div class="info">
                 <span>{{userName}}</span>

@@ -4,7 +4,7 @@ import { Input }     from '@angular/core';
 import { OnInit }    from '@angular/core';
 
 @Component({
-  selector    : 'app-progress-bar',
+  selector    : 'init-progress-bar',
   templateUrl : './progress-bar.component.html',
   styleUrls   : ['./progress-bar.component.scss']
 })

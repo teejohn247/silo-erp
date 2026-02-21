@@ -13,7 +13,7 @@
                         [routerLink]="[item.routeLink]" 
                         [class.active]="currentLink === item.label"
                     >
-                        <i class="{{item.icon}}"></i>
+                        <app-icon [iconName]="item.icon" [iconStrokeWidth]="1.5" [iconWidth]="25" [iconHeight]="25"></app-icon>
                         
                     </a>
                     <span class="module-name only-mobile">{{item.mobileLabel}}</span>
@@ -23,7 +23,7 @@
 
             <li>
                 <a (click)="logOut()" class="admin-logout">
-                    <i class="bi bi-box-arrow-left"></i>
+                    <app-icon [iconName]="'logOut'" [iconWidth]="25" [iconHeight]="25"></app-icon>
                 </a>
             </li>
         </ul>
@@ -42,18 +42,20 @@
                         <ng-container *ngFor="let link of item.subMenu">
                             <li *ngIf="link.permission">
                                 <a [routerLink]="[link.routeLink]" routerLinkActive="active">
-                                    <i class="{{link.icon}}"></i>
+                                    <app-icon [iconName]="link.icon" [iconWidth]="20" [iconHeight]="20"></app-icon>
                                     <span>{{link.label}}</span>
                                 </a>
                             </li>
                         </ng-container>
 
-                        <li (click)="logOut()" class="logout">
+                        <li *ngIf="!userDetails.isSuperAdmin" (click)="logOut()" class="logout">
                             <span>
-                                <i class="bi bi-box-arrow-left"></i>
+                                <app-icon [iconName]="'logOut'" [iconWidth]="20" [iconHeight]="20"></app-icon>
                             </span>   
                             <span>Logout</span>
                         </li>
+
+                        <li *ngIf="userDetails.isSuperAdmin"></li>
 
                     </ul>
                 </ng-container>

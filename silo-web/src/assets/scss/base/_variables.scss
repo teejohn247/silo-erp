@@ -46,6 +46,7 @@ $utilities: (
   --text-dark: #4c4d56;
   --text-dark-2: #4c4d56e6;
   --text-dark-3: #334155;
+  --text-dark-4: #8B8B8B;
 
   --border-black-lightest: rgba(0, 0, 0, 0.1);
   --border-grey-light: rgba(0, 0, 0, 0.1);
@@ -55,6 +56,7 @@ $utilities: (
   --white-tint: rgba(255, 255, 255, 0.5);
   --white-tint-md: rgba(255, 255, 255, 0.7);
 
+  --black-tint-lg: rgba(0, 0, 0, 0.7);
   --black-tint: rgba(0, 0, 0, 0.6);
   --black-tint-md: rgba(0, 0, 0, 0.3);
   --black-tint-mmd: rgba(0, 0, 0, 0.2);
@@ -79,6 +81,40 @@ $utilities: (
   --success: #12a366;
   --warning: #eb5757;
   --warning-rgb: rgb(235, 87, 87);
+
+  //CARD DIMENSIONS
+  --card-xlg: 69.4%;
+  --card-xmlg: 64.4%;
+  --card-xmmd: 49%;
+  --card-xmd: 34%;
+  --card-xsm: 29%;
+  --card-xxs: 20%;
+
+  --card-ylg: 22rem;
+  --card-ymd: 15rem;
+  --card-ysm: 8rem;
+  --card-yxs: 7rem;
+
+  //COLOR THEMES
+  --blue-theme: rgba(66, 133, 244, 1);
+  --blue-theme-light: rgba(66, 133, 244, 0.25);
+  --blue-theme-lightest: rgba(66, 133, 244, 0.07);
+
+  --green-theme: rgba(54, 171, 104, 1);
+  --green-theme-light: rgba(54, 171, 104, 0.25);
+  --green-theme-lightest: rgba(54, 171, 104, 0.1);
+
+  --red-theme: rgba(235, 87, 87, 1);
+  --red-theme-light: rgba(235, 87, 87, 0.25);
+  --red-theme-lightest: rgba(54, 171, 104, 0.1);
+
+  --yellow-theme: rgba(229, 166, 71, 1);
+  --yellow-theme-light: rgba(229, 166, 71, 0.25);
+  --yellow-theme-lightest: rgba(229, 166, 71, 0.1);
+
+  --orange-theme: rgba(235, 87, 87, 1);
+  --orange-theme-lighht: rgba(235, 87, 87, 0.25);
+  --orange-theme-lightest: rgba(235, 87, 87, 0.1);
 }
 
 $primary: #375F9B;
