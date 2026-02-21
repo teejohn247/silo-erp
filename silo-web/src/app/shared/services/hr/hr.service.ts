@@ -55,9 +55,62 @@ export class HrService {
   }
 
   //Update Employee
+  // public updateEmployee(data: any): Observable<any> {
+  //   return this.http.patch<any>(`${this.baseUrl}/updateEmployee`, data, this.requestOptions);
+  // }
+
+  /*************** EMPLOYEE RELATED ACTIONS ***************/
+
+  //Create a new employee
+  public createEmployee(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/addEmployee`, info, this.requestOptions);
+  }
+
+  //Bulk employee upload
+  public bulkEmployeeUpload(file: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/uploadBulkEmployees`, file, this.requestOptions);
+  }
+
+  //Get the list of all employees
+  public getEmployees(pageNo:number = 1, pageSize:number = 10, searchParam:string = '', filter:string = ''): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchEmployees?page=${pageNo}&limit=${pageSize}&search=${searchParam}&filter=${filter}`, this.requestOptions);
+  }
+
+  //Get an employee details
+  public getEmployeeDetails(employeeId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchEmployee/${employeeId}`, this.requestOptions);
+  }
+
+  //Delete employee
+  public deleteEmployee(employeeId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteEmployee/${employeeId}`, this.requestOptions);
+  }
+
+  //Update Employee
   public updateEmployee(data: any): Observable<any> {
     return this.http.patch<any>(`${this.baseUrl}/updateEmployee`, data, this.requestOptions);
   }
+
+  //Update Employee by Admin
+  public updateEmployeeByAdmin(data: any, employeeId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/adminUpdateEmployee/${employeeId}`, data, this.requestOptions);
+  }
+
+  //Edit employee payment info
+  public updatePaymentInfo(info: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/addPayment`, info, this.requestOptions);
+  }
+
+  //Assign Manager
+  public assignManager(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/assignManager`, data, this.requestOptions);
+  }
+
+  //Assign Manager
+  public assignApprover(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/assignApprover`, data, this.requestOptions);
+  }
+
 
   /*************** DEPARTMENT RELATED ACTIONS ***************/
 
@@ -167,6 +220,84 @@ export class HrService {
   //Delete Expense Type
   public deleteExpenseType(expenseTypeId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteExpenseType/${expenseTypeId}`, this.requestOptions);
+  }
+
+
+  /*************** PAYROLL RELATED ACTIONS ***************/
+
+  //Payroll details upload
+  public payrollFileUpload(file: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/uploadPayroll`, file, this.requestOptions);
+  }
+
+  //Create a new payroll credit
+  public createPayrollCredit(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createCredits`, info, this.requestOptions);
+  }
+
+  //Get the list of all payroll credits
+  public getPayrollCredits(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchCredits`, this.requestOptions);
+  }
+
+  //Update Payroll Credit Info
+  public updatePayrollCredit(data: any, payrollCreditId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateCredits/${payrollCreditId}`, data, this.requestOptions);
+  }
+
+  //Delete payroll credit
+  public deletePayrollCredit(payrollCreditId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteCredit/${payrollCreditId}`, this.requestOptions);
+  }
+
+  //Create a new payroll debit
+  public createPayrollDebit(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createDebits`, info, this.requestOptions);
+  }
+
+  //Get the list of all payroll debits
+  public getPayrollDebits(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchDebits`, this.requestOptions);
+  }
+
+  //Update Payroll Debit Info
+  public updatePayrollDebit(data: any, payrollDebitId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateDebits/${payrollDebitId}`, data, this.requestOptions);
+  }
+
+  //Delete payroll debit
+  public deletePayrollDebit(payrollDebitId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteDebit/${payrollDebitId}`, this.requestOptions);
+  }
+
+  //Create a new payroll period
+  public createPayrollPeriod(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createPayrollPeriod`, info, this.requestOptions);
+  }
+
+  //Get the list of all payroll periods
+  public getPayrollPeriods(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchPayrollPeriods`, this.requestOptions);
+  }
+
+  //Get a payroll period details
+  public getPayrollDetails(perioId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchPayrollPeriodDetails/${perioId}`, this.requestOptions);
+  }
+
+  //Update Payroll Period
+  public updatePayrollPeriod(data: any, payrollPeriodId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updatePayrollPeriod/${payrollPeriodId}`, data, this.requestOptions);
+  }
+
+  //Delete payroll period
+  public deletePayrollPeriod(payrollPeriodId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deletePayrollPeriod/${payrollPeriodId}`, this.requestOptions);
+  }
+
+  //Update Payroll Entry
+  public updatePayrollEntry(data: any, entryId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updatePayrollEntry/${entryId}`, data, this.requestOptions);
   }
 
 

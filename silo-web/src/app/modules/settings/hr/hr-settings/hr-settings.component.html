@@ -51,6 +51,24 @@
                             <div (click)="openExpenseTypeModal()" class="cta-add"><i class="bi bi-plus"></i></div>
                         </div>
                     </div>
+
+                    <div class="form-wrap d-flex flex-wrap justify-content-between w-100 border-top mt-4 pt-5">
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Payroll Credit</mat-label>
+                                <input matInput formControlName="payrollCredit" id="payrollCredit" name="payrollCredit" placeholder="Enter payroll credit name">
+                            </mat-form-field>
+                            <div (click)="openPayrollCreditModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Payroll Debit</mat-label>
+                                <input matInput formControlName="payrollDebit" id="payrollDebit" name="payrollDebit" placeholder="Enter payroll debit name">
+                            </mat-form-field>
+                            <div (click)="openPayrollDebitModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+                    </div>
                 </form>
             </div>
 

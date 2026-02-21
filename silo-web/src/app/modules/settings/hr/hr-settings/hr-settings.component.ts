@@ -8,6 +8,8 @@ import { HolidayInfoComponent } from '../holiday-info/holiday-info.component';
 import { ExpenseTypeInfoComponent } from '../expense-type-info/expense-type-info.component';
 import { DesignationInfoComponent } from '../designation-info/designation-info.component';
 import { NotificationService } from '@services/utils/notification.service';
+import { PayrollCreditInfoComponent } from '../payroll-credit-info/payroll-credit-info.component';
+import { PayrollDebitInfoComponent } from '../payroll-debit-info/payroll-debit-info.component';
 
 @Component({
   selector: 'app-hr-settings',
@@ -81,6 +83,28 @@ export class HrSettingsComponent implements OnInit {
         deleteApi: (entity:any) => this.hrService.deleteExpenseType(entity._id),
         display: (x: any) => x.expenseType,
         emptyText: "No expense types added",
+        emptyImage: "assets/img/project/illustrations/wallet.webp"
+      },
+      {
+        label: "Payroll Credits",
+        key: "payrollCredits",
+        list: [],
+        loading: false,
+        api: () => this.hrService.getPayrollCredits(),
+        deleteApi: (entity:any) => this.hrService.deletePayrollCredit(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No payroll credits added",
+        emptyImage: "assets/img/project/illustrations/wallet.webp"
+      },
+      {
+        label: "Payroll Debits",
+        key: "payrollDebits",
+        list: [],
+        loading: false,
+        api: () => this.hrService.getPayrollDebits(),
+        deleteApi: (entity:any) => this.hrService.deletePayrollDebit(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No payroll debits added",
         emptyImage: "assets/img/project/illustrations/wallet.webp"
       }
     ];
@@ -213,6 +237,44 @@ export class HrSettingsComponent implements OnInit {
       if (result.action === 'submit' && result.dirty) {
         this.updateAccordionList('designations');
         this.form.controls['designation'].reset();
+      }
+    });
+  }
+
+  openPayrollCreditModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '35%',
+      data: modalData,
+    }
+    if(this.form.value.payrollCredit) modalConfig['name'] = this.form.value.payrollCredit;
+    this.modalService.open(
+      PayrollCreditInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.updateAccordionList('payrollCredits');
+        this.form.controls['payrollCredit'].reset();
+      }
+    });
+  }
+
+  openPayrollDebitModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '35%',
+      data: modalData,
+    }
+    if(this.form.value.payrollDebit) modalConfig['name'] = this.form.value.payrollDebit;
+    this.modalService.open(
+      PayrollDebitInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.updateAccordionList('payrollDebits');
+        this.form.controls['payrollDebit'].reset();
       }
     });
   }

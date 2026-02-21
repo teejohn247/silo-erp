@@ -9,6 +9,7 @@ import { DynamicField, DynamicFormAction, DynamicFormButton } from '@models/gene
 })
 export class DynamicFormComponent implements OnInit {
 
+  @Input() form!: FormGroup;
   @Input() fields: DynamicField[] = [];
   @Input() buttonSaveLabel:string = 'Save';
   @Input() isLoading: boolean = false;
@@ -16,14 +17,14 @@ export class DynamicFormComponent implements OnInit {
   @Input() buttons: DynamicFormButton[] | null = null;
   @Output() formAction = new EventEmitter<DynamicFormAction>();
 
-  form!: FormGroup;
+  keepOrder = () => 0;
 
   // Keep track of uploaded files and names
-  files: Record<string, File> = {};
-  fileNames: Record<string, string> = {};
+  // files: Record<string, File> = {};
+  // fileNames: Record<string, string> = {};
 
   // Map of controlName -> HTMLInputElement
-  fileInputs: Record<string, HTMLInputElement> = {};
+  // fileInputs: Record<string, HTMLInputElement> = {};
 
   constructor(private fb: FormBuilder) {}
   
@@ -75,21 +76,21 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  registerFileInput(fieldName: string, input: HTMLInputElement) {
-    this.fileInputs[fieldName] = input;
-  }
+  // registerFileInput(fieldName: string, input: HTMLInputElement) {
+  //   this.fileInputs[fieldName] = input;
+  // }
 
-  // File upload handler
-  handleFileChange(event: any, fieldName: string) {
-    const file = event.target.files[0];
-    if (file) {
-      this.files[fieldName] = file;
-      this.fileNames[fieldName] = file.name;
-      this.form.get(fieldName)?.setValue(file); // Update FormControl
-    }
-  }
+  // // File upload handler
+  // handleFileChange(event: any, fieldName: string) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     this.files[fieldName] = file;
+  //     this.fileNames[fieldName] = file.name;
+  //     this.form.get(fieldName)?.setValue(file); // Update FormControl
+  //   }
+  // }
 
-  triggerFileInput(fieldName: string) {
-    this.fileInputs[fieldName]?.click();
-  }
+  // triggerFileInput(fieldName: string) {
+  //   this.fileInputs[fieldName]?.click();
+  // }
 }

@@ -1,0 +1,43 @@
+<!-- FILE MODE -->
+<div *ngIf="mode === 'file'" class="upload-wrap" (click)="triggerFileInput()">
+
+    <input
+        type="file"
+        #fileInput
+        (change)="handleFileChange($event)"
+        hidden
+    />
+
+    <div class="icon">
+        <i class="bi bi-file-earmark-arrow-up-fill"></i>
+    </div>
+
+    <div class="info">Click to upload a file</div>
+
+    <span class="file-name">{{ fileName || 'No file uploaded' }}</span>
+
+</div>
+
+
+<!-- PROFILE MODE -->
+<div *ngIf="mode === 'profile'" class="profile">
+
+    <div class="image bkg-standard">
+        <img
+            [src]="previewUrl || defaultImage || 'assets/default-user.svg'"
+            alt=""
+        />
+    </div>
+
+    <span (click)="triggerFileInput()">
+        <i class="bi bi-camera-fill"></i>
+    </span>
+
+    <input
+        type="file"
+        #fileInput
+        class="file-upload"
+        (change)="handleFileChange($event)"
+    />
+
+</div>

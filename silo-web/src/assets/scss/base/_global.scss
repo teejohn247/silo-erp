@@ -115,6 +115,11 @@ a {
   padding-top: 0.9rem;
   padding-bottom: 0.9rem;
 
+  &.with-tabs {
+    height: calc(100% - 3rem);
+    padding-top: 0;
+  }
+
   .inner-wrap {
     width: 100%;
     height: 100%;
@@ -358,6 +363,53 @@ a {
 
 }
 
+//TAB COMPONENTS STYLING
+.tab-wrap {
+  padding: 0.6rem 4%;
+  background: white;
+  border-bottom: 1px solid var(--border-black-lightest);
+
+  .tab-list {
+    display: flex;
+    gap: 2rem;
+
+    li {
+      a {
+        display: inline-flex;
+        font-size: 0.75rem;
+        font-family: var(--font-regular);
+        //font-weight: 600;
+        padding: 0 0.2rem;
+        letter-spacing: 0.06rem;
+        position: relative;
+        text-transform: uppercase;
+        color: var(--darkest);
+        transition: var(--transition-norm);
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 1px;
+          position: absolute;
+          background-color: var(--primary);
+          transition: var(--transition-norm);
+          bottom: -0.65rem;
+          left: 0;
+        }
+
+        &:hover,
+        &.active {
+          color: var(--primary);
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
 //ITEMS IN LIST FORMAT IN CARDS
 .listed-items {
 
@@ -566,7 +618,6 @@ a {
     }
   }
 }
-
 
 
 // ----------------------------------------------------------------------------------------------

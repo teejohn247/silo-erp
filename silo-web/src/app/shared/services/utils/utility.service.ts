@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PermissionsService } from './permissions.service';
 import { MenuItem } from '@models/general/menu-item';
 import { navMenuData } from '@sharedWeb/constants/nav-menu';
+import { Countries } from '@sharedWeb/constants/countries';
 
 @Injectable({
   providedIn: 'root'
@@ -87,4 +88,14 @@ export class UtilityService {
     }, {})
     return reqObj;
   }
+
+  createCountryOptions(): Record<string, string> {
+    const reqObj = Countries.reduce<Record<string, string>>((agg, item) => {
+      agg[item.label] = item.label;
+      return agg;
+    }, {});
+
+    return reqObj;
+  }
+
 }

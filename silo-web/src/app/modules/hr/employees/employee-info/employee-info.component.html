@@ -1,0 +1,51 @@
+<form class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div *ngIf="!data.isExisting" class="img-wrap">
+                <img src="assets/img/project/illustrations/user.webp" alt="">
+            </div>
+
+            <ng-container *ngIf="data.isExisting">
+                <app-file-upload
+                    *ngSwitchCase="'profile'"
+                    formControlName="profilePhoto"
+                    [defaultImage]="data.isExisting ? this.data.data.profilePic : ''"
+                    mode="profile"
+                ></app-file-upload>
+            </ng-container>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? data.data.fullName : 'Create Employee' }}</div>
+            <div class="preamble">Enter the employee information</div>        
+        </div>        
+    </section>
+
+    <section class="modal-body">
+        <div *ngIf="data.isExisting" class="trigger-wrap mb-lg-3">
+            <div class="inner-wrap">
+                <div [class.shiftRight]="!officialTabActive" id="" class="bkg-switch"></div>
+                <div (click)="officialTabActive = true" [class.active]="officialTabActive" class="trigger official">Official Information</div>
+                <div (click)="officialTabActive = false" [class.active]="!officialTabActive" class="trigger personal">Personal Information</div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="officialTabActive">
+            <app-dynamic-form
+                [fields]="officialInfoFormFields"
+                [isLoading]="isLoading"
+                [form]="officialFormGroup"
+                (formAction)="handleFormAction($event)"
+            ></app-dynamic-form>
+        </ng-container>
+
+        <ng-container *ngIf="!officialTabActive">
+            <app-dynamic-form
+                [fields]="personalInfoFormFields"
+                [isLoading]="isLoading"
+                [form]="personalFormGroup"
+                (formAction)="handleFormAction($event)"
+            ></app-dynamic-form>
+        </ng-container>
+    </section>
+</form>

@@ -58,6 +58,7 @@ import { ProgressBarComponent } from './components/charts/progress-bar/progress-
 import { DynamicFormComponent } from './components/forms/dynamic-form/dynamic-form.component';
 import { NoDataComponent } from './components/blocks/no-data/no-data.component';
 import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
+import { FileUploadComponent } from './components/forms/file-upload/file-upload.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -105,6 +106,7 @@ const SHARED_COMP = [
     // Forms
     FormConfirmComponent,
     DynamicFormComponent,
+    FileUploadComponent,
 
     // Modals
     ModalWrapperComponent,
@@ -134,6 +136,7 @@ const SHARED_COMP = [
     ...SHARED_COMP,
     LottieAnimationComponent,
     ConfirmationModalComponent,
+    FileUploadComponent,
     NoDataComponent,
 
     // External modules

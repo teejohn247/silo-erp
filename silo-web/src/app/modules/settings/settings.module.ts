@@ -11,6 +11,14 @@ import { LeaveTypeInfoComponent } from './hr/leave-type-info/leave-type-info.com
 import { DesignationInfoComponent } from './hr/designation-info/designation-info.component';
 import { HolidayInfoComponent } from './hr/holiday-info/holiday-info.component';
 import { ExpenseTypeInfoComponent } from './hr/expense-type-info/expense-type-info.component';
+import { PayrollCreditInfoComponent } from './hr/payroll-credit-info/payroll-credit-info.component';
+import { PayrollDebitInfoComponent } from './hr/payroll-debit-info/payroll-debit-info.component';
+import { AccountSettingsPortalComponent } from './general/account-settings-portal/account-settings-portal.component';
+import { AuditTrailComponent } from './general/audit-trail/audit-trail.component';
+import { BillingOverviewComponent } from './general/billing-overview/billing-overview.component';
+import { RolesPermissionManagementComponent } from './general/roles-permission-management/roles-permission-management.component';
+import { SubscriptionHistoryComponent } from './general/subscription-history/subscription-history.component';
+import { SubscriptionOverviewComponent } from './general/subscription-overview/subscription-overview.component';
 
 
 @NgModule({
@@ -21,7 +29,15 @@ import { ExpenseTypeInfoComponent } from './hr/expense-type-info/expense-type-in
     LeaveTypeInfoComponent,
     DesignationInfoComponent,
     HolidayInfoComponent,
-    ExpenseTypeInfoComponent
+    ExpenseTypeInfoComponent,
+    PayrollCreditInfoComponent,
+    PayrollDebitInfoComponent,
+    AccountSettingsPortalComponent,
+    AuditTrailComponent,
+    BillingOverviewComponent,
+    RolesPermissionManagementComponent,
+    SubscriptionHistoryComponent,
+    SubscriptionOverviewComponent
   ],
   imports: [
     CommonModule,

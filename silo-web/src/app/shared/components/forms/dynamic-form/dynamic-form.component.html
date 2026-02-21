@@ -28,7 +28,7 @@
                 <mat-form-field *ngSwitchCase="'select'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
                     <mat-label>{{ field.controlLabel }}</mat-label>
                     <mat-select [formControlName]="field.controlName" panelClass="compact-dropdown lg">
-                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue" [value]="opt.key">{{ opt.value }}</mat-option>
+                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue: keepOrder" [value]="opt.key">{{ opt.value }}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
                 </mat-form-field>
@@ -48,7 +48,7 @@
                         </mat-select-trigger>
 
                         <!-- Options -->
-                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue" [value]="opt.key">{{ opt.value }}</mat-option>
+                        <mat-option *ngFor="let opt of field.selectOptions | keyvalue: keepOrder" [value]="opt.key">{{ opt.value }}</mat-option>
 
                     </mat-select>
 
@@ -79,12 +79,18 @@
 
 
                 <!-- File Upload -->
-                <div *ngSwitchCase="'file'" class="upload-wrap" (click)="triggerFileInput(field.controlName)">
+                <app-file-upload
+                    *ngSwitchCase="'file'"
+                    [formControlName]="field.controlName"
+                    mode="file"
+                ></app-file-upload>
+
+                <!-- <div *ngSwitchCase="'file'" class="upload-wrap" (click)="triggerFileInput(field.controlName)">
                     <input type="file" #fileInputs (change)="handleFileChange($event, field.controlName)" hidden>
                     <div class="icon"><i class="bi bi-file-earmark-arrow-up-fill"></i></div>
                     <div class="info">Click to upload a file</div>
                     <span class="file-name">{{ fileNames[field.controlName] || 'No file uploaded' }}</span>
-                </div>
+                </div> -->
 
             </ng-container>
         </ng-container>
