@@ -63,6 +63,7 @@ import { PaginationComponent } from './components/blocks/pagination/pagination.c
 import { TableFilterComponent } from './components/blocks/table-filter/table-filter.component';
 import { DynamicTableComponent } from './components/blocks/dynamic-table/dynamic-table.component';
 import { CdkOverlayOrigin } from "@angular/cdk/overlay";
+import { DocumentUploadComponent } from './components/blocks/document-upload/document-upload.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -108,6 +109,7 @@ const SHARED_COMP = [
     PaginationComponent,
     TableFilterComponent,
     DynamicTableComponent,
+    DocumentUploadComponent,
     NoDataComponent,
 
     // Forms
@@ -143,6 +145,7 @@ const SHARED_COMP = [
     ...SHARED_COMP,
     LottieAnimationComponent,
     ConfirmationModalComponent,
+    DocumentUploadComponent,
     FileUploadComponent,
     NoDataComponent,
 

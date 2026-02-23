@@ -43,7 +43,7 @@
         <table>
             <thead>
                 <tr>
-                    <th *ngIf="showCheckbox" [style.width]="'5%'">
+                    <th *ngIf="showCheckbox && data" [style.width]="'5%'">
                         <mat-checkbox
                             [checked]="selectedRows.size === data.length && data.length > 0"
                             [indeterminate]="selectedRows.size > 0 && selectedRows.size < data.length"
@@ -141,14 +141,14 @@
         </table>
 
         <!-- LOADER -->
-        <div *ngIf="loading" class="loader-wrap" [class.hasData]="data.length > 0">
+        <div *ngIf="loading" class="loader-wrap" [class.hasData]="data?.length > 0">
             <div class="spinner-border color-theme-red" style="width: 1.5rem; height: 1.5rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
 
         <!-- NO DATA -->
-        <div *ngIf="!loading && data.length === 0" class="no-data">
+        <div *ngIf="!loading && data && data?.length === 0" class="no-data">
             <app-no-data
                 [height]="'15rem'"
                 [imageUrl]="emptyDataImage"

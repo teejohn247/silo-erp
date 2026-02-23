@@ -1,0 +1,97 @@
+
+.row-card {
+
+    .top {        
+        &.bkg {
+            border-radius: var(--radius-md);
+            //background: var(--primary-lightest);
+        }
+
+        .img-wrap {
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            border: 1px solid var(--primary-light);
+            align-items: center;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                object-fit: cover;
+                object-position: top center;
+            }
+        }
+    }
+
+    .info {
+        font-family: var(--font-regular);
+        letter-spacing: 0.04rem;
+
+        .major {
+            font-family: var(--font-medium);
+
+            &.lg {
+                font-size: 1rem;
+            }
+        }
+
+        .minor {
+            font-size: 0.8rem;
+        }
+    }
+
+    .listed-items {
+
+        .minor {
+            font-size: 0.8rem;
+
+            &.sm {
+                font-size: 0.65rem;
+                line-height: 1.7;
+            }
+        }
+    }
+
+    .chart-wrap {
+        position: relative;
+
+        .chart-info {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            margin-top: 0.5rem;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+            gap: 0.3rem;
+
+            span {
+                line-height: 1;
+                text-align: center;
+                letter-spacing: 0.04rem;
+                font-family: var(--font-regular);
+
+                &:first-child {
+                    font-size: 1rem;
+                    font-family: var(--font-medium);
+                }
+
+                &:nth-child(2) {
+                    font-size: 0.75rem;
+                }
+            }
+
+            button {
+                font-size: 0.75rem;
+                letter-spacing: 0.04rem;
+                font-family: var(--font-regular);
+                color: var(--primary);
+                border: none;
+                background: transparent;
+                outline: none;
+            }
+        }
+    }
+}

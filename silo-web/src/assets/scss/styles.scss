@@ -12,7 +12,6 @@
 // NOTE Overwrite styles ------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------
 
-// @import 'modules/_bootstrap.scss';
 
 html, body { 
     height: 100%; 
@@ -41,4 +40,19 @@ body {
 
 .otp-input {
     outline: none;
+}
+
+/* Default border */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: var(--primary-light-md) !important;
+}
+
+/* Focus border */
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: var(--primary) !important;
+    //#e91e63 !important; /* your color */
 }

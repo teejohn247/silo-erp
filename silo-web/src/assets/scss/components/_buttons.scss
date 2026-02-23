@@ -171,6 +171,15 @@
         }
     }
 
+    &.xs {
+        font-size: 0.65rem;
+        font-family: var(--font-regular);
+        border-radius: var(--radius-sm);
+        line-height: 1;
+        padding: 0.5rem 0.6rem;
+        letter-spacing: 0.04rem;
+    }
+
     &:disabled {
         cursor: not-allowed;
     }

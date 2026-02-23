@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { PermissionsService } from './permissions.service';
 import { MenuItem } from '@models/general/menu-item';
 import { navMenuData } from '@sharedWeb/constants/nav-menu';
@@ -12,6 +13,7 @@ export class UtilityService {
   navMenuData:MenuItem[] = navMenuData;
 
   constructor(
+    private location: Location,
     private readonly permissionsService: PermissionsService
   ) {
     const user = this.loggedInUser;
@@ -52,6 +54,10 @@ export class UtilityService {
     return this.setupUserMenu()
   }
 
+  goBack() {
+    this.location.back();
+  }
+  
   private setupUserMenu(): MenuItem[] {
     return this.assignMenuPermissions(this.navMenuData)
   }

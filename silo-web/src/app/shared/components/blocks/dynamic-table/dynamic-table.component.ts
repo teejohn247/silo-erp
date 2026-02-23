@@ -17,7 +17,7 @@ import { debounceTime, Subject } from 'rxjs';
 export class DynamicTableComponent implements OnInit {
 
   @Input() columns: TableColumn[] = [];
-  @Input() data: any[] = [];
+  @Input() data!: any;
   @Input() paging!: IPaging;
   @Input() loading = false;
   @Input() filters: any[] = [];
@@ -37,6 +37,7 @@ export class DynamicTableComponent implements OnInit {
   @Output() bulkAction = new EventEmitter<string>();
   @Output() filterChange = new EventEmitter<any>();
   @Output() searchChange = new EventEmitter<string>();
+  @Output() selectionChange = new EventEmitter<any[]>();
 
   selectedRows = new Set<any>();
   showFilter = false;
@@ -64,14 +65,17 @@ export class DynamicTableComponent implements OnInit {
 
   toggleRow(row: any) {
     this.selectedRows.has(row) ? this.selectedRows.delete(row) : this.selectedRows.add(row);
+    this.emitSelection();
   }
 
   toggleAll() {
     if (this.selectedRows.size === this.data.length) {
       this.selectedRows.clear();
-    } else {
-      this.data.forEach(d => this.selectedRows.add(d));
+    } 
+    else {
+      this.data.forEach((d:any) => this.selectedRows.add(d));
     }
+    this.emitSelection();
   }
 
   onBulk(action: string) {
@@ -89,7 +93,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   onPageChange(event:any) {
-    console.log('Page Changed', event)
+    //console.log('Page Changed', event)
     this.pagingChange.emit(event)
   }
 
@@ -118,5 +122,9 @@ export class DynamicTableComponent implements OnInit {
   getStatusClass(row: any, col: TableColumn): string {
     const key = this.getStatusKey(row, col);
     return this.statusConfig[key]?.class || '';
+  }
+
+  emitSelection() {
+    this.selectionChange.emit(Array.from(this.selectedRows));
   }
 }

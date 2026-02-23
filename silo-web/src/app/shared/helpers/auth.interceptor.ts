@@ -13,14 +13,14 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
     constructor(private notificationService: ToastrService) {
-        console.log('Interceptor constructed');
+        //console.log('Interceptor constructed');
     }
 
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        console.log('Intercept called:', request.url);
+        //console.log('Intercept called:', request.url);
 
         // Optional: add Authorization header here
         request = request.clone({

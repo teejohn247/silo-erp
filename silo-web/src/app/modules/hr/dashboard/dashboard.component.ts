@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { authPageStagger } from '@animations/auth-page-animations';
+import { HrService } from '@services/hr/hr.service';
 import { AuthService } from '@sharedWeb/services/utils/auth.service';
 
 @Component({
@@ -72,7 +73,8 @@ export class DashboardComponent implements OnInit {
   workAnniversaries!:any[];
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private hrService: HrService
   ) {
     setInterval(() => {
       this.dateTime = new Date();
@@ -82,9 +84,17 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
+    this.getPageData();
+  }
 
-    this.generateUpcomingBithdays();
-    this.generateUpcomingAnniversaries();
+  getPageData() {
+    this.hrService.getEmployees().subscribe({
+      next: res => {
+        this.employeeList = res.data;
+        this.generateUpcomingBithdays();
+        this.generateUpcomingAnniversaries();
+      }
+    })
   }
 
   updateDayStatus() {

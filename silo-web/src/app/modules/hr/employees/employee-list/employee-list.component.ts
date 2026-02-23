@@ -7,6 +7,7 @@ import { EmployeeInfoComponent } from '../employee-info/employee-info.component'
 import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -17,7 +18,8 @@ export class EmployeeListComponent implements OnInit {
 
   departmentList: any[] = [];
   designationList: any[] = [];
-  employees: any[] = [];
+  selectedRows:any[] = [];
+  employees!: any[];
   isLoading = false;
 
   //Employee Table Column Names
@@ -31,7 +33,7 @@ export class EmployeeListComponent implements OnInit {
     //   sortable: false
     // },
     {
-      key: "image",
+      key: "profilePic",
       label: "",
       order: 2,
       columnWidth: "5%",
@@ -134,6 +136,8 @@ export class EmployeeListComponent implements OnInit {
     private modalService: ModalService,
     private hrService: HrService,
     private utils: UtilityService,
+    private router: Router,
+    private route: ActivatedRoute,
     private notify: NotificationService
   ) {}
 
@@ -169,7 +173,7 @@ export class EmployeeListComponent implements OnInit {
     )
       
     employees$.subscribe(res => {
-      console.log('Employees', res)
+      //console.log('Employees', res)
       this.employees = res.data;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
@@ -196,12 +200,17 @@ export class EmployeeListComponent implements OnInit {
 
   // Called whenever pagination changes in the table
   onPagingChange(newPaging: { page: number; pageSize: number }) {
-    console.log(newPaging)
+    //console.log(newPaging)
     this.paging = {
       ...this.paging,
       ...newPaging
     };
     this.paging$.next(newPaging);
+  }
+
+  onSelectionChange(event:any) {
+    //console.log(event);
+    this.selectedRows = event;
   }
 
   buildFilters() {
@@ -265,16 +274,18 @@ export class EmployeeListComponent implements OnInit {
 
   viewRow(row: any) {
     console.log('View', row);
+    this.router.navigate([row._id], { relativeTo: this.route });
+    //this.router.navigate(['/app/hr/employees', row._id]);
   }
 
   editRow(row: any) {
-    console.log('Edit', row);
+    //console.log('Edit', row);
     this.openEmployeeModal(row);
   }
 
   //Delete an employee
   deleteRow(row: any) {
-    console.log('Delete', row);
+    //console.log('Delete', row);
     this.notify.confirmAction({
       title: 'Remove Employee',
       message: 'Are you sure you want to remove this employee?',

@@ -36,7 +36,7 @@ export class EmployeeInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    //console.log(this.data);
     this.loggedInUser = this.authService.loggedInUser;
     this.departmentList = this.data.departmentList;
     this.designationList = this.data.designationList;
@@ -296,9 +296,9 @@ export class EmployeeInfoComponent implements OnInit {
     const personal = this.personalFormGroup.value;
     const profilePhoto = this.form.value.profilePhoto; // Or get from formControl
 
-    console.log('Event', event.value);
-    console.log('Official', official);
-    console.log('Personal', personal);
+    // console.log('Event', event.value);
+    // console.log('Official', official);
+    // console.log('Personal', personal);
 
     if(this.data.isExisting) {
       const formData = new FormData();

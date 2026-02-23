@@ -161,7 +161,8 @@ a {
         cursor: pointer;
         border-radius: var(--radius-sm);
         background-color: var(--bkg-light);
-        border: 1px solid var(--border-grey);
+        border: 1px solid var(--primary-light);
+        box-shadow: var(--box-shadow-1);
         color: var(--black-tint-md);
         padding: 0.2rem 0.4rem;
 
@@ -299,6 +300,7 @@ a {
         font-size: 1.6rem;
         letter-spacing: 0.04rem;
         font-family: var(--font-medium);
+        position: relative;
 
         span {
           font-size: 0.9rem;
@@ -330,6 +332,12 @@ a {
           background: var(--red-theme-light);
           //color: white;
         }
+      }
+
+      .card-action {
+        position: absolute;
+        right: 0.7rem;
+        top: 0.7rem;
       }
     }
   }
@@ -458,10 +466,11 @@ a {
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
+      background-size: cover;
 
       &.rd {
-        width: 2.3rem;
-        height: 2.3rem;
+        width: 2.1rem;
+        height: 2.1rem;
       }
     }
 
@@ -528,6 +537,7 @@ a {
       .minor {
         font-size: 0.65rem;
         font-family: var(--font-regular);
+        line-height: 1.6;
         letter-spacing: 0.03rem;
         color: var(--black-tint);
 

@@ -1,1 +1,248 @@
-<p>employee-profile works!</p>
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header"><span (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> Employee Information</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div *ngIf="employeeDetails" (click)="openEmployeeModal(employeeDetails)" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Edit Employee</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card anim-item card-theme-green card-xsm card-ylg">
+                <div *ngIf="employeeDetails" class="card-cont px-0 py-0 overflow-hidden">
+                    <div class="top h-100 bkg d-flex flex-column align-items-center gap-3 px-2 py-3">
+                        <div class="img-wrap">
+                            <img class="w-100" [src]="employeeDetails?.profilePic" alt="">
+                        </div>
+
+                        <div class="official">
+                            <div class="info">
+                                <div class="major lg text-center">{{employeeDetails?.fullName}}</div>
+                            </div>
+                            <div class="info">
+                                <div class="minor text-center">{{employeeDetails?.companyRole}}</div>
+                            </div>
+                        </div>
+
+                        <div class="listed-items w-100 px-3">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Department:</div>
+                                        <div class="minor">{{employeeDetails?.department}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Designation:</div>
+                                        <div class="minor">{{employeeDetails?.designationName}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Contract Type:</div>
+                                        <div class="minor">{{employeeDetails?.employmentType}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Employment Start Date:</div>
+                                        <div class="minor">{{employeeDetails?.employmentStartDate | date: 'mediumDate'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div *ngIf="employeeDetails" class="card-cont d-flex flex-column justify-content-center align-items-center position-relative">
+                    <div class="chart-wrap">
+                        <app-pie-chart
+                            [chartSize]="[280, 280]"
+                            [chartData]="leaveChartTotalView ? totalChartData : chartData"
+                            [colorScheme]="chartColorScheme"
+                            [doughnut]="true"
+                        ></app-pie-chart>
+
+                        <div class="chart-info">
+                            <span>Leave Summary</span>
+                            <span>{{leaveDaysUsed}} of {{totalLeaveDays}} days</span>
+                            <button (click)="leaveChartTotalView = !leaveChartTotalView">{{leaveChartTotalView ? 'View Breakdown' : 'View Total'}}</button>
+                        </div>
+                    </div>
+
+                    <ul class="chart-legend d-flex justify-content-center">
+                        <ng-container *ngIf="!leaveChartTotalView">
+                            <li *ngFor="let item of chartData; let i = index"> 
+                                <span class="code" [style.background]="chartColorScheme['domain'][i]"></span>{{item.name}}
+                            </li>
+                        </ng-container>
+                        <ng-container *ngIf="leaveChartTotalView">
+                            <li *ngFor="let item of totalChartData; let i = index"> 
+                                <span class="code" [style.background]="chartColorScheme['domain'][i]"></span>{{item.name}}
+                            </li>
+                        </ng-container>
+                    </ul>
+
+                    <button (click)="openLeaveAssignmentModal()" class="card-action cta cta-primary xs">Assign Leave</button>
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Personal Details</div>
+                    </div>
+                    <div class="listed-items w-100 mt-3">
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Phone:</div>
+                                    <div class="minor">{{employeeDetails?.phoneNumber}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Date of Birth:</div>
+                                    <div class="minor">{{employeeDetails?.dateOfBirth | date: 'mediumDate'}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Gender:</div>
+                                    <div class="minor">{{employeeDetails?.gender}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">City:</div>
+                                    <div class="minor">{{employeeDetails?.city}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">State:</div>
+                                    <div class="minor">{{employeeDetails?.state}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Address:</div>
+                                    <div class="minor">{{employeeDetails?.address}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Next of Kin:</div>
+                                    <div class="minor">{{employeeDetails?.nextOfKinFullName}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-3">
+            <div class="row-card anim-item card-xmd card-ymd">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex flex-column">
+                        <div class="card-title sm color-theme-primary">Department Info</div>
+                        <div class="listed-items mt-lg-3">
+                            <div class="item">
+                                <div class="image bkg-standard" style="background-image: url('assets/img/project/home/employee1.webp');"></div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major lg">{{'Grace Rhodes'}}</div>
+                                        <div class="minor sm">{{employeeDetails?.department}} Manager</div>
+                                    </div>
+                                    <div class="det">
+                                        <!-- <div class="status sm approved">Approved</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btm mt-auto">
+                        <div class="card-title">Other Team Members</div>
+                        <div class="stacked-items d-flex justify-content-between align-items-center mt-1 mb-2">
+                            <div class="stack">
+                                <span style="background-image: url('assets/img/project/home/employee1.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee2.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee3.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee4.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee5.webp');"></span>
+                                <span style="background-image: url('assets/img/project/home/employee6.webp');"></span>
+                                <span>+9</span>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xmd card-ymd"></div>
+
+            <div class="row-card anim-item card-xsm card-ymd">
+                <div class="card-cont position-relative">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Employee Documents</div>
+                    </div>
+                    <div class="btm">
+                        <div class="listed-items mt-3">
+                            <div *ngFor="let item of documents" class="item">
+                                <div class="icon">
+                                    <i *ngIf="item.type === 'pdf'" class="bi bi-file-earmark-pdf color-theme-red"></i>
+                                    <i *ngIf="item.type === 'word'" class="bi bi-file-earmark-word color-theme-blue"></i>
+                                    <i *ngIf="item.type === 'csv'" class="bi bi-filetype-csv color-theme-green"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="major">{{item.name}}</div>
+                                        <div class="minor sm">{{item.uploadDate | date: 'mediumDate'}}</div>
+                                    </div>
+                                    <div class="det">
+                                        <app-icon [iconName]="'view'" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button (click)="openDocUploadModal()" class="card-action cta cta-primary xs">Add Doc</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -32,6 +32,10 @@
             bottom: unset;
         }
 
+        @include screen-media-min(xxxl) {
+            width: 7rem;
+        }
+
         .menu-trigger-close {
             height: var(--hdr-height);
             font-size: 1.6rem;
@@ -147,11 +151,15 @@
         height: 100vh;
         display: none;
         border-right: 1px solid var(--border-black-lightest);
-        background-color: var(--bkg-1);
+        background-color: var(--bkg-2);
 
         @include screen-media-min(md) {
             display: block;
             font-size: 2rem;
+        }
+
+        @include screen-media-min(xxxl) {
+            width: 20rem;
         }
 
         .logo-container {
