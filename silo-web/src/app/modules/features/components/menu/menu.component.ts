@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
 
   initMenu() {
     this.navMenuInfo = this.utilityService.userMenu;
-    console.log('Nav', this.navMenuInfo)
+    //console.log('User', this.userDetails)
   }
 
   menuLinksConfig() {
@@ -46,6 +46,7 @@ export class MenuComponent implements OnInit {
     if(urlsplit[2] == 'hr') this.currentLink = 'Human Resources';
     if(urlsplit[2] == 'crm') this.currentLink = 'CRM';
     if(urlsplit[2] == 'settings') this.currentLink = 'Settings';
+    //console.log('User', this.userDetails)
   }
 
   logOut() {

@@ -292,6 +292,7 @@ export class EmployeeInfoComponent implements OnInit {
   }
 
   handleFormAction(event: any) {
+    this.isLoading = true;
     const official = this.officialFormGroup.value;
     const personal = this.personalFormGroup.value;
     const profilePhoto = this.form.value.profilePhoto; // Or get from formControl

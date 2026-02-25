@@ -20,7 +20,7 @@
                 <span class="text">{{userRole}}</span>
             </div>
             <div [matMenuTriggerFor]="accountOptions" *ngIf="profilePhoto" class="photo bkg-standard" style="background-image: url('{{profilePhoto}}');"></div>
-            <div [matMenuTriggerFor]="accountOptions" *ngIf="!profilePhoto" class="initials d-flex flex-center">{{userName[0]}}{{userRole[0]}}</div>
+            <div [matMenuTriggerFor]="accountOptions" *ngIf="!profilePhoto" class="initials d-flex flex-center">{{userDetails.isSuperAdmin ? userName[0] : userDetails.firstName[0]}}{{userDetails.isSuperAdmin ? userRole[0] : userDetails.lastName[0]}}</div>
             <mat-menu #accountOptions="matMenu" class="account-wrap">
                 <div class="items-wrap">
                     <div (click)="logout()" class="item"><i class="bi bi-box-arrow-left"></i> <span>Logout</span></div>

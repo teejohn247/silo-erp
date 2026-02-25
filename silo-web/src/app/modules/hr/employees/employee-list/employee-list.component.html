@@ -17,6 +17,7 @@
                 [loading]="isLoading"
                 [emptyDataMessage]="'No employee records found.'"
                 [emptyDataImage]="'assets/img/project/illustrations/user.webp'"
+                (rowClick)="viewRow($event)"
                 (pagingChange)="onPagingChange($event)"
                 (searchChange)="onSearchChange($event)"
                 (filterChange)="onFilterChange($event)"

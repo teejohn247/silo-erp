@@ -305,5 +305,15 @@ export class HrService {
     return this.http.patch<any>(`${this.baseUrl}/updatePayrollEntry/${entryId}`, data, this.requestOptions);
   }
 
+  /*************** ATTENDANCE RELATED ACTIONS ***************/
+  //Get the attendance list
+  public getAttendanceList(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchAttendance`, this.requestOptions);
+  }
+
+  //Staff Check in or check out
+  public staffCheckInOut(info: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/checkInOut`, info, this.requestOptions);
+  }
 
 }

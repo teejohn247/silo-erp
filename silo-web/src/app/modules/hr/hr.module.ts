@@ -8,6 +8,9 @@ import { EmployeeListComponent } from './employees/employee-list/employee-list.c
 import { EmployeeInfoComponent } from './employees/employee-info/employee-info.component';
 import { EmployeeProfileComponent } from './employees/employee-profile/employee-profile.component';
 import { LeaveAssignmentComponent } from './leave-management/leave-assignment/leave-assignment.component';
+import { PaymentInfoComponent } from './payroll/payment-info/payment-info.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { WorkLocationComponent } from './attendance/work-location/work-location.component';
 
 
 @NgModule({
@@ -17,10 +20,13 @@ import { LeaveAssignmentComponent } from './leave-management/leave-assignment/le
     EmployeeInfoComponent,
     EmployeeProfileComponent,
     LeaveAssignmentComponent,
+    PaymentInfoComponent,
+    WorkLocationComponent
   ],
   imports: [
     CommonModule,
     HrRoutingModule,
+    GoogleMapsModule,
     SharedModule,
     DatePipe
   ]

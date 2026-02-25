@@ -1,12 +1,15 @@
-import { Directive, Input, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+import { UtilityService } from '@services/utils/utility.service';
 import { PermissionsService } from '@sharedWeb/services/utils/permissions.service';
+import { Subscription } from 'rxjs';
 
 @Directive({
-  selector: '[hasRole]'
+    selector: '[hasRole]'
 })
-export class HasRoleDirective implements OnInit {
+export class HasRoleDirective implements OnInit, OnDestroy {
 
     private allowedRoles: string[] = [];
+    private sub!: Subscription;
 
     @Input()
     set hasRole(roles: string[] | string) {
@@ -17,16 +20,25 @@ export class HasRoleDirective implements OnInit {
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
-        private permissionsService: PermissionsService
+        private permissionsService: PermissionsService,
+        private utitlityService: UtilityService
     ) {}
 
     ngOnInit(): void {
-        this.updateView();
+        // subscribe to role changes
+        this.sub = this.permissionsService.roles$.subscribe(() => {
+            this.updateView();
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.sub?.unsubscribe();
     }
 
     private updateView(): void {
         this.viewContainer.clear();
-        if (this.permissionsService.hasRole(this.allowedRoles)) {
+        //console.log(this.allowedRoles);
+        if (this.permissionsService.hasRole(this.allowedRoles, this.utitlityService.userRoles)) {
             this.viewContainer.createEmbeddedView(this.templateRef);
         }
     }

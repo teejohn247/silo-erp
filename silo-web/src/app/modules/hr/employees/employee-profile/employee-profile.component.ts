@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { LeaveAssignmentComponent } from '@hr/leave-management/leave-assignment/leave-assignment.component';
 import { DocumentUploadComponent } from '@sharedWeb/components/blocks/document-upload/document-upload.component';
+import { PaymentInfoComponent } from '@hr/payroll/payment-info/payment-info.component';
+import { AuthService } from '@services/utils/auth.service';
 
 @Component({
   selector: 'app-employee-profile',
@@ -15,6 +17,7 @@ import { DocumentUploadComponent } from '@sharedWeb/components/blocks/document-u
 })
 export class EmployeeProfileComponent implements OnInit {
 
+  loggedInUser:any;
   employeeDetails: any;
   totalLeaveDays!:number;
   leaveDaysUsed!:number;
@@ -46,6 +49,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
     private utils: UtilityService,
     private modalService: ModalService,
     private hrService: HrService,
@@ -62,6 +66,12 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   getEmployeeDetails() {
+    this.loggedInUser = this.authService.loggedInUser;
+    if(!this.loggedInUser.isSuperAdmin) {
+      this.employeeDetails = this.loggedInUser;
+      this.generateLeaveCharts(this.employeeDetails.leaveAssignment);
+      return
+    }
     const employeeId = this.route.snapshot.params["id"];
     this.hrService.getEmployeeDetails(employeeId).subscribe({
       next: res => {
@@ -141,6 +151,10 @@ export class EmployeeProfileComponent implements OnInit {
     });
   }
 
+  openLeaveApplicationModal() {
+    
+  }
+
   openLeaveAssignmentModal() {
     const modalConfig:any = {
       isExisting: true,
@@ -170,6 +184,26 @@ export class EmployeeProfileComponent implements OnInit {
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
         //this.getEmployeeDetails();
+      }
+    });
+  }
+
+  openPaymentInfoModal() {
+    const modalConfig:any = {
+      isExisting: true,
+      width: '38%',
+      data: {
+        ...this.employeeDetails.paymentInformation[0],
+        profilePhoto: this.employeeDetails.profilePic
+      },
+    }
+    this.modalService.open(
+      PaymentInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.getEmployeeDetails();
       }
     });
   }

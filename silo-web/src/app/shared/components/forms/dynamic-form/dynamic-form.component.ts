@@ -41,7 +41,7 @@ export class DynamicFormComponent implements OnInit {
       if (!this.form.contains(field.controlName)) {
         this.form.addControl(
           field.controlName,
-          this.fb.control(field.initialValue, field.validators || [])
+          this.fb.control(field.controlType === 'date' ? new Date(field.initialValue) : field.initialValue, field.validators || [])
         );
       }
     });

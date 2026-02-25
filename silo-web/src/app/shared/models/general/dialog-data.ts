@@ -5,4 +5,5 @@ export interface ConfirmationDialogData {
     cancelText: string;
     role?:string;
     status?:string;
+    userLocation?:any
 }

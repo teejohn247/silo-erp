@@ -1,6 +1,5 @@
 <div class="content-wrap">
-    <div class="inner-wrap">
-
+    <div *hasRole="['superAdmin']" class="inner-wrap">
         <div class="row-section d-flex justify-content-between" @authPageStagger>
             <div class="row-card anim-item card-xmlg card-ymd welcome-card {{dayStatus}}">
                 <div class="bkg-img" style="background-image: url('assets/img/project/home/{{dayStatus}}.png');"></div>
@@ -315,6 +314,200 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div *hasRole="['manager', 'employee']" class="inner-wrap">
+        <div class="row-section d-flex justify-content-between" @authPageStagger>
+            <div class="row-card anim-item card-xmlg card-ymd welcome-card {{dayStatus}}">
+                <div class="bkg-img" style="background-image: url('assets/img/project/home/{{dayStatus}}.png');"></div>
+                <div class="overlay"></div>
+                <div class="card-content">
+                    <div class="top">
+                        <div class="major text-capitalize">Good {{dayStatus === 'night' ? 'evening' : dayStatus}}, {{loggedInUser.firstName}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></div>
+                    </div>
+                    <div class="btm">
+                        <div class="date">
+                            <span>{{dateTime | date: 'hh:mm a'}}</span>
+                            <span>{{dateTime | date: 'EEE, d MMMM'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-card attendance anim-item card-xmd card-ymd d-flex flex-column justify-content-between">
+                <div class="row-card w-100 card-yxs card-theme-green">
+                    <div (click)="manualCheckAction('checkIn')" class="card-cont d-flex justify-content-center align-items-center">
+                        <div class="icon"><i class="bi bi-door-open"></i></div>
+                        <div class="det">
+                            <div class="title"></div>
+                            <div class="time"><span class="md">Check In</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-card w-100 card-yxs card-theme-red">
+                    <div (click)="manualCheckAction('checkOut')" class="card-cont d-flex justify-content-center align-items-center">
+                        <div class="icon"><i class="bi bi-door-closed"></i></div>
+                        <div class="det">
+                            <div class="title"></div>
+                            <div class="time"><span class="md">Check Out</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-3" @authPageStagger>
+            <div class="col-card anim-item card-xmlg h-auto d-flex justify-content-between">
+                <div class="row-card anim-item card-xmmd card-ymd">
+                    <div class="card-cont">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title sm color-theme-primary">Upcoming Meetings</div>
+                        </div>
+                        <div class="btm">
+                            <app-no-data 
+                                [height]="'11rem'"
+                                [message]="'You have no meetings today'" 
+                                [imageUrl]="'assets/img/project/illustrations/calendar.webp'" 
+                                [messageFontSize]="'1rem'"
+                            ></app-no-data>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-card anim-item card-xmmd card-ymd">
+                    <div class="card-cont">
+                        <div class="top d-flex align-items-end">
+                            <div class="card-title sm color-theme-red">Notice Board</div>
+                        </div>
+                        <div class="btm mt-2">
+                            <div class="listed-items">
+                                <div *ngFor="let notice of announcements | slice:0:2" class="item">
+                                    <!-- <div class="icon"><i class="bi bi-rocket-takeoff"></i></div> -->
+                                    <div class="content">
+                                        <div class="det">
+                                            <div class="minor">{{notice.timestamp | timeDuration}}</div>
+                                            <div class="major lg">{{notice.message}}</div>
+                                        </div>
+                                        <!-- <div class="det">
+                                            <div class="status sm approved">Approved</div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-card anim-item card-xmd card-ymd d-flex flex-column justify-content-between">
+                <div class="row-card map card-theme-primary w-100 h-100">
+                    <div class="google_map_container">
+                        <!-- the google map component goes here -->
+                        <google-map [zoom]="mapZoom" [center]="mapCenter" [options]="mapOptions">
+                            <map-marker
+                                #marker="mapMarker"
+                                [position]="mapCenter"
+                                [options]="markerOptions"
+                            >
+                            </map-marker>
+                        </google-map>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-3" @authPageStagger>
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Recent Approval Requests</div>
+                    </div>
+                    <div class="btm">
+                        <app-no-data 
+                            class="mt-2" 
+                            [height]="'16rem'"
+                            [message]="'You have no requests at the moment'" 
+                            [imageUrl]="'assets/img/project/illustrations/entity.png'" 
+                            [messageFontSize]="'1rem'"
+                        ></app-no-data>
+                    </div>
+                </div>
+            </div>
+            <div class="row-card anim-item card-xmd card-ylg">
+                <div *ngIf="loggedInUser" class="card-cont d-flex flex-column justify-content-center align-items-center position-relative">
+                    <div class="chart-wrap">
+                        <app-pie-chart
+                            [chartSize]="[280, 280]"
+                            [chartData]="leaveChartTotalView ? totalChartData : chartData"
+                            [colorScheme]="chartColorScheme"
+                            [doughnut]="true"
+                        ></app-pie-chart>
+
+                        <div class="chart-info">
+                            <span>Leave Summary</span>
+                            <span>{{leaveDaysUsed}} of {{totalLeaveDays}} days</span>
+                            <button (click)="leaveChartTotalView = !leaveChartTotalView">{{leaveChartTotalView ? 'View Breakdown' : 'View Total'}}</button>
+                        </div>
+                    </div>
+
+                    <ul class="chart-legend d-flex justify-content-center">
+                        <ng-container *ngIf="!leaveChartTotalView">
+                            <li *ngFor="let item of chartData; let i = index"> 
+                                <span class="code" [style.background]="chartColorScheme['domain'][i]"></span>{{item.name}}
+                            </li>
+                        </ng-container>
+                        <ng-container *ngIf="leaveChartTotalView">
+                            <li *ngFor="let item of totalChartData; let i = index"> 
+                                <span class="code" [style.background]="chartColorScheme['domain'][i]"></span>{{item.name}}
+                            </li>
+                        </ng-container>
+                    </ul>
+
+                    <button (click)="openLeaveApplicationModal()" class="card-action cta cta-primary xs">Apply for Leave</button>
+                </div>
+            </div>
+
+            <div class="row-card anim-item card-xsm card-ylg">
+                <div class="card-cont">
+                    <div class="trigger-card">
+                        <div class="triggers rd">
+                            <div (click)="cardTriggerVal = 'birthdays'" [class.active]="cardTriggerVal == 'birthdays'" class="trigger card-xmmd">Birthdays</div>
+                            <div (click)="cardTriggerVal = 'work'" [class.active]="cardTriggerVal != 'birthdays'" class="trigger card-xmmd">Work Anniversaries</div>
+                        </div>
+                        <div class="card-details">
+                            <div *ngIf="cardTriggerVal == 'birthdays'" class="listed-items mt-lg-3">
+                                <div *ngFor="let employee of birthdays | slice:0:5; let i = index" class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-3">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="major bd">{{employee?.dateOfBirth | date : 'd MMMM'}}</div>
+                                                <div class="minor">{{employee.fullName}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="cardTriggerVal != 'birthdays'" class="listed-items mt-lg-3">
+                                <div *ngFor="let employee of workAnniversaries | slice:0:5; let i = index" class="item">
+                                    <div *ngIf="employee?.employmentStartDate" class="content">
+                                        <div class="det d-flex align-items-end gap-3">
+                                            <div class="image rd bkg-standard" style="background-image: url('{{employee.profilePic}}');"></div>
+                                            <div class="info">
+                                                <div class="major bd">{{employee.fullName}}</div>
+                                                <div class="minor">{{employee?.employmentStartDate | date : 'd MMMM'}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <!-- <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

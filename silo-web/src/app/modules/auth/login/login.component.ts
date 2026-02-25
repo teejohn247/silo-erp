@@ -451,7 +451,7 @@ export class LoginComponent implements OnInit {
               }
               else {
                 this.isLoading = false
-                this.loggedInUser.onboardingProgress.isComplete ? this.router.navigate(['app/hr/dashboard']) : this.router.navigate(['/onboarding']);
+                res.onboardingCompleted ? this.router.navigate(['app/hr/dashboard']) : this.router.navigate(['/onboarding']);
               }
             }
             

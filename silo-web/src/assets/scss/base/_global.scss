@@ -231,6 +231,15 @@ a {
       }
     }
 
+    &.card-theme-primary {
+      background: var(--primary-lightest);
+      border: 1px solid var(--primary-light);
+
+      .card-icon {
+        background: var(--primary-light);
+      }
+    }
+
     &.card-theme-orange {
       background: var(--orange-theme-lightest);
       border: 1px solid var(--orange-theme-light);

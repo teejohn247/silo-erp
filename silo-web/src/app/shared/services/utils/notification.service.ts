@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { WorkLocationComponent } from '@hr/attendance/work-location/work-location.component';
 import { ConfirmationModalComponent } from '@modals/confirmation-modal/confirmation-modal.component';
 import { ConfirmationDialogData } from '@models/general/dialog-data';
 import { ToastrService } from 'ngx-toastr';
@@ -59,6 +60,18 @@ export class NotificationService {
       {
         data,
         width: '35%',
+        height: 'auto',
+        disableClose: true,
+      }
+    ).afterClosed();
+  }
+
+  confirmCheckIn(data: ConfirmationDialogData): Observable<boolean> {
+    return this.dialog.open(
+      WorkLocationComponent, 
+      {
+        data,
+        width: '60%',
         height: 'auto',
         disableClose: true,
       }

@@ -28,16 +28,17 @@ export class HeaderComponent implements OnInit {
     if(this.userDetails.isSuperAdmin) {
       this.userName = this.userDetails.companyName;
       this.userRole = 'Super Admin';
-      console.log('Logged In User', this.userDetails)
+      console.log('Logged In User', this.userDetails);
     }
-    else if(this.userDetails.data.email == 'siloerp@silo-inc.com') {
+    else if(this.userDetails.email == 'siloerp@silo-inc.com') {
       this.userName = this.userDetails.data.companyName;
       this.userRole = 'Silo Admin';
     }
     else {
-      this.userName = this.userDetails.data.fullName;
-      this.userRole = this.userDetails.data.companyRole;
-      this.profilePhoto = this.userDetails.data.profilePic;
+      this.userName = this.userDetails.fullName;
+      this.userRole = this.userDetails.companyRole;
+      this.profilePhoto = this.userDetails.profilePic;
+      console.log('profile photo', this.profilePhoto)
     }
   }
 

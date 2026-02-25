@@ -1,0 +1,23 @@
+<div class="card-wrap">
+    <div class="inner-wrap">
+        <div class="card-title">{{data.title}}</div>
+        <div class="card-map w-100">
+            <!-- the google map component goes here -->
+            <google-map [zoom]="mapZoom" [center]="mapCenter" [options]="mapOptions">
+                <map-marker
+                  #marker="mapMarker"
+                  [position]="mapCenter"
+                  [options]="markerOptions"
+                >
+                </map-marker>
+            </google-map>
+        </div>
+        <div class="card-details">
+            <p>{{data.message}}</p>
+        </div>
+        <div class="btn-actions">
+            <div [mat-dialog-close]="false" class="cta cta-trans md">{{data.cancelText}}</div>
+            <div [mat-dialog-close]="true" class="cta cta-primary md">{{data.confirmText}}</div>
+        </div>
+    </div>
+</div>

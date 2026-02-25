@@ -1,0 +1,61 @@
+.card-wrap {
+    width: 95%;
+    height: auto;
+    margin: auto;
+    padding: 1.8rem 1.2rem;
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+    //box-shadow: 0 0 4px 4px rgb(224 224 224 / 30%);
+    background: var(--darker);
+  
+    .card-title {
+        font-size: 1.3rem;
+        color: var(--warning);
+        font-family: var(--font-medium);
+        margin-bottom: 2vh;
+        letter-spacing: 0.04rem;
+    }
+
+    .card-map {
+        outline: none;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--primary-light) !important;
+        box-shadow: var(--card-shadow) !important;
+    }
+  
+    .card-details {
+        margin: 2vh 0 4vh;
+        color: var();
+  
+        p {
+            font-size: 0.85rem;
+            font-family: var(--font-regular);
+            line-height: 1.5;
+            letter-spacing: 0.04rem;
+        }
+    }
+  
+    .btn-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+}
+
+
+::ng-deep .mat-dialog-container {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+::ng-deep {
+
+    .card-map {
+
+        .map-container {
+            width: 100% !important;
+            height: 250px !important;
+            border-radius: var(--radius-sm) !important;
+        }
+    }
+}

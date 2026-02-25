@@ -1,14 +1,14 @@
 <div class="content-wrap">
     <div class="inner-wrap">
         <div class="row-section d-flex justify-content-between align-items-center">
-            <div class="page-header"><span (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> Employee Information</div>
+            <div class="page-header"><span *hasRole="['superAdmin']" (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> Employee Information</div>
             <div class="main-actions d-flex justify-content-start align-items-center">
-                <div *ngIf="employeeDetails" (click)="openEmployeeModal(employeeDetails)" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Edit Employee</div>
+                <div *ngIf="employeeDetails" (click)="openEmployeeModal(employeeDetails)" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> {{employeeDetails.isSuperAdmin ? 'Edit Employee' : 'Edit Information'}}</div>
             </div>
         </div>
 
         <div class="row-section d-flex justify-content-between mt-4">
-            <div class="row-card anim-item card-theme-green card-xsm card-ylg">
+            <div class="row-card anim-item card-xsm card-ylg">
                 <div *ngIf="employeeDetails" class="card-cont px-0 py-0 overflow-hidden">
                     <div class="top h-100 bkg d-flex flex-column align-items-center gap-3 px-2 py-3">
                         <div class="img-wrap">
@@ -96,7 +96,8 @@
                         </ng-container>
                     </ul>
 
-                    <button (click)="openLeaveAssignmentModal()" class="card-action cta cta-primary xs">Assign Leave</button>
+                    <button *hasRole="['superAdmin']" (click)="openLeaveAssignmentModal()" class="card-action cta cta-primary xs">Assign Leave</button>
+                    <button *hasRole="['manager', 'employee']" (click)="openLeaveApplicationModal()" class="card-action cta cta-primary xs">Apply for Leave</button>
                 </div>
             </div>
 
@@ -175,7 +176,7 @@
         </div>
 
         <div class="row-section d-flex justify-content-between mt-3">
-            <div class="row-card anim-item card-xmd card-ymd">
+            <div class="row-card anim-item card-xsm card-ymd">
                 <div class="card-cont d-flex flex-column">
                     <div class="top d-flex flex-column">
                         <div class="card-title sm color-theme-primary">Department Info</div>
@@ -211,9 +212,50 @@
                 </div>
             </div>
 
-            <div class="row-card anim-item card-xmd card-ymd"></div>
+            <div class="row-card anim-item card-xmd card-ymd">
+                <div class="card-cont position-relative">
+                    <button (click)="openPaymentInfoModal()" class="card-action cta cta-primary xs">Update Info</button>
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Payroll Info</div>
+                    </div>
+                    <div class="listed-items w-100 mt-3">
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Salary Scale:</div>
+                                    <div class="minor">{{employeeDetails?.salaryScale || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Bank Name:</div>
+                                    <div class="minor">{{employeeDetails?.paymentInformation[0]?.bankName || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Account No:</div>
+                                    <div class="minor">{{employeeDetails?.paymentInformation[0]?.accountNumber || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Tax Identification No:</div>
+                                    <div class="minor">{{employeeDetails?.paymentInformation[0]?.taxIdentificationNumber || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <div class="row-card anim-item card-xsm card-ymd">
+            <div class="row-card anim-item card-xmd card-ymd">
                 <div class="card-cont position-relative">
                     <div class="top d-flex align-items-end">
                         <div class="card-title sm color-theme-primary">Employee Documents</div>
@@ -231,7 +273,7 @@
                                         <div class="major">{{item.name}}</div>
                                         <div class="minor sm">{{item.uploadDate | date: 'mediumDate'}}</div>
                                     </div>
-                                    <div class="det">
+                                    <div class="det color-theme-blue">
                                         <app-icon [iconName]="'view'" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
                                     </div>
                                 </div>

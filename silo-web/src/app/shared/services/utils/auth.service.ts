@@ -13,6 +13,10 @@ export class AuthService {
   public readonly TOKEN_NAME = 'userToken';
   public _isLoggedin$ = new BehaviorSubject<boolean>(false);
   public isLoggedIn = this._isLoggedin$.asObservable();
+  private userRoles: string[] = [];
+  private userPermissions: string[] = [];
+  private rolesSubject = new BehaviorSubject<string[]>([]);
+  roles$ = this.rolesSubject.asObservable();
   
   constructor(
     private http: HttpClient,
@@ -53,6 +57,25 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}/setPassword`, payload);
   }
 
+  public setUserRolesPermissions(user:any) {
+    if (user) {
+      this.setUserContext({
+        //role: user.roles,
+        role: user.isSuperAdmin ? ['superAdmin'] : user.isManager ? ['manager'] : ['employee'],
+        permissions: this.userPermissions
+      });
+    }
+  }
+
+  /** Set user context once (e.g. after login) */
+  setUserContext(user: { role: string | string[], permissions?: string[] }) {
+    this.userRoles = Array.isArray(user.role) ? user.role : [user.role];
+    this.userPermissions = user.permissions ?? [];
+    this.rolesSubject.next(this.userRoles); // notify subscribers
+    //console.log('User Roles', this.userRoles);
+    sessionStorage.setItem('userRoles', JSON.stringify(this.userRoles));
+  }
+
   public login(payload:any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/signin`, payload).pipe(
       tap((res: any) => {
@@ -61,6 +84,7 @@ export class AuthService {
         sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
         sessionStorage.setItem('userCheckedIn', JSON.stringify(false));
         sessionStorage.setItem('currency', JSON.stringify('$'));
+        this.setUserRolesPermissions(res.data);
       })
     );
   }
@@ -70,10 +94,10 @@ export class AuthService {
     sessionStorage.removeItem('loggedInUser');
     sessionStorage.clear();
     this.router.navigate([`../login`]);
-    // sessionStorage.clear();
+    sessionStorage.clear();
     // localStorage.clear();
-    setTimeout(()=> {
-      window.location.reload();
-    }, 800)
+    // setTimeout(()=> {
+    //   window.location.reload();
+    // }, 800)
   }
 }

@@ -6,6 +6,7 @@ export const navMenuData: MenuItem[] = [
         icon: 'usersRound',
         label: 'Human Resources',
         mobileLabel: 'HR Module',
+        roles: ['superAdmin'],
         subMenu: [
             { 
                 routeLink: 'hr/dashboard', 
@@ -19,14 +20,14 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin']
             },
             { 
-                routeLink: 'hr/self-service/overview', 
-                icon: 'bi bi-person lg', 
+                routeLink: 'hr/profile', 
+                icon: 'user', 
                 label: 'Profile',
                 roles: ['manager', 'employee'] 
             },
             { 
-                routeLink: 'hr/self-service/leave-requests', 
-                icon: 'bi bi-person-fill', 
+                routeLink: 'hr/leave-requests', 
+                icon: 'palmTree', 
                 label: 'Leave Requests',
                 roles: ['manager', 'employee'] 
             },
@@ -43,8 +44,8 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin'] 
             },
             { 
-                routeLink: 'hr/self-service/payroll', 
-                icon: 'bi bi-layers-fill', 
+                routeLink: 'hr/user-payroll', 
+                icon: 'layers', 
                 label: 'Payroll',
                 roles: ['manager', 'employee']
             },
@@ -55,8 +56,8 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin', 'manager'] 
             },
             { 
-                routeLink: 'hr/self-service/expense', 
-                icon: 'bi bi-person-fill', 
+                routeLink: 'hr/user-expense', 
+                icon: 'bankNoteDown', 
                 label: 'Expense Requests', 
                 roles: ['manager', 'employee']
             },
@@ -67,8 +68,8 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin', 'manager'] 
             },
             { 
-                routeLink: 'hr/self-service/appraisals', 
-                icon: 'bi bi-journal-x', 
+                routeLink: 'hr/user-appraisal', 
+                icon: 'userShield', 
                 label: 'Appraisal Requests',
                 roles: ['manager', 'employee'] 
             },

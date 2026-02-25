@@ -81,7 +81,7 @@
                 <!-- File Upload -->
                 <app-file-upload
                     *ngSwitchCase="'file'"
-                    class="w-100 mb-4"
+                    class="w-100 mb-2"
                     [formControlName]="field.controlName"
                     mode="file"
                 ></app-file-upload>
@@ -98,7 +98,7 @@
     </div>
 
     <!-- BUTTON SECTION -->
-    <div class="btn-hld w-100 d-flex gap-2">
+    <div class="btn-hld w-100 d-flex gap-2 mt-3">
 
         <!-- ✅ If buttons were passed -->
         <ng-container *ngIf="buttons?.length; else defaultButton">

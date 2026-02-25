@@ -1,3 +1,4 @@
+@import 'src/assets/scss/helpers/mixins';
 
 .welcome-card {
     position: relative;
@@ -138,4 +139,99 @@
     //         display: none;
     //     }
     // }
+}
+
+.map {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+
+    .google_map_container {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        height: auto;
+        width: unset;
+
+        @include screen-media-max(md) {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: unset;
+            left: unset;
+            transform: none;
+        }
+    }
+}
+
+.attendance {
+
+    .card-cont {
+        cursor: pointer;
+
+        .icon {
+            font-size: 3.2rem;
+            color: var(--black-tint);
+        }
+        
+        .det {
+            margin-left: 1.5rem;
+
+            .title {
+                font-size: 0.85rem;
+                font-family: var(--font-medium);
+                text-transform: uppercase;
+            }
+
+            .time {
+                font-size: 1.2rem;
+                font-family: var(--font-medium);
+                letter-spacing: 0.03rem;
+            }
+        }
+
+
+    }
+}
+
+ .chart-wrap {
+    position: relative;
+
+    .chart-info {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        margin-top: 0.5rem;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        gap: 0.3rem;
+
+        span {
+            line-height: 1;
+            text-align: center;
+            letter-spacing: 0.04rem;
+            font-family: var(--font-regular);
+
+            &:first-child {
+                font-size: 1rem;
+                font-family: var(--font-medium);
+            }
+
+            &:nth-child(2) {
+                font-size: 0.75rem;
+            }
+        }
+
+        button {
+            font-size: 0.75rem;
+            letter-spacing: 0.04rem;
+            font-family: var(--font-regular);
+            color: var(--primary);
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+    }
 }
