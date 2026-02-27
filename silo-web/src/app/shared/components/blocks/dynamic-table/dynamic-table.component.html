@@ -19,14 +19,25 @@
             Filter <app-icon [iconName]="'listFilter'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
         </button>
 
-        <ng-container *ngIf="selectedRows.size > 0">
+        <div *ngIf="bulkActions.length" class="bulk-actions d-flex justify-content-between align-items-center">
+            <div [matMenuTriggerFor]="bulkOptions" xPosition="before" yPosition="below" class="dropdown-trigger w-100"> Bulk Actions <i class="bi bi-chevron-down"></i></div>
+            <mat-menu #bulkOptions="matMenu" class="more">
+                <button class="d-flex align-items-center justify-content-between gap-2" mat-menu-item *ngFor="let action of bulkActions" (click)="onBulk(action.action)">
+                    <app-icon *ngIf="action.icon" [iconName]="action.icon" [iconStrokeWidth]="2" [iconWidth]="15" [iconHeight]="15"></app-icon>
+                    <span>{{ action.label }}</span>
+                </button>
+            </mat-menu>
+        </div>
+
+        <!-- <ng-container *ngIf="selectedRows.size > 0">
+            
             <button
                 *ngFor="let action of bulkActions"
                 (click)="onBulk(action.action)"
             >
                 {{ action.label }}
             </button>
-        </ng-container>
+        </ng-container> -->
     </div>
 
     <!-- FILTER -->
@@ -93,8 +104,14 @@
                                 {{ row[col.key] | date: 'mediumDate' }}
                             </span>
 
+                            <!-- DATE TIME -->
                             <span *ngSwitchCase="'datetime'">
-                                {{ row[col.key] | date: 'medium' }}
+                                {{ row[col.key] | date: 'dd/MM/yyyy, h:mm a' }}
+                            </span>
+
+                            <!-- AMOUNT -->
+                            <span *ngSwitchCase="'amount'">
+                                {{ row[col.key] | localeString }}
                             </span>
 
                             <!-- IMAGE CELL -->
@@ -117,7 +134,7 @@
 
                             <!-- ACTIONS CELL -->
                             <ng-container *ngSwitchCase="'actions'" [style.width]="col.columnWidth">
-                                <ng-container *ngFor="let act of col.actions">
+                                <!-- <ng-container *ngFor="let act of col.actions">
                                     <button 
                                         type="button" 
                                         class="action-btn"
@@ -127,6 +144,47 @@
                                     >
                                         <app-icon [iconName]="act.icon" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
                                     </button>
+                                </ng-container> -->
+
+                                <!-- INLINE BUTTONS -->
+                                <ng-container *ngFor="let act of col.actions">
+                                    <button 
+                                        type="button" 
+                                        class="action-btn"
+                                        title="{{ act.tooltip }}"
+                                        [style.color]="act.color"
+                                        (click)="act.callback(row); $event.stopPropagation()"
+                                    >
+                                        <app-icon
+                                            [iconName]="act.icon"
+                                            [iconStrokeWidth]="2"
+                                            [iconWidth]="18"
+                                            [iconHeight]="18">
+                                        </app-icon>
+                                    </button>
+                                </ng-container>
+
+                                <!-- KEBAB MENU -->
+                                <ng-container *ngIf="col.menuActions?.length">
+                                    <button
+                                        [matMenuTriggerFor]="menu"
+                                        (click)="$event.stopPropagation()"
+                                        class="action-btn"
+                                        type="button" 
+                                        style="color: var(--primary); pointer-events: all;"
+                                    >
+                                        <app-icon [iconName]="'kebab'" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
+                                    </button>
+
+                                    <mat-menu #menu="matMenu">
+                                        <div class="action-menu">
+                                            <button class="d-flex align-items-center gap-2" mat-menu-item *ngFor="let menuAct of col.menuActions" (click)="handleActionClick(menuAct, row, $event)" [style.color]="menuAct.color">
+                                                <!-- <mat-icon *ngIf="menuAct.icon">{{ menuAct.icon }}</mat-icon> -->
+                                                <app-icon *ngIf="menuAct.icon" [iconName]="menuAct.icon" [iconStrokeWidth]="2" [iconWidth]="15" [iconHeight]="15"></app-icon>
+                                                <span>{{ menuAct.label }}</span>
+                                            </button>
+                                        </div>
+                                    </mat-menu>
                                 </ng-container>
                             </ng-container>
 

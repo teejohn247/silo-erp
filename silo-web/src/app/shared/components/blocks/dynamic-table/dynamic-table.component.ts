@@ -24,7 +24,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() showCheckbox = false;
   @Input() emptyDataImage:string = '';
   @Input() emptyDataMessage:string = 'No records exist';
-  @Input() bulkActions: { label: string; action: string }[] = [];
+  @Input() bulkActions: { label: string; action: string; icon: any }[] = [];
   @Input() statusConfig: { [key: string]: { label: string; class: string } } = {
     pending: { label: 'Pending', class: 'table-status status-pending' },
     active: { label: 'Active', class: 'table-status status-active' },
@@ -38,6 +38,7 @@ export class DynamicTableComponent implements OnInit {
   @Output() filterChange = new EventEmitter<any>();
   @Output() searchChange = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>();
+  @Output() actionClick = new EventEmitter<{action: string; row: any;}>();
 
   selectedRows = new Set<any>();
   showFilter = false;
@@ -100,6 +101,23 @@ export class DynamicTableComponent implements OnInit {
   handleCellClick(row: any, col: any, event: Event) {
     this.cellClick.emit({ row, column: col });
     event.stopPropagation();
+  }
+
+  handleActionClick(action: any, row: any, event: Event) {
+    event.stopPropagation();
+
+    // If callback exists → execute
+    if (action.callback) {
+      action.callback(row);
+    }
+
+    // If using actionKey → emit to parent
+    if (action.actionKey) {
+      this.actionClick.emit({
+        action: action.actionKey,
+        row
+      });
+    }
   }
 
   getStatusKey(row: any, col: TableColumn): string {

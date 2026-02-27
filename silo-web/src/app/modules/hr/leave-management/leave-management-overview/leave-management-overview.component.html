@@ -1,1 +1,96 @@
-<p>leave-management-overview works!</p>
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Leave Management</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <!-- <div *ngIf="employeeDetails" (click)="openEmployeeModal(employeeDetails)" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> {{employeeDetails.isSuperAdmin ? 'Edit Employee' : 'Edit Information'}}</div> -->
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card card-xmlg">
+                <div class="card-cont position-relative">
+                    <div class="matrix-container">
+                        <div class="vertical-label">Days Used</div>
+                        <div class="summary-wrap">
+                            <div *ngFor="let item of leaveRequestMatrix" class="summary-hld">
+                                <div class="row-label">{{item.label}} <span>Days</span></div>
+                                <div class="row-details">
+                                    <div class="stacked-items lg ms-lg-4">
+                                        <div class="stack">
+                                            <span *ngFor="let staff of item.staff" style="background-image: url('../../../../../assets/images/illustrations/{{staff.image}}');"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                            <mat-label>Select Year</mat-label>
+                            <mat-select
+                                class="selectField"
+                                disableOptionCentering
+                                panelClass="compact-dropdown"
+                                [(ngModel)]="chartYear"
+                                style="font-size: 0.7rem;"
+                            >
+                                <mat-option *ngFor="let option of chartYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xmd">
+                <div class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Approved Leave Requests</div>
+                    </div>
+                    <div class="listed-items mt-lg-3">
+                        <div *ngIf="approvedRequests?.length == 0" class="item w-100 justify-content-center">
+                            <app-no-data 
+                                [height]="'15rem'"
+                                [message]="'There are no approved leave requests'" 
+                                [imageUrl]="'assets/img/project/illustrations/calendar.webp'" 
+                                [messageFontSize]="'1rem'"
+                            ></app-no-data>
+                        </div>
+
+                        <div *ngFor="let request of approvedRequests | slice:0:5;" class="item">
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major bd">{{request.fullName}}</div>
+                                    <div class="minor">{{request.department}}</div>
+                                </div>
+                                <div class="det right">
+                                    <div class="major">{{ request.leaveStartDate | date: 'MMM d'}} - {{ request.leaveEndDate | date: 'MMM d'}}</div>
+                                    <!-- <div class="minor sm">Apr 20 -28</div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="requestedApprovals"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No leave requests were found.'"
+                [emptyDataImage]="'assets/img/project/illustrations/stopwatch.webp'"
+                (rowClick)="openApprovalModal($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

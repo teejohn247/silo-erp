@@ -9,6 +9,7 @@ export interface IPaging {
 export type TableCellType =
     | 'text'
     | 'number'
+    | 'amount'
     | 'currency'
     | 'date'
     | 'datetime'
@@ -33,6 +34,16 @@ export interface TableColumn {
     sortable?:boolean;
     statusMap?: { [key: string]: string };
     actions?: any
+    menuActions?: TableAction[];
+}
+
+export interface TableAction {
+    icon?: any;
+    label?: string;
+    tooltip?: string;
+    color?: string;
+    callback?: (row: any) => void;
+    actionKey?: string; // optional if you want to emit instead of callback
 }
 
 export type FilterType = 'select' | 'multiselect' | 'date' | 'daterange' | 'text'; 

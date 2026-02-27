@@ -1,0 +1,53 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Leave Requests & History</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openLeaveModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'calendarRange'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Leave Application</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex flex-wrap gap-3 mt-4">
+            <div *ngFor="let item of leaveBreakdown" class="row-card leave-card">
+                <div class="card-cont d-flex flex-column flex-wrap justify-content-between">
+                    <div class="card-det d-flex align-items-center">
+                        <!-- <span class="icon">
+                            <app-icon [iconName]="'calendarDays'" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </span> -->
+                        <div class="card-title color-theme-primary">{{item.name}}</div>
+                    </div>
+
+                    <div class="card-det">
+                        <div class="w-100 d-flex align-items-end justify-content-between px-2">
+                            <span class="bar-percent px-0 py-0" style="line-height: 1;">Days Used</span>
+                            <div class="fraction"><span>{{item.daysUsed}}</span>/{{item.totalDays}}</div>
+                        </div>
+                        <div class="progress-bar mt-2">
+                            <div 
+                                class="bar-fill" 
+                                [ngStyle]="{'width.%': item.daysUsed/item.totalDays * 100}" 
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="leaveRecords"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No leave requests were found.'"
+                [emptyDataImage]="'assets/img/project/illustrations/stopwatch.webp'"
+                (rowClick)="openLeaveModal($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

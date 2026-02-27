@@ -1,0 +1,27 @@
+<div class="row-section d-flex justify-content-between align-items-center mt-2">
+    <div class="page-header">Attendance</div>
+    <!-- <div class="main-actions d-flex justify-content-start align-items-center">
+        <div class="cta cta-primary icon lg"><i class="bi bi-hdd-fill"></i>Save Changes</div>
+    </div> -->
+</div>
+
+<div class="row-section mt-3">
+    <date-scroll-selection [selectedDate]="selectedDate" (dateSelected)="onDateChange($event)"></date-scroll-selection>
+</div>
+
+<div class="row-section mt-4">
+    <app-dynamic-table
+        [columns]="tableColumns"
+        [showCheckbox]="true"
+        [data]="tableData"
+        [paging]="paging"
+        [filters]="tableFilters"
+        [loading]="isLoading"
+        [emptyDataMessage]="'No attendance records found for selected date.'"
+        [emptyDataImage]="'assets/img/project/illustrations/user.webp'"
+        (pagingChange)="onPagingChange($event)"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (selectionChange)="onSelectionChange($event)"
+    ></app-dynamic-table>
+</div>

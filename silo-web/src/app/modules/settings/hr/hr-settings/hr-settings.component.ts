@@ -20,6 +20,7 @@ export class HrSettingsComponent implements OnInit {
   form!: FormGroup;
   accordionItems: any[] = [];
   activeTab:number = -1;
+  employees:any[] = [];
 
   constructor(
     private modalService: ModalService,
@@ -28,6 +29,8 @@ export class HrSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.hrService.getEmployees(1, 100).subscribe(res => this.employees = res.data);
 
     this.accordionItems = [
       {
@@ -150,6 +153,7 @@ export class HrSettingsComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '35%',
       data: modalData,
+      employees: this.employees
     }
     if(this.form.value.department) modalConfig['name'] = this.form.value.department;
     this.modalService.open(

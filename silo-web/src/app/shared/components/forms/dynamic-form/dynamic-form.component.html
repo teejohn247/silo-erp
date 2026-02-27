@@ -5,7 +5,7 @@
                 <!-- Text Input -->
                 <mat-form-field *ngSwitchCase="'text'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
                     <mat-label>{{ field.controlLabel }}</mat-label>
-                    <input matInput [formControlName]="field.controlName">
+                    <input matInput [formControlName]="field.controlName" [readonly]="field.readonly">
                     <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
                     <mat-error *ngIf="form.get(field.controlName)?.hasError('email')">Please enter a valid email</mat-error>
                 </mat-form-field>

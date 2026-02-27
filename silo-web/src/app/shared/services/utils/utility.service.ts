@@ -106,6 +106,33 @@ export class UtilityService {
     return reqObj;
   }
 
+  /** Helper: format date as yyyy-MM-dd */
+  formatDate(d: Date): string {
+    // Use local date portion only
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  /** Returns a yyyy-MM-dd date range covering today and the next day */
+  buildDayRange(date: Date): { startDate: string; endDate: string } {
+
+    // Start = today 00:00
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+
+    // End = next day 23:59:59
+    const end = new Date(date);
+    end.setDate(end.getDate() + 1); // ✅ add 1 day
+    end.setHours(23, 59, 59, 999);
+
+    return {
+      startDate: this.formatDate(start),
+      endDate: this.formatDate(end)
+    };
+  }
+
   createCountryOptions(): Record<string, string> {
     const reqObj = Countries.reduce<Record<string, string>>((agg, item) => {
       agg[item.label] = item.label;
@@ -172,6 +199,16 @@ export class UtilityService {
       return this.distanceToString(distance);
     }
     return '--';
+  }
+
+  generateYearOptions(currentYear:any) {
+    const chartYearOptions:any = {};
+    for (let i = 0; i < 5; i++) {
+      const year = currentYear - i;
+      chartYearOptions[year] = year.toString();
+    }
+
+    return chartYearOptions;
   }
 
 }

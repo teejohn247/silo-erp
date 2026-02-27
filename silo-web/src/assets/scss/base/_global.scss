@@ -462,6 +462,21 @@ a {
   }
 }
 
+//Progress bar Styling
+.progress-bar {
+  width: 100%;
+  height: 0.6rem;
+  overflow: hidden;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-lg);
+
+  .bar-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+  }
+}
+
 //ITEMS IN LIST FORMAT IN CARDS
 .listed-items {
 
@@ -635,6 +650,7 @@ a {
   letter-spacing: 0.03rem !important;
   fill: var(--text-dark-4) !important;
   letter-spacing: 0.02rem !important;
+  font-family: var(--font-regular);
 }
 
 .ngx-charts-tooltip-content {
@@ -748,4 +764,44 @@ a {
   .mat-mdc-option-pseudo-checkbox {
     transform: scale(0.7); /* default is 1 */
   }
+}
+
+.mat-mdc-menu-content {
+  padding: 0 !important;
+
+  .mat-mdc-menu-item {
+    min-height: 39px !important;
+  }
+
+  .mat-mdc-menu-item-text {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.03rem !important;
+    font-family: var(--font-medium) !important;
+    gap: 0.7rem !important;
+  }
+}
+
+//NGX TIMEPICKER
+.timepicker {
+  overflow: hidden !important;
+  border-radius: 0.4rem !important;
+}
+
+.timepicker-backdrop-overlay,
+.timepicker-overlay {
+  z-index: 1005 !important;
+}
+
+.timepicker-button {
+  color: var(--primary) !important;
+}   
+.timepicker__header,
+.clock-face__number > span.active,
+.clock-face__clock-hand {
+  background-color: var(--primary) !important;
+}
+.clock-face__clock-hand_minute {
+  border-color: var(--primary) !important;
 }

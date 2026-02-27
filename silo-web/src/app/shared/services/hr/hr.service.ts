@@ -27,6 +27,25 @@ export class HrService {
     private authService: AuthService
   ) {}
 
+  public getPagedData$(
+    endpoint: string,
+    pageNo?: number,
+    pageSize?: number,
+    searchParam?: string,
+    filters?: any
+  ): Observable<any> {
+    // Build query params
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 };
+    if (searchParam) params['search'] = searchParam;
+    Object.assign(params, filters || {});
+
+    // Build full URL
+    const url = buildUrlWithParams(`${endpoint}`, params);
+
+    // Return Observable from HTTP GET
+    return this.http.get<any>(url, this.requestOptions);
+  }
+
   /*************** ONBOARDING RELATED ACTIONS ***************/
 
   //Save company details
@@ -72,13 +91,20 @@ export class HrService {
     return this.http.post<any>(`${this.baseUrl}/uploadBulkEmployees`, file, this.requestOptions);
   }
 
+  //Resend invite
+  public resendEmployeeInvite(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/employee/resend-invite`, payload, this.requestOptions);
+  }
+
   //Get the list of all employees
   public getEmployees(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
-    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
-    if (searchParam) params['search'] = searchParam; 
-    Object.assign(params, filters || {});
-    const url = buildUrlWithParams(`${this.baseUrl}/fetchEmployees`, params);
-    return this.http.get<any>(url, this.requestOptions);
+    const url = `${this.baseUrl}/fetchEmployees`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+    // const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
+    // if (searchParam) params['search'] = searchParam; 
+    // Object.assign(params, filters || {});
+    // const url = buildUrlWithParams(`${this.baseUrl}/fetchEmployees`, params);
+    // return this.http.get<any>(url, this.requestOptions);
   }
 
   //Get an employee details
@@ -183,6 +209,52 @@ export class HrService {
     return this.http.delete<any>(`${this.baseUrl}/deleteLeave/${leaveId}`, this.requestOptions);
   }
 
+  /*************** LEAVE APPLICATIONS RELATED ACTIONS ***************/
+
+  //Create a new leave request
+  public createLeaveRequest(leaveDetails: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/leaveApplication`, leaveDetails, this.requestOptions);
+  }
+
+  //Update Leave Request
+  public updateLeaveRequest(data: any, leaveId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateLeaveApplication/${leaveId}`, data, this.requestOptions);
+  }
+
+  //Delete leave request
+  public deleteLeaveRequest(leaveId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteLeaveApplication/${leaveId}`, this.requestOptions);
+  }
+
+  //Get the list of all leave applications
+  public getLeaveRequests(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/getLeaveRecords`, this.requestOptions);
+  }
+
+  //Get the list of all requested leave applications
+  public getRequestedLeaveApprovals(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
+    if (searchParam) params['search'] = searchParam; 
+    Object.assign(params, filters || {});
+    const url = buildUrlWithParams(`${this.baseUrl}/fetchRequestedLeaves`, params);
+    return this.http.get<any>(url, this.requestOptions);
+  }
+
+  //Get details of employee leave applications on a graph
+  public getLeaveGraph(leaveYear?:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/leaveGraphDetails?year=${leaveYear}`, this.requestOptions);
+  }
+
+  //Approve or Decline a leave request
+  public actionLeaveRequest(leaveDetails: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/leaveAction`, leaveDetails, this.requestOptions);
+  }
+
+  //Assign Leave Days
+  public assignLeaveDays(payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/assignLeaveDays`, payload, this.requestOptions);
+  }
+
   /*************** PUBLIC HOLIDAYS RELATED ACTIONS ***************/
 
   //Create a new public holiday
@@ -225,6 +297,42 @@ export class HrService {
   //Delete Expense Type
   public deleteExpenseType(expenseTypeId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteExpenseType/${expenseTypeId}`, this.requestOptions);
+  }
+
+  /*************** REIMBURSEMENT APPLICATIONS RELATED ACTIONS ***************/
+
+  //Create a new expense request
+  public createExpenseRequest(expenseDetails: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createExpenseRequests`, expenseDetails, this.requestOptions);
+  }
+
+  //Get the list of all expense applications
+  public getExpenseRequests(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchExpenseRequests`, this.requestOptions);
+  }
+
+  //Get the list of all requested expense applications
+  public getRequestedExpenseApprovals(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
+    if (searchParam) params['search'] = searchParam; 
+    Object.assign(params, filters || {});
+    const url = buildUrlWithParams(`${this.baseUrl}/fetchApprovalExpenseRequest`, params);
+    return this.http.get<any>(url, this.requestOptions);
+  }
+
+  //Update Expense Request
+  public updateExpenseRequest(data: any, requestId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateExpenseRequest/${requestId}`, data, this.requestOptions);
+  }
+
+  //Delete expense request
+  public deleteExpenseRequest(requestId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteExpenseRequest/${requestId}`, this.requestOptions);
+  }
+
+  //Approve or Decline a expense request
+  public actionExpenseRequest(expenseDetails: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/expenseAction`, expenseDetails, this.requestOptions);
   }
 
 
@@ -306,14 +414,66 @@ export class HrService {
   }
 
   /*************** ATTENDANCE RELATED ACTIONS ***************/
+
   //Get the attendance list
-  public getAttendanceList(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchAttendance`, this.requestOptions);
+  public getAttendanceList(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchAttendance`;
+    // if (filters.dateRange) {
+    //   filters = filters.set('dateStart', filters.dateRange.start).set('dateEnd', filters.dateRange.end);
+    // }
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Staff Check in or check out
   public staffCheckInOut(info: any): Observable<any> {
     return this.http.patch<any>(`${this.baseUrl}/checkInOut`, info, this.requestOptions);
   }
+
+  /*************** VISITOR MANAGEMENT RELATED ACTIONS ***************/
+
+  //Book a new visitor
+  public bookVisitor(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/bookVisitor`, info, this.requestOptions);
+  }
+
+  //Update booked visitor
+  public updateVisitor(info: any, bookingId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateVisit/${bookingId}`, info, this.requestOptions);
+  }
+
+  //Get the list of all booked visitors
+  public getVisitorsList(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchVisits`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Check in a visitor
+  public checkInVisitor(info: any, bookingId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/checkIn/${bookingId}`, info, this.requestOptions);
+  }
+
+  //Check out a visitor
+  public checkOutVisitor(info: any, bookingId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/checkOut/${bookingId}`, info, this.requestOptions);
+  }
+
+  /*************** CALENDAR RELATED ACTIONS ***************/
+
+  //Book a new meeting
+  public bookMeeting(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createMeeting`, info, this.requestOptions);
+  }
+
+  //Get the list of all booked visitors
+  public getCalendar(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchCalendar`, this.requestOptions);
+  }
+
+  //Delete meeting
+  public deleteMeeting(meetingId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteMeeting/${meetingId}`, this.requestOptions);
+  }
+
+
 
 }

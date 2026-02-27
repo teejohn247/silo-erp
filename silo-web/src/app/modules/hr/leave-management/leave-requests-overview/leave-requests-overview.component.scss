@@ -1,0 +1,40 @@
+
+.leave-card {
+    width: 24%;
+    height: 8rem;
+
+    .card-det {
+
+        // .card-title {
+        //     font-family: var(--font-regular);
+        // }
+
+        .fraction {
+            font-size: 1.2rem;
+            margin-left: auto;
+            font-family: var(--font-medium);
+
+            span {
+                font-size: 1.6rem;
+                font-family: var(--font-medium);
+
+                &.lg {
+                    font-size: 2rem;
+                    letter-spacing: 0.03rem;
+                }
+
+                &.md {
+                    font-size: 1.4rem;
+                    letter-spacing: 0.03rem;
+                }
+            }
+        }
+
+        .bar-percent {
+            font-size: 0.75rem;
+            font-family: var(--font-regular);
+            padding: 0 0 0.1rem 0.5rem;
+            letter-spacing: 0.04rem;
+        }
+    }
+}

@@ -1,0 +1,90 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Expense Management</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <!-- <div *ngIf="employeeDetails" (click)="openEmployeeModal(employeeDetails)" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> {{employeeDetails.isSuperAdmin ? 'Edit Employee' : 'Edit Information'}}</div> -->
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card card-xmlg">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex justify-content-between align-items-start">
+                        <div class="hdr">
+                            <div class="card-title color-theme-blue">Expense Requests Monthly</div>
+                            <!-- <div class="preamble mt-1">Values across months of the year</div> -->
+                        </div>
+
+                        <div class="actions">
+                            <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                                <mat-label>Select Year</mat-label>
+                                <mat-select
+                                    class="selectField"
+                                    disableOptionCentering
+                                    panelClass="compact-dropdown"
+                                    [(ngModel)]="chartYear"
+                                    style="font-size: 0.7rem;"
+                                >
+                                    <mat-option *ngFor="let option of chartYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="btm mt-auto">
+                        <app-area-chart></app-area-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xmd">
+                <div class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Approved Expense Requests</div>
+                    </div>
+                    <div class="listed-items mt-lg-3">
+                        <div *ngIf="approvedRequests?.length == 0" class="item w-100 justify-content-center">
+                            <app-no-data 
+                                [height]="'15rem'"
+                                [message]="'There are no approved expense requests'" 
+                                [imageUrl]="'assets/img/project/illustrations/wallet.webp'" 
+                                [messageFontSize]="'1rem'"
+                            ></app-no-data>
+                        </div>
+
+                        <div *ngFor="let request of approvedRequests | slice:0:5;" class="item">
+                            <div class="content">
+                                <div class="det">
+                                    <div class="major bd">{{request.employeeName}}</div>
+                                    <div class="minor">{{request.expenseTypeName}}</div>
+                                </div>
+                                <div class="det right">
+                                    <div class="major">NGN {{request.amount.toLocaleString()}}</div>
+                                    <!-- <div class="minor sm">Apr 20 -28</div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="requestedApprovals"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No expense requests were found.'"
+                [emptyDataImage]="'assets/img/project/illustrations/wallet.webp'"
+                (rowClick)="openApprovalModal($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

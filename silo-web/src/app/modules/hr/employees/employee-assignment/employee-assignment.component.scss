@@ -1,0 +1,16 @@
+
+.chip-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+
+    li {
+        font-size: 0.65rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.03rem;
+        border-radius: 1rem;
+        padding: 0.2rem 0.7rem;
+        color: var(--darker);
+        background-color: var(--primary-light);
+    }
+}

@@ -46,11 +46,37 @@ td {
     letter-spacing: 0.03rem;
 }
 
+.bulk-actions {
+    width: 12rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    letter-spacing: 0.03rem;
+    font-family: var(--font-regular);
+    border-radius: var(--radius-sm);
+    justify-content: space-between;
+    padding: 0.4rem 1rem;
+    margin-left: auto;
+    border: 1px solid var(--primary-light);
+
+    .dropdown-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
 .action-btn {
     border: none;
     outline: none;
     background: transparent;
     box-shadow: none;
+}
+
+.action-menu {
+
+    button {
+        color: var(--black-tint);
+    }
 }
 
 .img-wrap {
@@ -92,6 +118,7 @@ td {
 
 .table-toolbar {
     display: flex;
+    align-items: flex-start;
     gap: 1rem;
 
     .table-search {

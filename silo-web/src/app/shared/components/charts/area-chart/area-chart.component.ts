@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UtilityService } from '@services/utils/utility.service';
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -17,7 +18,12 @@ export class AreaChartComponent implements OnInit {
 
   chartOptions: Highcharts.Options = {};
 
+  constructor(
+    private utils: UtilityService,
+  ) {}
+
   ngOnInit(): void {
+    const currency = this.utils.currency;
     this.chartOptions = {
       chart: {
         type: 'area'
@@ -41,7 +47,7 @@ export class AreaChartComponent implements OnInit {
         labels: {
           enabled: true,
           formatter: function () {
-            return '₦' + this.axis.defaultLabelFormatter.call(this) + 'K';
+            return currency + this.axis.defaultLabelFormatter.call(this) + 'K';
           }            
         }
       },

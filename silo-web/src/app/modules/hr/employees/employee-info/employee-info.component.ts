@@ -95,7 +95,7 @@ export class EmployeeInfoComponent implements OnInit {
         controlLabel: 'Date of Birth',
         controlWidth: '48%',
         readonly: !this.loggedInUser.isSuperAdmin,
-        initialValue: this.data.isExisting ? this.data.data?.dateOfBirth : null,
+        initialValue: this.data.isExisting ? new Date(this.data.data?.dateOfBirth) : null,
         validators: [Validators.required],
         order: 5
       },
@@ -119,7 +119,7 @@ export class EmployeeInfoComponent implements OnInit {
         controlLabel: 'Employment Start Date',
         controlWidth: '48%',
         readonly: !this.loggedInUser.isSuperAdmin,
-        initialValue: this.data.isExisting ? this.data.data?.employmentStartDate : null,
+        initialValue: this.data.isExisting ? new Date(this.data.data?.employmentStartDate) : null,
         validators: [Validators.required],
         order: 9
       },

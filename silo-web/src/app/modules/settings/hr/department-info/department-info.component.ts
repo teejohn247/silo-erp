@@ -27,7 +27,7 @@ export class DepartmentInfoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
-
+    this.employees = this.data.employees;
     this.formFields = [
       {
         controlName: 'departmentName',

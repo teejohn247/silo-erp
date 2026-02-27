@@ -137,6 +137,7 @@ export class LoginComponent implements OnInit {
   getEmailQuery(): void {
     this.route.queryParamMap.pipe(take(1)).subscribe(params => {
       const emailParam = params.get('email');
+      console.log(emailParam);
 
       if (emailParam) {
         // Use the email from the URL
@@ -297,13 +298,14 @@ export class LoginComponent implements OnInit {
       this.verifyingOtp = true;
       //console.log(this.userEmail, this.authForm.value.eamil)
       let payload = {
-        email: sessionStorage.getItem('userEmail'),
+        email: sessionStorage.getItem('userEmail') ?? this.authForm.value.email,
         otp: String(this.authForm.value.otp)
       }
       this.authService.verifyOtp(payload).subscribe({
         next: res => {
           //console.log(res);
           if (res.status == 200) {
+            sessionStorage.setItem('userEmail', payload.email);
             this.changeState('change')
             sessionStorage.setItem('verificationToken', JSON.stringify(res.verificationToken));
             this.verifyingOtp = false; 

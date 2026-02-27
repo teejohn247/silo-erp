@@ -1,0 +1,28 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/wallet.webp" alt="">
+            </div>
+        </div>
+
+        <div *ngIf="!data.forApproval" class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Expense Application' : 'Expense Application' }}</div>
+            <div class="preamble">Enter the expense application information</div>        
+        </div>
+        <div *ngIf="data.forApproval" class="details">
+            <div class="title">{{ 'Expense Request' }}</div>
+            <div class="preamble">Reimbursement for {{data.data?.employeeName}} on {{data.data?.dateUsed | date: 'mediumDate'}}</div>        
+        </div>                
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            [buttons]="formButtons"
+            [loadingButtonKey]="buttonLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>

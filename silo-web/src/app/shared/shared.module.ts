@@ -64,6 +64,7 @@ import { TableFilterComponent } from './components/blocks/table-filter/table-fil
 import { DynamicTableComponent } from './components/blocks/dynamic-table/dynamic-table.component';
 import { CdkOverlayOrigin } from "@angular/cdk/overlay";
 import { DocumentUploadComponent } from './components/blocks/document-upload/document-upload.component';
+import { DateScrollSelectionComponent } from './components/blocks/date-scroll-selection/date-scroll-selection.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -103,6 +104,7 @@ const SHARED_COMP = [
     ToastComponent,
     LottieAnimationComponent,
     AreaChartComponent,
+    DateScrollSelectionComponent,
     PieChartComponent,
     ProgressBarComponent,
     ConfirmationModalComponent,
@@ -143,6 +145,7 @@ const SHARED_COMP = [
     FormsModule,
     ReactiveFormsModule,
     ...SHARED_COMP,
+    DateScrollSelectionComponent,
     LottieAnimationComponent,
     ConfirmationModalComponent,
     DocumentUploadComponent,

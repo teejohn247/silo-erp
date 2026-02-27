@@ -1,0 +1,28 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/calendar.webp" alt="">
+            </div>
+        </div>
+
+        <div *ngIf="!data.forApproval" class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Leave Application' : 'Leave Application' }}</div>
+            <div class="preamble">Enter the leave application information</div>        
+        </div>
+        <div *ngIf="data.forApproval" class="details">
+            <div class="title">{{ data.data?.fullName }}</div>
+            <div class="preamble">Leave application from {{data.data?.leaveStartDate | date: 'mediumDate'}} {{data.data?.leaveEndDate | date: 'mediumDate'}}</div>        
+        </div>                
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            [buttons]="formButtons"
+            [loadingButtonKey]="buttonLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>

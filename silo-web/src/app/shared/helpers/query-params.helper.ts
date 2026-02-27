@@ -44,8 +44,10 @@ export function toQueryString(params: { [k: string]: ParamValue } = {}, opts?: {
         }
 
         if (isDateRange(val)) {
-            if (val.start) parts.push(`${encodeURIComponent(key + 'StartDate')}=${encodeURIComponent(String(val.start))}`);
-            if (val.end) parts.push(`${encodeURIComponent(key + 'EndDate')}=${encodeURIComponent(String(val.end))}`);
+            // if (val.start) parts.push(`${encodeURIComponent(key + 'StartDate')}=${encodeURIComponent(String(val.start))}`);
+            // if (val.end) parts.push(`${encodeURIComponent(key + 'EndDate')}=${encodeURIComponent(String(val.end))}`);
+            if (val.start) parts.push(`${encodeURIComponent('startDate')}=${encodeURIComponent(String(val.start))}`);
+            if (val.end) parts.push(`${encodeURIComponent('endDate')}=${encodeURIComponent(String(val.end))}`);
             return;
         }
 
@@ -96,8 +98,10 @@ export function buildHttpParams(params: { [k: string]: ParamValue } = {}, opts?:
         }
 
         if (isDateRange(val)) {
-        if (val.start) httpParams = httpParams.set(`${key}StartDate`, String(val.start));
-        if (val.end) httpParams = httpParams.set(`${key}EndDate`, String(val.end));
+        // if (val.start) httpParams = httpParams.set(`${key}StartDate`, String(val.start));
+        // if (val.end) httpParams = httpParams.set(`${key}EndDate`, String(val.end));
+        if (val.start) httpParams = httpParams.set(`startDate`, String(val.start));
+        if (val.end) httpParams = httpParams.set(`endDate`, String(val.end));
         return;
         }
 
@@ -123,8 +127,10 @@ export function normalizeFiltersForApi(filters: { [k: string]: any } = {}): { [k
         if (Array.isArray(v) && v.length === 0) return;
 
         if (isDateRange(v)) {
-        if (v.start) out[`${k}StartDate`] = v.start;
-        if (v.end) out[`${k}EndDate`] = v.end;
+            // if (v.start) out[`${k}StartDate`] = v.start;
+            // if (v.end) out[`${k}EndDate`] = v.end;
+            if (v.start) out[`startDate`] = v.start;
+            if (v.end) out[`endDate`] = v.end;
             return;
         }
 

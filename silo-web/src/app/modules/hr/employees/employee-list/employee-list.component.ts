@@ -8,6 +8,7 @@ import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EmployeeAssignmentComponent } from '../employee-assignment/employee-assignment.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -24,14 +25,6 @@ export class EmployeeListComponent implements OnInit {
 
   //Employee Table Column Names
   tableColumns: TableColumn[] = [
-    // {
-    //   key: "select",
-    //   label: "Select",
-    //   order: 1,
-    //   columnWidth: "3%",
-    //   cellStyle: "width: 100%",
-    //   sortable: false
-    // },
     {
       key: "profilePic",
       label: "",
@@ -112,14 +105,63 @@ export class EmployeeListComponent implements OnInit {
       actions: [
         { icon: 'view', color: 'var(--blue-theme)', tooltip: 'View', callback: (row: any) => this.viewRow(row) },
         { icon: 'userPen', color: 'var(--yellow-theme)', tooltip: 'Edit', callback: (row: any) => this.editRow(row) },
-        { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
+        // { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
+      ],
+      menuActions: [
+        {
+          icon: 'briefcase',
+          label: 'Assign Manager',
+          actionKey: 'assignManager'
+        },
+        {
+          icon: 'userCheck',
+          label: 'Assign Approvers',
+          actionKey: 'assignApprover'
+        },
+        {
+          icon: 'layers2',
+          label: 'Assign Salary Scale',
+          actionKey: 'assignSalaryScale'
+        },
+        {
+          icon: 'send',
+          label: 'Resend Invite',
+          actionKey: 'invite'
+        },
+        {
+          icon: 'trash',
+          label: 'Delete',
+          actionKey: 'delete',
+          color: 'var(--red-theme)'
+        },
       ]
     }
+  ]
 
+  bulkActions = [
+    {
+      icon: 'briefcase',
+      label: 'Assign Manager',
+      action: 'assignManager'
+    },
+    {
+      icon: 'userCheck',
+      label: 'Assign Approvers',
+      action: 'assignApprover'
+    },
+    {
+      icon: 'layers2',
+      label: 'Assign Salary Scale',
+      action: 'assignSalaryScale'
+    },
+    {
+      icon: 'send',
+      label: 'Resend Invite',
+      action: 'invite'
+    },
   ]
 
   tableFilters!: FilterConfig[];
-
   private search$ = new Subject<string>();
   private filters$ = new BehaviorSubject<any>({});
   private paging$ = new BehaviorSubject<{ page: number; pageSize: number }>({ page: 1, pageSize: 10 });
@@ -283,6 +325,43 @@ export class EmployeeListComponent implements OnInit {
     this.openEmployeeModal(row);
   }
 
+  resendEmployeeInvite(rows:any[]) {
+    const payload = {
+      emails: rows.map(employee => employee.email)
+    };
+    this.hrService.resendEmployeeInvite(payload).subscribe({
+      next: res => {
+        if(res.status == 200) {
+          this.notify.showInfo('The employee invite has been sent successfully');
+        }
+      }
+    })
+  }
+
+  openAssignmentModal(type:string) {
+    this.hrService.getEmployees(1, 100).pipe(
+      switchMap(res => {
+        const modalConfig: any = {
+          isExisting: true,
+          width: '40%',
+          data: res.data,
+          selectedEmployees: this.selectedRows,
+          assignmentType: type
+        };
+
+        return this.modalService.open(
+          EmployeeAssignmentComponent,
+          modalConfig
+        );
+      })
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        // this.search$.next('');
+      }
+    });
+  }
+
   //Delete an employee
   deleteRow(row: any) {
     //console.log('Delete', row);
@@ -307,6 +386,49 @@ export class EmployeeListComponent implements OnInit {
         })
       }
     });
+  }
+
+  onTableAction(event: { action: string; row: any }) {
+    switch (event.action) {
+      case 'invite':
+        this.resendEmployeeInvite([event.row]);
+        break;
+      case 'assignManager':
+        if(this.selectedRows.length > 0) {
+          this.selectedRows = []; 
+          this.selectedRows.push(event.row);
+        }
+        else this.selectedRows.push(event.row);
+        this.openAssignmentModal('manager');
+        break;
+      case 'assignApprover':
+        this.selectedRows.push(event.row);
+        this.openAssignmentModal('approver');
+        break;
+      case 'delete':
+        this.deleteRow(event.row);
+        break;
+    }
+  }
+
+  onBulkAction(event:any) {
+    console.log(event);
+    if(this.selectedRows.length) {
+      switch (event) {
+        case 'invite':
+          this.resendEmployeeInvite([event.row]);
+          break;
+        case 'assignManager':
+          this.openAssignmentModal('manager');
+          break;
+        case 'assignApprover':
+          this.openAssignmentModal('approver');
+          break;
+      }
+    }
+    else {
+      this.notify.showError('Please select the employees you need to take action on')
+    }    
   }
 
 }

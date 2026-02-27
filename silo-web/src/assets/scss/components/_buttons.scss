@@ -91,6 +91,15 @@
         }
     }
 
+    &-warning {
+        background-color: var(--warning);
+        color: var(--white);
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
     &.xl {
         font-size: 1.1rem;
         font-family: var(--font-medium);

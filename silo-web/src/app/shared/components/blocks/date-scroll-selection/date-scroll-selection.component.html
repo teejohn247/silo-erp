@@ -1,0 +1,30 @@
+
+<div class="calendar-wrap">
+    <div class="header">
+        <button class="leftBtn" (click)="previousWeek()">
+            <app-icon [iconName]="'arrowLeft'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </button>
+        <!-- <div class="month-label">{{ monthLabel }}</div> -->
+        <button class="rightBtn" (click)="nextWeek()" [disabled]="isCurrentWeekVisible()">
+            <app-icon [iconName]="'arrowRight'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </button>
+    </div>
+
+    <div class="scroll-container text-center">        
+        <div #scrollSlider class="date-selections">
+            <ng-container *ngFor="let day of allDays">
+                <div class="date-hld"
+                    (click)="selectDate(day)"
+                    [class.active]="isSelected(day)"
+                >
+                    <div class="day">{{ day | date:'EEE' }}</div>
+                    <div class="details">
+                        <div class="info date">{{ day | date:'d' }}</div>
+                        <div class="info month">{{ day | date:'MMM' }}</div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
