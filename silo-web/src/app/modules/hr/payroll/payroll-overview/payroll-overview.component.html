@@ -1,0 +1,202 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Payroll</div>
+            <div *hasRole="['superAdmin']" class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openPeriodModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'calendarPlus'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>New Payroll Period</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card card-xmlg">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex justify-content-between align-items-start">
+                        <div class="hdr">
+                            <div class="card-title color-theme-primary">Payroll Monthly</div>
+                            <!-- <div class="preamble mt-1">Values across months of the year</div> -->
+                        </div>
+
+                        <div class="actions">
+                            <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                                <mat-label>Select Year</mat-label>
+                                <mat-select
+                                    class="selectField"
+                                    disableOptionCentering
+                                    panelClass="compact-dropdown"
+                                    [(ngModel)]="chartYear"
+                                    style="font-size: 0.7rem;"
+                                >
+                                    <mat-option *ngFor="let option of chartYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="btm mt-auto">
+                        <app-area-chart></app-area-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xmd">
+                <div *hasRole="['superAdmin']" class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Recent Payroll Period</div>
+                    </div>
+
+                    <div *ngIf="tableData" class="listed-items mt-lg-3">
+                        <div *ngIf="tableData?.length == 0" class="item w-100 justify-content-center">
+                            <app-no-data 
+                                [height]="'15rem'"
+                                [message]="'No payroll periods exist'" 
+                                [imageUrl]="'assets/img/project/illustrations/wallet.webp'" 
+                                [messageFontSize]="'1rem'"
+                            ></app-no-data>
+                        </div>
+
+                        <div class="listed-items w-100 mt-3">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">No of Employees:</div>
+                                        <div class="minor">{{'-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Period Name:</div>
+                                        <div class="minor">{{tableData[0].payrollPeriodName || '-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Period Date:</div>
+                                        <div class="minor">{{tableData[0].startDate | date: 'MMM dd'}} - {{tableData[0].endDate | date: 'MMM dd'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Gross Earnings:</div>
+                                        <div class="minor color-theme-green">{{tableData[0].totalEarnings || '-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Deductions:</div>
+                                        <div class="minor color-theme-red">{{tableData[0].deductions || '-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Net Earnings:</div>
+                                        <div class="minor">{{tableData[0].netEarnings || '-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <div class="det w-100 d-flex justify-content-between align-items-center">
+                                        <div class="major">Status:</div>
+                                        <div class="minor status text-white" [ngClass]="{'approved':tableData[0].status === 'Active' }">{{tableData[0].status || '-'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *hasRole="['manager', 'employee']" class="card-cont position-relative">
+                    <button (click)="openPaymentInfoModal()" class="card-action cta cta-primary xs">Update Bank Info</button>
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-primary">Payroll Info</div>
+                    </div>
+                    <div class="listed-items w-100 mt-3">
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Salary Scale:</div>
+                                    <div class="minor">{{loggedInUser?.salaryScale || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Bank Name:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.bankName || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Account Name:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.accountName || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Account No:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.accountNumber || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Bank Address:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.bankAddress || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Sort Code:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.sortCode || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <div class="det w-100 d-flex justify-content-between align-items-center">
+                                    <div class="major">Tax Identification No:</div>
+                                    <div class="minor">{{loggedInUser?.paymentInformation[0]?.taxIdentificationNumber || '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="tableData"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No payroll periods were found.'"
+                [emptyDataImage]="'assets/img/project/illustrations/wallet.webp'"
+                (rowClick)="viewRow($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

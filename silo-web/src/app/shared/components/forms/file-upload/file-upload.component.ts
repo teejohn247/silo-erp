@@ -27,6 +27,7 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   @Input() mode: 'file' | 'profile' = 'file';
   @Input() defaultImage: string | null = null;
+  @Input() displayOnly: boolean = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 

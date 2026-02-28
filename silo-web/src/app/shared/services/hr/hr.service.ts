@@ -389,8 +389,9 @@ export class HrService {
   }
 
   //Get the list of all payroll periods
-  public getPayrollPeriods(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchPayrollPeriods`, this.requestOptions);
+  public getPayrollPeriods(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchPayrollPeriods`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Get a payroll period details

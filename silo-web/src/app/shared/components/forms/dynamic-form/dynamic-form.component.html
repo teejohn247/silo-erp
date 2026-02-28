@@ -20,7 +20,7 @@
                 <!-- Number -->
                 <mat-form-field *ngSwitchCase="'number'" appearance="outline" [style.width]="field.controlWidth" color="primary">
                     <mat-label>{{field.controlLabel}}</mat-label>
-                    <input matInput min="0" type="number" [formControlName]="field.controlName">
+                    <input matInput min="0" type="number" [formControlName]="field.controlName" (blur)="handleBlur(field)">
                     <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
                 </mat-form-field>
 

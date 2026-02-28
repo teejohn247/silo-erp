@@ -47,6 +47,13 @@ export class DynamicFormComponent implements OnInit {
     });
   }
 
+  handleBlur(field: DynamicField) {
+    if (!field.onBlur) return;
+
+    const value = this.form.value;
+    field.onBlur(value, field);
+  }
+
   // submitForm() {
   //   if (this.form.valid) {
   //     this.formSubmit.emit(this.form.value);

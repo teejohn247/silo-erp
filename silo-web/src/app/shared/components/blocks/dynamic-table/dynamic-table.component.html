@@ -15,7 +15,7 @@
             </div>
         </mat-form-field>
 
-        <button class="filter-trigger" (click)="showFilter = !showFilter">
+        <button *ngIf="displayFilters" class="filter-trigger" (click)="showFilter = !showFilter">
             Filter <app-icon [iconName]="'listFilter'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
         </button>
 
@@ -134,17 +134,6 @@
 
                             <!-- ACTIONS CELL -->
                             <ng-container *ngSwitchCase="'actions'" [style.width]="col.columnWidth">
-                                <!-- <ng-container *ngFor="let act of col.actions">
-                                    <button 
-                                        type="button" 
-                                        class="action-btn"
-                                        title="{{ act.tooltip }}"
-                                        [style.color]="act.color"
-                                        (click)="act.callback(row); $event.stopPropagation()"
-                                    >
-                                        <app-icon [iconName]="act.icon" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
-                                    </button>
-                                </ng-container> -->
 
                                 <!-- INLINE BUTTONS -->
                                 <ng-container *ngFor="let act of col.actions">
@@ -188,8 +177,9 @@
                                 </ng-container>
                             </ng-container>
 
-                            <span *ngSwitchDefault>
-                                {{ row[col.key] }}
+                            <span *ngSwitchDefault [ngClass]="col.cellClass">
+                                <!-- {{ row[col.key] }} -->
+                                {{ getValue(row, col.key) }}
                             </span>
 
                         </ng-container>

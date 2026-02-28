@@ -63,6 +63,20 @@ export class UtilityService {
     return this.setupUserMenu()
   }
 
+  get statusMap() {
+    return {
+      // string values
+      'Active': 'active',
+      'Approved': 'active',
+      'Pending': 'pending',
+      'Declined': 'declined',
+
+      // boolean values
+      true: 'active',
+      false: 'declined'
+    }
+  }
+
   goBack() {
     this.location.back();
   }
@@ -209,6 +223,18 @@ export class UtilityService {
     }
 
     return chartYearOptions;
+  }
+
+  //Convert string to camel case
+  toCamelCase(str:string){
+    return str.split(' ').map(function(word,index){
+      // If it is the first word make sure to lowercase all the chars.
+      if(index == 0){
+        return word.toLowerCase();
+      }
+      // If it is not the first word only upper case the first char and lowercase the rest.
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join('');
   }
 
 }

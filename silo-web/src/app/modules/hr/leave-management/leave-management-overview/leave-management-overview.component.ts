@@ -120,11 +120,7 @@ export class LeaveManagementOverviewComponent implements OnInit {
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        'Approved': 'active',
-        'Pending': 'pending',
-        'Declined': 'declined'
-      },
+      statusMap: this.utils.statusMap,
       sortable: true
     },
     {

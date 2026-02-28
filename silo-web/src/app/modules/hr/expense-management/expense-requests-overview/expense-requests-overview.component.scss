@@ -8,6 +8,8 @@
         height: 230px;
         border-radius: 10px;
         perspective: 1000px;
+        border: none;
+        box-shadow: var(--card-shadow);
 
         &-inner {
             position: relative;

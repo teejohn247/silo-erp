@@ -22,6 +22,12 @@ import { AttendancePortalComponent } from './attendance/attendance-portal/attend
 import { AttendanceLogComponent } from './attendance/attendance-log/attendance-log.component';
 import { VisitorInfoComponent } from './attendance/visitor-info/visitor-info.component';
 import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.component';
+import { PayrollOverviewComponent } from './payroll/payroll-overview/payroll-overview.component';
+import { PayrollSummaryComponent } from './payroll/payroll-summary/payroll-summary.component';
+import { PayrollCalculatorComponent } from './payroll/payroll-calculator/payroll-calculator.component';
+import { PayrollDetailsComponent } from './payroll/payroll-details/payroll-details.component';
+import { PayrollPeriodInfoComponent } from './payroll/payroll-period-info/payroll-period-info.component';
+import { PayslipComponent } from './payroll/payslip/payslip.component';
 
 
 @NgModule({
@@ -41,6 +47,12 @@ import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.com
     LeaveRequestInfoComponent,
     LeaveRequestsOverviewComponent,
     PaymentInfoComponent,
+    PayrollCalculatorComponent,
+    PayrollDetailsComponent,
+    PayrollOverviewComponent,
+    PayrollPeriodInfoComponent,
+    PayslipComponent,
+    PayrollSummaryComponent,
     VisitorInfoComponent,
     VisitorsLogComponent,
     WorkLocationComponent

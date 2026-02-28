@@ -288,9 +288,7 @@ export class VisitorsLogComponent implements OnInit {
       }
     });
   }
-
-
-
+  
   openVisitorModal(modalData?:any) {
     const modalConfig:any = {
       isExisting: modalData ? true : false,

@@ -1,0 +1,43 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <!-- <div class="img-wrap">
+                <img src="assets/img/project/illustrations/wallet.webp" alt="">
+            </div> -->
+
+            <app-file-upload
+                [displayOnly]="true"
+                [defaultImage]="this.data.data.profilePic || 'assets/img/project/illustrations/user.webp'"
+                mode="profile"
+            ></app-file-upload>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.data.fullName }}</div>
+            <div class="preamble">Input the values for the respective payroll types</div>        
+        </div>        
+    </section>
+
+    <section class="cumulative d-flex justify-content-between my-3">
+        <div class="pay-hld">
+            <span class="label">Total Earnings</span>
+            <span class="amount earning">NGN {{totalEarnings}}</span>
+        </div>
+        <div class="pay-hld">
+            <span class="label">Deductions</span>
+            <span class="amount deduction">NGN {{deductions}}</span>
+        </div>
+        <div class="pay-hld">
+            <span class="label">Net Earnings</span>
+            <span class="amount">NGN {{netEarnings}}</span>
+        </div>
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>

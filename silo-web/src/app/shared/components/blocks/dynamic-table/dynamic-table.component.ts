@@ -21,6 +21,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() paging!: IPaging;
   @Input() loading = false;
   @Input() filters: any[] = [];
+  @Input() displayFilters = true;
   @Input() showCheckbox = false;
   @Input() emptyDataImage:string = '';
   @Input() emptyDataMessage:string = 'No records exist';
@@ -118,6 +119,10 @@ export class DynamicTableComponent implements OnInit {
         row
       });
     }
+  }
+
+  getValue(row: any, path: string): any {
+    return path.split('.').reduce((obj, key) => obj?.[key], row);
   }
 
   getStatusKey(row: any, col: TableColumn): string {

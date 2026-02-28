@@ -10,7 +10,8 @@ export interface DynamicField {
     readonly?: boolean,
     selectOptions?: {[key: string]: string},
     validators?: ValidatorFn[] | null,
-    order: number
+    order: number,
+    onBlur?: (value: any, field: DynamicField) => void;
 }
 
 export interface DynamicFormButton {

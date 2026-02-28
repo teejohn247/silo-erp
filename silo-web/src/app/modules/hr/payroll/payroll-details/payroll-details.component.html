@@ -1,0 +1,41 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header"><span *hasRole="['superAdmin']" (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> Payroll Details - {{periodInView?.payrollPeriodName}}</div>
+            <div class="main-actions d-flex justify-content-start align-items-start gap-3">
+                <mat-form-field class="field compact-field" appearance="outline" [style.width]="'15rem'">
+                    <mat-label>Select Period</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="compact-dropdown"
+                        [(ngModel)]="payrollPeriodName"
+                        style="font-size: 0.7rem;"
+                    >
+                        <mat-option *ngFor="let option of payrollPeriodOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div (click)="openPeriodModal()" class="cta cta-primary icon lg">
+                    <app-icon [iconName]="'calendarPlus'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Payroll Period
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [displayFilters]="false"
+                [data]="tableData"
+                [paging]="paging"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No payroll records found.'"
+                [emptyDataImage]="'assets/img/project/illustrations/wallet.webp'"
+                (rowClick)="viewRow($event)"
+                (searchChange)="onSearchChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

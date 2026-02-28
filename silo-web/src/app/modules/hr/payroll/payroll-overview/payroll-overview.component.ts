@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { HrService } from '@services/hr/hr.service';
 import { AuthService } from '@services/utils/auth.service';
@@ -7,18 +7,18 @@ import { ModalService } from '@services/utils/modal.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { ExpenseRequestsInfoComponent } from '../expense-requests-info/expense-requests-info.component';
+import { PayrollPeriodInfoComponent } from '../payroll-period-info/payroll-period-info.component';
+import { PaymentInfoComponent } from '../payment-info/payment-info.component';
+import { PayslipComponent } from '../payslip/payslip.component';
 
 @Component({
-  selector: 'app-expense-management-overview',
-  templateUrl: './expense-management-overview.component.html',
-  styleUrl: './expense-management-overview.component.scss'
+  selector: 'app-payroll-overview',
+  templateUrl: './payroll-overview.component.html',
+  styleUrl: './payroll-overview.component.scss'
 })
-export class ExpenseManagementOverviewComponent implements OnInit {
-  requestedApprovals!: any[];
-  approvedRequests!: any[];
-  leaveGraphDetails:any;
-  expenseTypes: any[] = [];
+export class PayrollOverviewComponent implements OnInit {
+  loggedInUser:any;
+  tableData!: any[];
   currency:string = '';
 
   chartYear: string = new Date().getFullYear().toString();
@@ -42,56 +42,58 @@ export class ExpenseManagementOverviewComponent implements OnInit {
     total: 0
   };
 
+  //Payroll Summary Table Column Names
   tableColumns: TableColumn[] = [
     {
-      key: "profilePic",
-      label: "",
+      key: "reference",
+      label: "Reference",
       order: 1,
-      columnWidth: "5%",
+      columnWidth: "15%",
       cellStyle: "width: 100%",
-      type: 'profile',
       sortable: false
     },
     {
-      key: "employeeName",
-      label: "Name",
+      key: "payrollPeriodName",
+      label: "Payroll Name",
       order: 2,
-      columnWidth: "10%",
+      columnWidth: "12%",
       cellStyle: "width: 100%",
       sortable: true
     },
     {
-      key: "expenseTypeName",
-      label: "Expense Type",
+      key: "startDate",
+      label: "Pay Period",
       order: 3,
-      columnWidth: "12%",
+      columnWidth: "15%",
       cellStyle: "width: 100%",
+      type: 'date',
       sortable: true
     },
     {
-      key: "amount",
-      label: "Amount",
-      order: 4,
-      columnWidth: "6%",
-      cellStyle: "width: 100%",
-      type: 'amount',
-      sortable: false
-    },
-    {
-      key: "dateRequested",
-      label: "Submitted",
-      order: 5,
-      columnWidth: "12%",
-      cellStyle: "width: 100%",
-      type: 'datetime',
-      sortable: true
-    },
-    {
-      key: "approver",
-      label: "Approver",
+      key: "totalEarnings",
+      label: "Total Earnings",
       order: 6,
       columnWidth: "10%",
       cellStyle: "width: 100%",
+      type: 'amount',
+      sortable: true
+    },
+    {
+      key: "deductions",
+      label: "Deductions",
+      order: 9,
+      columnWidth: "10%",
+      cellStyle: "width: 100%",
+      type: 'amount',
+      sortable: true
+    },
+    {
+      key: "netEarnings",
+      label: "Net Earnings",
+      order: 10,
+      columnWidth: "10%",
+      cellStyle: "width: 100%",
+      type: 'amount',
       sortable: true
     },
     {
@@ -101,28 +103,15 @@ export class ExpenseManagementOverviewComponent implements OnInit {
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        'Approved': 'active',
-        'Pending': 'pending',
-        'Declined': 'declined'
-      },
+      statusMap: this.utils.statusMap,
       sortable: true
     },
-    {
-      key: "actions",
-      label: "",
-      order: 11,
-      columnWidth: "10%",
-      sortable: false,
-      type: "actions",
-      actions: [
-        { icon: 'userPen', color: 'var(--yellow-theme)', tooltip: 'Edit', callback: (row: any) => this.openApprovalModal(row) },
-        { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
-      ]
-    }
+    
+
   ]
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
     private utils: UtilityService,
@@ -132,15 +121,38 @@ export class ExpenseManagementOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = this.authService.loggedInUser;
     this.currency = this.utils.currency;
     this.chartYearOptions = this.utils.generateYearOptions(Number(this.chartYear));
-    this.hrService.getExpenseTypes().subscribe(res => {
-      this.expenseTypes = res.data;
-      this.buildFilters();
-    });
+    this.loggedInUser.isSuperAdmin ? 
+    this.tableColumns.push({
+      key: "actions",
+      label: "",
+      order: 11,
+      columnWidth: "10%",
+      sortable: false,
+      type: "actions",
+      actions: [
+        { icon: 'view', color: 'var(--blue-theme)', tooltip: 'View', callback: (row: any) => this.viewRow(row) },
+        { icon: 'calendarSync', color: 'var(--yellow-theme)', tooltip: 'Edit', callback: (row: any) => this.editRow(row) },
+        { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
+      ],
+    }) 
+    :
+    this.tableColumns.push({
+      key: "actions",
+      label: "",
+      order: 11,
+      columnWidth: "10%",
+      sortable: false,
+      type: "actions",
+      actions: [
+        { icon: 'view', color: 'var(--blue-theme)', tooltip: 'View', callback: (row: any) => this.viewRow(row) },
+      ],
+    })
 
     // Reactive pipeline
-    const expenseHistory$ = combineLatest([
+    const tableData$ = combineLatest([
       this.search$.pipe(
         debounceTime(300)
       ), 
@@ -151,22 +163,20 @@ export class ExpenseManagementOverviewComponent implements OnInit {
       takeUntil(this.unsubscribe$),
       tap(() => (this.isLoading = true)),
       switchMap(([search, filters, paging]) =>
-        this.hrService.getRequestedLeaveApprovals(paging.page, paging.pageSize, search, filters).pipe(
+        this.hrService.getPayrollPeriods(paging.page, paging.pageSize, search, filters).pipe(
           catchError(() => of({ data: [], total: 0 })) // fallback if API fails
         )
       )
     )
       
-    expenseHistory$.subscribe(res => {
-      console.log('Requests', res)
-      this.requestedApprovals = res.data;
-      this.approvedRequests = this.requestedApprovals.filter(item => {
-        return item.status === 'Approved';
-      });
+    tableData$.subscribe(res => {
+      console.log('Table Data', res)
+      this.tableData = res.data;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
 
+    this.buildFilters();
     this.search$.next('');
   }
 
@@ -203,43 +213,28 @@ export class ExpenseManagementOverviewComponent implements OnInit {
   buildFilters() {
     this.tableFilters = [
       { 
-        key: 'expenseType', 
-        label: 'Expense Types', 
-        type: 'select', 
-        options: this.utils.arrayToObject(this.expenseTypes, 'expenseType'), 
-        includeIfEmpty: false 
+        key: 'startDate', 
+        label: 'Start Date', 
+        type: 'date', 
+        includeIfEmpty: false,
       },
-      // { 
-      //   key: 'departments', 
-      //   label: 'Departments', 
-      //   type: 'select', 
-      //   options: this.utils.arrayToObject(this.designationList, 'designationName'), 
-      //   includeIfEmpty: false 
-      // },
       { 
-        key: 'status', 
-        label: 'Approval Status', 
-        type: 'select', 
-        options: {
-          Approved: 'Approved',
-          Pending: 'Pending',
-          Declined: 'Declined'
-        }, 
-        includeIfEmpty: false 
+        key: 'endDate', 
+        label: 'End date', 
+        type: 'date', 
+        includeIfEmpty: false,
       }
     ];
   }
 
-  openApprovalModal(modalData?:any) {
+  openPeriodModal(modalData?:any) {
     const modalConfig:any = {
       isExisting: modalData ? true : false,
       width: '35%',
       data: modalData,
-      forApproval: true,
-      expenseTypes: this.expenseTypes
     }
     this.modalService.open(
-      ExpenseRequestsInfoComponent, 
+      PayrollPeriodInfoComponent, 
       modalConfig
     )
     .subscribe(result => {
@@ -249,21 +244,28 @@ export class ExpenseManagementOverviewComponent implements OnInit {
     });
   }
 
-  //Delete a record
+  viewRow(row: any) {
+    this.loggedInUser.isSuperAdmin ? this.router.navigate([row._id], { relativeTo: this.route }) : this.openPayslipModal(row);
+  }
+
+  editRow(row:any) {
+    this.openPeriodModal(row)
+  }
+
   deleteRow(row: any) {
     //console.log('Delete', row);
     this.notify.confirmAction({
-      title: 'Remove Expense Request',
-      message: 'Are you sure you want to remove this request?',
-      confirmText: 'Remove Expense Request',
+      title: 'Remove Payroll Period',
+      message: 'Are you sure you want to remove this period?',
+      confirmText: 'Remove Payroll Period',
       cancelText: 'Cancel',
     }).subscribe((confirmed) => {
       if (confirmed) {
-        this.hrService.deleteExpenseRequest(row._id).subscribe({
+        this.hrService.deletePayrollPeriod(row._id).subscribe({
           next: res => {
             // console.log(res);
             if(res.status == 200) {
-              this.notify.showInfo('This expense request has been deleted successfully');
+              this.notify.showInfo('This payroll period has been deleted successfully');
             }
             this.search$.next('');
           },
@@ -271,6 +273,43 @@ export class ExpenseManagementOverviewComponent implements OnInit {
             //console.log(err)
           } 
         })
+      }
+    });
+  }
+
+  openPaymentInfoModal() {
+    const modalConfig:any = {
+      isExisting: true,
+      width: '38%',
+      data: {
+        ...this.loggedInUser.paymentInformation[0],
+        profilePhoto: this.loggedInUser.profilePic
+      },
+    }
+    this.modalService.open(
+      PaymentInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.loggedInUser = this.authService.loggedInUser;
+      }
+    });
+  }
+
+  openPayslipModal(row:any) {
+    const modalConfig:any = {
+      isExisting: true,
+      width: '38%',
+      data: row,
+    }
+    this.modalService.open(
+      PayslipComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.loggedInUser = this.authService.loggedInUser;
       }
     });
   }

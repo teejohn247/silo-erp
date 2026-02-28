@@ -9,6 +9,7 @@ import { LeaveAssignmentComponent } from '@hr/leave-management/leave-assignment/
 import { DocumentUploadComponent } from '@sharedWeb/components/blocks/document-upload/document-upload.component';
 import { PaymentInfoComponent } from '@hr/payroll/payment-info/payment-info.component';
 import { AuthService } from '@services/utils/auth.service';
+import { LeaveRequestInfoComponent } from '@hr/leave-management/leave-request-info/leave-request-info.component';
 
 @Component({
   selector: 'app-employee-profile',
@@ -62,11 +63,11 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loggedInUser = this.authService.loggedInUser;
     this.getEmployeeDetails();
   }
 
   getEmployeeDetails() {
-    this.loggedInUser = this.authService.loggedInUser;
     if(!this.loggedInUser.isSuperAdmin) {
       this.employeeDetails = this.loggedInUser;
       this.generateLeaveCharts(this.employeeDetails.leaveAssignment);
@@ -206,5 +207,27 @@ export class EmployeeProfileComponent implements OnInit {
         this.getEmployeeDetails();
       }
     });
+  }
+
+  openLeaveModal(modalData?:any) {
+    this.hrService.getLeaveTypes().subscribe(res => {
+      const modalConfig:any = {
+        isExisting: modalData ? true : false,
+        width: '35%',
+        data: modalData,
+        forApproval: false,
+        leaveTypes: res.data
+      }
+      this.modalService.open(
+        LeaveRequestInfoComponent, 
+        modalConfig
+      )
+      .subscribe(result => {
+        if (result.action === 'submit' && result.dirty) {
+          this.getEmployeeDetails();
+        }
+      });
+    })
+    
   }
 }

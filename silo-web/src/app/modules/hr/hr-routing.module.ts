@@ -11,6 +11,9 @@ import { ExpenseRequestsOverviewComponent } from './expense-management/expense-r
 import { AttendancePortalComponent } from './attendance/attendance-portal/attendance-portal.component';
 import { AttendanceLogComponent } from './attendance/attendance-log/attendance-log.component';
 import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.component';
+import { PayrollOverviewComponent } from './payroll/payroll-overview/payroll-overview.component';
+import { PayrollSummaryComponent } from './payroll/payroll-summary/payroll-summary.component';
+import { PayrollDetailsComponent } from './payroll/payroll-details/payroll-details.component';
 
 const routes: Routes = [
   {
@@ -41,6 +44,18 @@ const routes: Routes = [
   {
     path: 'leave-requests',
     component: LeaveRequestsOverviewComponent
+  },
+  {
+    path: 'payroll',
+    component: PayrollOverviewComponent
+  },
+  {
+    path: 'payroll-summary',
+    component: PayrollSummaryComponent
+  },
+  {
+    path: 'payroll/:id',
+    component: PayrollDetailsComponent
   },
   {
     path: 'expense-management',

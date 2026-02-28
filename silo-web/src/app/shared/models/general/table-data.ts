@@ -28,7 +28,8 @@ export interface TableColumn {
     currencyCode?: string;
     frozen?: boolean; // freeze column left
     columnWidth?: string;
-    cellStyle?: string;
+    cellStyle?: any;
+    cellClass?: any,
     clickable?: boolean;
     order?:number;
     sortable?:boolean;

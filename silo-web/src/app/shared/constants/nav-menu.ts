@@ -41,14 +41,14 @@ export const navMenuData: MenuItem[] = [
                 routeLink: 'hr/payroll', 
                 icon: 'layers', 
                 label: 'Payroll',
-                roles: ['superAdmin'] 
+                roles: ['superAdmin', 'manager', 'employee'] 
             },
-            { 
-                routeLink: 'hr/user-payroll', 
-                icon: 'layers', 
-                label: 'Payroll',
-                roles: ['manager', 'employee']
-            },
+            // { 
+            //     routeLink: 'hr/payroll-summary', 
+            //     icon: 'layers', 
+            //     label: 'Payroll',
+            //     roles: ['manager', 'employee']
+            // },
             { 
                 routeLink: 'hr/expense-management', 
                 icon: 'bankNote', 
