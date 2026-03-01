@@ -22,9 +22,12 @@ export class DynamicTableComponent implements OnInit {
   @Input() loading = false;
   @Input() filters: any[] = [];
   @Input() displayFilters = true;
+  @Input() showExport = false;
   @Input() showCheckbox = false;
   @Input() emptyDataImage:string = '';
   @Input() emptyDataMessage:string = 'No records exist';
+  @Input() exportFields: string[] = []; 
+  @Input() exportingData = false;
   @Input() bulkActions: { label: string; action: string; icon: any }[] = [];
   @Input() statusConfig: { [key: string]: { label: string; class: string } } = {
     pending: { label: 'Pending', class: 'table-status status-pending' },
@@ -40,6 +43,7 @@ export class DynamicTableComponent implements OnInit {
   @Output() searchChange = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<any[]>();
   @Output() actionClick = new EventEmitter<{action: string; row: any;}>();
+  @Output() exportRequest = new EventEmitter<void>();
 
   selectedRows = new Set<any>();
   showFilter = false;
@@ -97,6 +101,10 @@ export class DynamicTableComponent implements OnInit {
   onPageChange(event:any) {
     //console.log('Page Changed', event)
     this.pagingChange.emit(event)
+  }
+
+  onExportClick() {
+    this.exportRequest.emit();
   }
 
   handleCellClick(row: any, col: any, event: Event) {

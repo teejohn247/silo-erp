@@ -28,6 +28,10 @@ import { PayrollCalculatorComponent } from './payroll/payroll-calculator/payroll
 import { PayrollDetailsComponent } from './payroll/payroll-details/payroll-details.component';
 import { PayrollPeriodInfoComponent } from './payroll/payroll-period-info/payroll-period-info.component';
 import { PayslipComponent } from './payroll/payslip/payslip.component';
+import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.component';
+import { EmployeesReportComponent } from './reports/employees-report/employees-report.component';
+import { LeaveReportsComponent } from './reports/leave-reports/leave-reports.component';
+import { ExpenseReportsComponent } from './reports/expense-reports/expense-reports.component';
 
 
 @NgModule({
@@ -40,10 +44,13 @@ import { PayslipComponent } from './payroll/payslip/payslip.component';
     EmployeeInfoComponent,
     EmployeeProfileComponent,
     ExpenseManagementOverviewComponent,
+    EmployeesReportComponent,
+    ExpenseReportsComponent,
     ExpenseRequestsInfoComponent,
     ExpenseRequestsOverviewComponent,
     LeaveAssignmentComponent,
     LeaveManagementOverviewComponent,
+    LeaveReportsComponent,
     LeaveRequestInfoComponent,
     LeaveRequestsOverviewComponent,
     PaymentInfoComponent,
@@ -53,6 +60,7 @@ import { PayslipComponent } from './payroll/payslip/payslip.component';
     PayrollPeriodInfoComponent,
     PayslipComponent,
     PayrollSummaryComponent,
+    ReportsPortalComponent,
     VisitorInfoComponent,
     VisitorsLogComponent,
     WorkLocationComponent

@@ -92,12 +92,14 @@ export const navMenuData: MenuItem[] = [
             { 
                 routeLink: 'hr/notice-board', 
                 icon: 'newspaper', 
-                label: 'Notice Board' 
+                label: 'Notice Board', 
+                roles: ['superAdmin', 'manager'] 
             },
             { 
                 routeLink: 'hr/reports', 
                 icon: 'chart', 
-                label: 'Reports & Analytics' 
+                label: 'Reports & Analytics',
+                roles: ['superAdmin'] 
             }
         ]
     },

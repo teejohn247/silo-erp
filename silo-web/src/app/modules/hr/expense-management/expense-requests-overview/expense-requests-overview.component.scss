@@ -30,7 +30,8 @@
             border-radius: 10px;
             overflow: hidden;
             backface-visibility: hidden;
-            background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
+            background: linear-gradient(321.03deg, var(--primary-light) 0%, var(--primary-dark) 91.45%);
+            //background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
         }
 
         &-front {
@@ -46,7 +47,8 @@
             right: -120px;
             width: 380px;
             height: 250px;
-            background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
+            background: linear-gradient(321.03deg, var(--primary-light) 0%, var(--primary-dark) 91.45%);
+            //background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
             border-top-left-radius: 100%;
         
             &::before {
@@ -56,7 +58,8 @@
                 right: -100px;
                 width: 380px;
                 height: 250px;
-                background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
+                background: linear-gradient(321.03deg, var(--primary-light) 0%, var(--primary-dark) 91.45%);
+                //background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
                 border-top-left-radius: 100%;
             }
         
@@ -67,7 +70,8 @@
                 right: -140px;
                 width: 380px;
                 height: 250px;
-                background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
+                background: linear-gradient(321.03deg, var(--primary-light) 0%, var(--primary-dark) 91.45%);
+                //background: linear-gradient(321.03deg, #01adef 0%, #0860bf 91.45%);
                 border-top-left-radius: 100%;
             }
         }
@@ -78,7 +82,8 @@
             left: -65px;
             height: 200px;
             width: 400px;
-            background: rgba(#00b7ff, 0.4);
+            background: var(--primary-glow);
+            //background: rgba(#00b7ff, 0.4);
             filter: blur(10px);
             border-radius: 100%;
             transform: skew(-15deg, -15deg);

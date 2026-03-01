@@ -18,7 +18,8 @@ $utilities: (
   --primary-rgb: 65, 202, 200;
   --secondary: #1E2355;
   --tertiary: #F45728;
-  --primary-dark: #0A122F;
+  --primary-dark: rgb(35, 150, 150); // darker shade for gradient
+  --primary-glow: rgba(65, 202, 200, 0.4);
 
   --primary-light: rgba(36, 133, 129, 0.25);
   --primary-light-md: rgba(36, 133, 129, 0.4);

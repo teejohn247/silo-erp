@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, tap } from 'rxjs';
 import { AuthService } from '../utils/auth.service';
 import { buildUrlWithParams } from '@helpers/query-params.helper';
 
@@ -20,6 +20,9 @@ export class HrService {
   requestOptions = {                                                                                                                                                                                 
     headers: new HttpHeaders(this.headerParams)
   }
+
+  private reportsFilterSubject = new BehaviorSubject<any>(null);
+  reportsFilters$ = this.reportsFilterSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -78,6 +81,25 @@ export class HrService {
   // public updateEmployee(data: any): Observable<any> {
   //   return this.http.patch<any>(`${this.baseUrl}/updateEmployee`, data, this.requestOptions);
   // }
+
+  /*************** REPORTING RELATED ACTIONS ***************/
+  getReportsFilters() {
+    forkJoin({
+      departments: this.getDepartments(),
+      designations: this.getDesignations(),
+    })
+    .subscribe({
+      next: (data) => {
+        this.reportsFilterSubject.next(data);
+      },
+      error: () => {
+        //this.loading = false;
+      },
+      complete: () => {
+        //this.loading = false;
+      }
+    });
+  }
 
   /*************** EMPLOYEE RELATED ACTIONS ***************/
 

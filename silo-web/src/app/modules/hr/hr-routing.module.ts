@@ -14,6 +14,12 @@ import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.com
 import { PayrollOverviewComponent } from './payroll/payroll-overview/payroll-overview.component';
 import { PayrollSummaryComponent } from './payroll/payroll-summary/payroll-summary.component';
 import { PayrollDetailsComponent } from './payroll/payroll-details/payroll-details.component';
+import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.component';
+import { EmployeesReportComponent } from './reports/employees-report/employees-report.component';
+import { LeaveReportsComponent } from './reports/leave-reports/leave-reports.component';
+import { ExpenseReportsComponent } from './reports/expense-reports/expense-reports.component';
+import { PayrollReportsComponent } from './reports/payroll-reports/payroll-reports.component';
+import { AttendanceReportsComponent } from './reports/attendance-reports/attendance-reports.component';
 
 const routes: Routes = [
   {
@@ -84,6 +90,37 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'reports',
+    component: ReportsPortalComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'employees',
+        pathMatch: 'full'
+      },
+      {
+        path : 'employees',
+        component: EmployeesReportComponent
+      },
+      {
+        path : 'leave',
+        component: LeaveReportsComponent
+      },
+      {
+        path : 'expense',
+        component: ExpenseReportsComponent
+      },
+      {
+        path : 'payroll',
+        component: PayrollReportsComponent
+      },
+      {
+        path : 'attendance',
+        component: AttendanceReportsComponent
+      },
+    ]
+  }
 ];
 
 @NgModule({

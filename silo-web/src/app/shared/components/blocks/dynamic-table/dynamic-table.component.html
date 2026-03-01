@@ -29,6 +29,12 @@
             </mat-menu>
         </div>
 
+        <div *ngIf="showExport" class="main-actions d-flex justify-content-start align-items-center">
+            <div (click)="onExportClick()" class="cta cta-trans icon md">
+                <app-icon *ngIf="!exportingData" [iconName]="'export'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> <span *ngIf="exportingData" class="loader"></span> Export
+            </div>
+        </div>
+
         <!-- <ng-container *ngIf="selectedRows.size > 0">
             
             <button

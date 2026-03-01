@@ -5,6 +5,7 @@ import { MenuItem } from '@models/general/menu-item';
 import { navMenuData } from '@sharedWeb/constants/nav-menu';
 import { Countries } from '@sharedWeb/constants/countries';
 import { catchError, Observable, retry, tap, throwError } from 'rxjs';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class UtilityService {
 
   constructor(
     private location: Location,
+    private notify: NotificationService,
     private readonly permissionsService: PermissionsService
   ) {
     const user = this.loggedInUser;
@@ -156,6 +158,7 @@ export class UtilityService {
     return reqObj;
   }
 
+  //GOOGLE LOCATION RELATED FUNCTIONS
   getCurrentLocation() {
     return new Observable<GeolocationCoordinates>((observer) => {
       window.navigator.geolocation.getCurrentPosition(
@@ -215,6 +218,7 @@ export class UtilityService {
     return '--';
   }
 
+  //GENERIC YEAR CHART SELECTIONS
   generateYearOptions(currentYear:any) {
     const chartYearOptions:any = {};
     for (let i = 0; i < 5; i++) {
@@ -235,6 +239,92 @@ export class UtilityService {
       // If it is not the first word only upper case the first char and lowercase the rest.
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join('');
+  }
+
+  //Convert string from camel case
+  fromCamelCase(key: string): string {
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .trim();
+  }
+
+  //Calculate age from date of birth
+  calculateAge(dateOfBirth: string | Date): number {
+    const dob = new Date(dateOfBirth);
+    const today = new Date();
+
+    let age = today.getFullYear() - dob.getFullYear();
+
+    const monthDiff = today.getMonth() - dob.getMonth();
+
+    // If birthday hasn't occurred yet this year
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < dob.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
+  //Prepare table to export to CSV
+  exportToCsv(
+    rows: any[],
+    exportFields: string[],
+    fileName?: string,
+    fieldFormatters?: { [key: string]: (value: any) => string }
+  ) {
+    if (!rows?.length) {
+      this.notify.showError('No data to export')
+      return;
+    }
+
+    // Headers
+    const headers = exportFields.map(f => this.fromCamelCase(f));
+    const csvRows = [headers.join(',')];
+
+    rows.forEach(row => {
+      const values = exportFields.map(field => {
+        let value = row[field];
+
+        // Apply custom formatter if exists
+        if (fieldFormatters?.[field]) {
+          value = fieldFormatters[field](value);
+        } else if (value === null || value === undefined) {
+          value = '';
+        } else {
+          value = String(value);
+        }
+
+        // Escape quotes
+        return `"${value.replace(/"/g, '""')}"`;
+      });
+
+      csvRows.push(values.join(','));
+    });
+
+    const csvString = csvRows.join('\n');
+    this.downloadCsv(csvString, fileName);
+  }
+
+  getFieldValue(obj: any, path: string): any {
+    if (!obj || !path) return '';
+    return path.split('.').reduce((current, key) => current?.[key], obj);
+  }
+
+  // Download CSV
+  downloadCsv(csv: string, fileName?: string) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName ?? `export-${new Date().toISOString()}.csv`;
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   }
 
 }
