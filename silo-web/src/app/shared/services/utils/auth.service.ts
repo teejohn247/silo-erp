@@ -8,6 +8,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  getToken() {
+      throw new Error('Method not implemented.');
+  }
 
   private baseUrl = `${environment.apiBaseUrl}`;
   public readonly TOKEN_NAME = 'userToken';
