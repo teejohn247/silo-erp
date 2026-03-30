@@ -108,6 +108,24 @@ export class LeadsInfoComponent implements OnInit {
         order: 3.5
       },
       {
+        controlName: 'email',
+        controlType: 'text',
+        controlLabel: 'Email Address',
+        controlWidth: '48%',
+        initialValue: this.data.isExisting ? this.data.data?.email : null,
+        validators: [Validators.email],
+        order: 4
+      },
+      {
+        controlName: 'phoneNumber',
+        controlType: 'text',
+        controlLabel: 'Phone Number',
+        controlWidth: '48%',
+        initialValue: this.data.isExisting ? this.data.data?.phoneNumber : null,
+        validators: [],
+        order: 4
+      },
+      {
         controlName: 'industry',
         controlType: 'select',
         controlLabel: 'Industry',
@@ -116,7 +134,7 @@ export class LeadsInfoComponent implements OnInit {
         readonly: true,
         selectOptions: this.industrySelectOptions,
         validators: [Validators.required],
-        order: 4
+        order: 5
       },
       {
         controlName: 'jobTitle',
@@ -125,7 +143,7 @@ export class LeadsInfoComponent implements OnInit {
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.jobTitle : null,
         validators: [],
-        order: 4
+        order: 5
       },
       {
         controlName: 'leadPriority',
@@ -139,7 +157,7 @@ export class LeadsInfoComponent implements OnInit {
           Cold: 'Cold'
         },
         validators: [Validators.required],
-        order: 5
+        order: 6
       },
       {
         controlName: 'expectedRevenue',
@@ -148,7 +166,7 @@ export class LeadsInfoComponent implements OnInit {
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.expectedRevenue : null,
         validators: [Validators.required],
-        order: 4
+        order: 7
       },
       // {
       //   controlName: 'conversionProbability',

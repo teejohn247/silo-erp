@@ -89,6 +89,16 @@ export class CrmService {
     return this.http.delete<any>(`${this.baseUrl}/deleteLeadStage/${statusId}`, this.requestOptions);
   }
 
+  //Convert to Contact
+  public convertToContact(leadId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/convertLeadToContact/${leadId}`, undefined, this.requestOptions);
+  }
+
+  //Convert to Deal
+  public convertToDeal(leadId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/convertLeadToDeal/${leadId}`, undefined, this.requestOptions);
+  }
+
   /*************** CONTACT RELATED ACTIONS ***************/
 
   //Create a new contact

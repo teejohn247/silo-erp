@@ -24,14 +24,19 @@ export class LeadsOverviewComponent implements OnInit {
   bulkActions = [
     {
       icon: 'briefcase',
-      label: 'Convert Lead',
-      action: 'convertLead'
+      label: 'Convert to Contact',
+      action: 'convertToContact'
     },
     {
       icon: 'userStar',
       label: 'Rate Lead',
       action: 'rateLead'
-    }
+    },
+    {
+      icon: 'layers',
+      label: 'Convert to Deal',
+      action: 'convertToDeal'
+    },
     // {
     //   icon: 'layers2',
     //   label: 'Assign Salary Scale',
@@ -152,13 +157,18 @@ export class LeadsOverviewComponent implements OnInit {
       menuActions: [
         {
           icon: 'briefcase',
-          label: 'Convert Lead',
-          actionKey: 'convertLead'
+          label: 'Convert to Contact',
+          actionKey: 'convertToContact'
         },
         {
           icon: 'userStar',
           label: 'Rate Lead',
           actionKey: 'rateLead'
+        },
+        {
+          icon: 'layers',
+          label: 'Convert to Deal',
+          actionKey: 'convertToDeal'
         },
         // {
         //   icon: 'userCheck',
@@ -329,16 +339,12 @@ export class LeadsOverviewComponent implements OnInit {
 
   onTableAction(event: { action: string; row: any }) {
     switch (event.action) {
-      case 'invite':
+      case 'convertToContact':
+        this.convertToContact(event.row)
         //this.resendEmployeeInvite([event.row]);
         break;
-      case 'assignManager':
-        // if(this.selectedRows.length > 0) {
-        //   this.selectedRows = []; 
-        //   this.selectedRows.push(event.row);
-        // }
-        // else this.selectedRows.push(event.row);
-        // this.openAssignmentModal('manager');
+      case 'convertToDeal':
+        this.convertToDeal(event.row)
         break;
       case 'delete':
         this.deleteRow(event.row);
@@ -382,5 +388,35 @@ export class LeadsOverviewComponent implements OnInit {
         this.search$.next('');
       }
     });
+  }
+
+  convertToContact(info:any) {
+    this.crmService.convertToDeal(info._id).subscribe({
+      next: res => {
+        // console.log(res);
+        if(res.status == 200) {
+          this.notify.showInfo('This Lead has been converted to a deal successfully');
+        }
+        this.search$.next('');
+      },
+      error: err => {
+        //console.log(err)
+      } 
+    })
+  }
+
+  convertToDeal(info:any) {
+    this.crmService.convertToDeal(info._id).subscribe({
+      next: res => {
+        // console.log(res);
+        if(res.status == 200) {
+          this.notify.showInfo('This Lead has been converted to a deal successfully');
+        }
+        this.search$.next('');
+      },
+      error: err => {
+        //console.log(err)
+      } 
+    })
   }
 }

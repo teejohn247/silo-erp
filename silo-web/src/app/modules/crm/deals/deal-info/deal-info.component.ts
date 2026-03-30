@@ -65,6 +65,8 @@ export class DealInfoComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.agentsList = this.data.agents;
+    this.leadsList = this.data.leads;
+    this.contactsList = this.data.contacts;
 
     this.formFields = [
       {
@@ -86,8 +88,8 @@ export class DealInfoComponent implements OnInit {
         controlLabel: 'Lead',
         controlWidth: '48%',
         hidden: true,
-        selectOptions: this.utils.arrayToObject(this.leadsList, 'leadName'),
-        initialValue: this.data.isExisting ? this.data.data?.firstName : null,
+        selectOptions: this.utils.arrayToObject(this.leadsList, 'name'),
+        initialValue: this.data.isExisting ? this.data.data?.name : null,
         validators: [Validators.required],
         order: 2
       },
@@ -97,7 +99,7 @@ export class DealInfoComponent implements OnInit {
         controlLabel: 'Contact',
         controlWidth: '48%',
         hidden: true,
-        selectOptions: this.utils.arrayToObject(this.contactsList, 'contactName'),
+        selectOptions: this.utils.arrayToObject(this.contactsList, 'name'),
         initialValue: this.data.isExisting ? this.data.data?.contactName : null,
         validators: [Validators.required],
         order: 3

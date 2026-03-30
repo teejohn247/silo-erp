@@ -228,9 +228,9 @@ export class SalesPipelineComponent implements OnInit {
   ngOnInit(): void {
     // Any additional setup
     forkJoin({
-      agents: this.crmService.getAgents(),
-      leads: this.crmService.getLeads(),
-      contacts: this.crmService.getContacts(),
+      agents: this.crmService.getAgents(1, 100),
+      leads: this.crmService.getLeads(1, 100),
+      contacts: this.crmService.getContacts(1, 100),
     }).subscribe(({ agents, leads, contacts }) => {
       this.agentsList = agents.data;
       this.leadsList = leads.data;

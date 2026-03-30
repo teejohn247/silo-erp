@@ -334,12 +334,12 @@ export class EmployeeInfoComponent implements OnInit {
   createEmployee(payload:any) {
     let payloadData:any = payload;
     if(this.data.agentsCreation) {
-      payload = {
+      payloadData = {
         ...payload,
         agent: true
       }
     }
-    this.hrService.createEmployee(payload).subscribe({
+    this.hrService.createEmployee(payloadData).subscribe({
       next: res => {
         if(res.success) this.notify.showSuccess('This employee has been created successfully');
         this.isLoading = false;
