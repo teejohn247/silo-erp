@@ -127,6 +127,7 @@ export class LeadsOverviewComponent implements OnInit {
       order: 6,
       columnWidth: "15%",
       cellStyle: "width: 100%",
+      type: 'amount',
       sortable: true
     },
     {

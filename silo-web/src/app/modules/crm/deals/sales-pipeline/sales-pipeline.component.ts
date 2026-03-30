@@ -4,8 +4,9 @@ import { KanbanBoardComponent } from '@sharedWeb/components/blocks/kanban-board/
 import { theme } from 'highcharts';
 import { DealInfoComponent } from '../deal-info/deal-info.component';
 import { ModalService } from '@services/utils/modal.service';
-import { forkJoin } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { CrmService } from '@services/crm/crm.service';
+import { FilterConfig } from '@models/general/table-data';
 
 @Component({
   selector: 'app-sales-pipeline',
@@ -20,6 +21,9 @@ export class SalesPipelineComponent implements OnInit {
   @ViewChild(KanbanBoardComponent) any!: KanbanBoardComponent;
 
   kanbanCardComponent = DealsCardComponent;
+  
+  tableData!: any[];
+  isLoading = false;
 
   // Sample stages
   stages: any[] = [
@@ -220,6 +224,19 @@ export class SalesPipelineComponent implements OnInit {
 
   ];
 
+  tableFilters!: FilterConfig[];
+  private search$ = new Subject<string>();
+  private filters$ = new BehaviorSubject<any>({});
+  private paging$ = new BehaviorSubject<{ page: number; pageSize: number }>({ page: 1, pageSize: 10 });
+  private unsubscribe$ = new Subject<void>();
+
+  // Paging object sent to dynamic-table
+  paging = {
+    page: 1,
+    pageSize: 100,
+    total: 0
+  };
+
   constructor(
     private modalService: ModalService,
     private crmService: CrmService
@@ -237,6 +254,34 @@ export class SalesPipelineComponent implements OnInit {
       this.contactsList = contacts.data
       //this.buildFilters();
     });
+
+    // Reactive pipeline
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.crmService.getDeals(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    tableData$.subscribe(res => {
+      //console.log('Employees', res)
+      this.tableData = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    // Trigger initial load
+    this.search$.next('');
   }
 
   onCardMoved(event:any) {

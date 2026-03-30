@@ -90,7 +90,7 @@ export class DealInfoComponent implements OnInit {
         hidden: true,
         selectOptions: this.utils.arrayToObject(this.leadsList, 'name'),
         initialValue: this.data.isExisting ? this.data.data?.name : null,
-        validators: [Validators.required],
+        validators: [],
         order: 2
       },
       {
@@ -101,7 +101,7 @@ export class DealInfoComponent implements OnInit {
         hidden: true,
         selectOptions: this.utils.arrayToObject(this.contactsList, 'name'),
         initialValue: this.data.isExisting ? this.data.data?.contactName : null,
-        validators: [Validators.required],
+        validators: [],
         order: 3
       },
       // {
@@ -155,7 +155,6 @@ export class DealInfoComponent implements OnInit {
         controlLabel: 'Expected Revenue',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.expectedRevenue : null,
-        readonly: true,
         validators: [Validators.required],
         order: 4
       },
