@@ -124,7 +124,6 @@ export class LeadsInfoComponent implements OnInit {
         controlLabel: 'Job Title',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.jobTitle : null,
-        readonly: true,
         validators: [],
         order: 4
       },
@@ -148,7 +147,6 @@ export class LeadsInfoComponent implements OnInit {
         controlLabel: 'Expected Revenue',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.expectedRevenue : null,
-        readonly: true,
         validators: [Validators.required],
         order: 4
       },

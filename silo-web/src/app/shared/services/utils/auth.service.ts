@@ -100,8 +100,8 @@ export class AuthService {
     this.router.navigate([`../login`]);
     sessionStorage.clear();
     // localStorage.clear();
-    // setTimeout(()=> {
-    //   window.location.reload();
-    // }, 800)
+    setTimeout(()=> {
+      window.location.reload();
+    }, 200)
   }
 }

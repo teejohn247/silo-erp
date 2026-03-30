@@ -135,7 +135,6 @@ export class ContactsInfoComponent implements OnInit {
         controlType: 'text',
         controlLabel: 'Organization',
         controlWidth: '48%',
-        readonly: true,
         initialValue: this.data.isExisting ? this.data?.data.organization : null,
         validators: [Validators.required],
         order: 6
@@ -157,7 +156,6 @@ export class ContactsInfoComponent implements OnInit {
         controlLabel: 'Job Role',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.jobRole : null,
-        readonly: true,
         validators: [],
         order: 4
       },

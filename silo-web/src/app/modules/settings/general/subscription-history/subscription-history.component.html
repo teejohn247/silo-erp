@@ -166,7 +166,9 @@
             <div class="preview">
                 <div class="content">{{plan.featuresOverview}}</div>
                 <div (click)="initSubscription(plan)" *ngIf="i < 2" class="cta cta-primary lg w-100 mt-3">Subscribe</div>
-                <div *ngIf="i == 2" class="cta cta-primary lg w-100 mt-3">Contact Sales</div>
+                <div *ngIf="i == 2" class="cta cta-primary lg w-100 mt-3">
+                    <a href="mailto:hello@siloerp.io" class="text-white">Contact Sales</a>
+                </div>
             </div>
             <div class="features">
                 <ul>

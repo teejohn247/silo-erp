@@ -319,6 +319,10 @@ export class SubscriptionHistoryComponent implements OnInit {
   }
 
   initSubscription(plan:any) {
+    if(!this.subscriptionDetails?.activeSubscription?.isNonRenewing) {
+      this.notifyService.showInfo('Please cancel current subscription before initiating a new plan.');
+      return;
+    }
     this.pageUrl = this.router.url;
     console.log('Plan', this.selectedPlan)
     const payload = {

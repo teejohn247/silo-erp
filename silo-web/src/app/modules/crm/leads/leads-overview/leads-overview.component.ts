@@ -27,11 +27,11 @@ export class LeadsOverviewComponent implements OnInit {
       label: 'Convert Lead',
       action: 'convertLead'
     },
-    // {
-    //   icon: 'userCheck',
-    //   label: 'Assign Approvers',
-    //   action: 'assignApprover'
-    // },
+    {
+      icon: 'userStar',
+      label: 'Rate Lead',
+      action: 'rateLead'
+    }
     // {
     //   icon: 'layers2',
     //   label: 'Assign Salary Scale',
@@ -154,6 +154,11 @@ export class LeadsOverviewComponent implements OnInit {
           icon: 'briefcase',
           label: 'Convert Lead',
           actionKey: 'convertLead'
+        },
+        {
+          icon: 'userStar',
+          label: 'Rate Lead',
+          actionKey: 'rateLead'
         },
         // {
         //   icon: 'userCheck',

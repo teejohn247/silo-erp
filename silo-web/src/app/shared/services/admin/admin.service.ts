@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, forkJoin, Observable, tap } from 'rxjs';
 import { AuthService } from '../utils/auth.service';
+import { buildUrlWithParams } from '@helpers/query-params.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,29 @@ export class AdminService {
     private authService: AuthService
   ) {}
 
+  public getPagedData$(
+    endpoint: string,
+    pageNo?: number,
+    pageSize?: number,
+    searchParam?: string,
+    filters?: any
+  ): Observable<any> {
+    // Build query params
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 };
+    if (searchParam) params['search'] = searchParam;
+    Object.assign(params, filters || {});
+
+    // Build full URL
+    const url = buildUrlWithParams(`${endpoint}`, params);
+
+    // Return Observable from HTTP GET
+    return this.http.get<any>(url, this.requestOptions);
+  }
+
   //Get the list of all companies
-  public getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchAllCompanies`, this.requestOptions);
+  public getAllCompanies(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchAllCompanies`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Get the list of all companies

@@ -56,7 +56,7 @@ export class SettingsService {
 
   //Get all notifications
   public getNotifications(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/notifications`, this.requestOptions);
+    return this.http.get<any>(`${this.baseUrl}/fetchNotifications`, this.requestOptions);
   }
 
   //Constantly poll notifications

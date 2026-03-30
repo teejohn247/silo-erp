@@ -63,7 +63,7 @@ export class CompanyRoleInfoComponent implements OnInit {
         controlWidth: '100%',
         initialValue: '',
         selectOptions: this.utils.arrayToObject(this.data.modules, 'moduleName'),
-        validators: [Validators.required],
+        validators: [],
         order: 4
       },
     ]

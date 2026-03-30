@@ -261,6 +261,7 @@ export class AgentsOverviewComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '40%',
       data: modalData,
+      agentsCreation: true,
       departmentList: this.departmentList,
       designationList: this.designationList
     }

@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
       console.log('profile photo', this.profilePhoto)
     }
 
-    //this.getNotifications();
+    this.getNotifications();
   }
 
   //Logout function
