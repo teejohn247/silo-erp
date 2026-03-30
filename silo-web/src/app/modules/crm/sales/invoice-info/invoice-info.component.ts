@@ -19,6 +19,8 @@ export class InvoiceInfoComponent implements OnInit {
   formArrayDetails!: FormArray;
   keepOrder = () => 0;
 
+  isLoading:boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private utils: UtilityService,
@@ -108,7 +110,7 @@ export class InvoiceInfoComponent implements OnInit {
     this.formFields.sort((a,b) => (a.order - b.order));
     this.form = this.fb.group({
       orderItemDetails: new FormArray([]),
-      orderTotal: new FormControl(0)
+      orderTotal: new FormControl(this.data.isExisting ? this.data.data.orderTotal : 0)
     });
 
     this.formFields.forEach(field => {
@@ -121,13 +123,13 @@ export class InvoiceInfoComponent implements OnInit {
     this.calcOrderTotal();
   }
 
-  addOrderItem() {
+  addOrderItem(item?:any) {
     const orderItem = this.fb.group({
-      description: new FormControl('', Validators.required),
-      quantity: new FormControl(1, Validators.required),
-      unitPrice: new FormControl(0, Validators.required),
-      tax: new FormControl(0, Validators.required),
-      subTotal: new FormControl(0, Validators.required)
+      description: new FormControl(item ? item.description : '', Validators.required),
+      quantity: new FormControl(item ? item.quantity : 1, Validators.required),
+      unitPrice: new FormControl(item ? item.unitPrice : 0, Validators.required),
+      tax: new FormControl(item ? item.tax : 0, Validators.required),
+      subTotal: new FormControl(item ? item.subTotal : 0, Validators.required)
     });
 
     this.formArrayDetails.push(orderItem);
@@ -152,5 +154,42 @@ export class InvoiceInfoComponent implements OnInit {
     const sum = order.reduce((accumulator: any, currentValue: any) => accumulator + currentValue.subTotal, 0);
     this.form.controls['orderTotal'].setValue(sum);
     console.log(this.form.value);
+  }
+
+  handleFormAction() {
+    this.isLoading = true;
+    const payload = this.form.value;
+    console.log("Default submit:", payload);
+    this.data.isExisting ? 
+    this.crmService.updateInvoice(payload, this.data.data._id).subscribe({
+      next: res => {
+        //console.log('Update Response', res)
+        if(res.success) this.notify.showSuccess('Invoice was updated successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    }) 
+    :
+    this.crmService.createInvoice(payload).subscribe({
+      next: res => {
+        if(res.success) this.notify.showSuccess('Invoice was created successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    })
+    
+  }
+
+  emitResponse() {
+    this.submit.emit({
+      action: 'submit',
+      dirty: true
+    });
   }
 }

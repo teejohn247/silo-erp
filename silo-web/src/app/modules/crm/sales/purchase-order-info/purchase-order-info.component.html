@@ -120,7 +120,7 @@
             </form>
 
             <div class="btn-hld d-flex justify-content-end mt-lg-3 w-100">
-                <div class="cta cta-primary lg w-100 text-uppercase" type="submit">Save</div>
+                <div (click)="handleFormAction()" class="cta cta-primary lg w-100 text-uppercase" type="submit">Save <span *ngIf="isLoading" class="loader"></span></div>
             </div>
         </div>
     </section>

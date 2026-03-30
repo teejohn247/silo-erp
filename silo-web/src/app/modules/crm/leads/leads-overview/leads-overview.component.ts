@@ -391,7 +391,7 @@ export class LeadsOverviewComponent implements OnInit {
   }
 
   convertToContact(info:any) {
-    this.crmService.convertToDeal(info._id).subscribe({
+    this.crmService.convertToContact(info._id).subscribe({
       next: res => {
         // console.log(res);
         if(res.status == 200) {

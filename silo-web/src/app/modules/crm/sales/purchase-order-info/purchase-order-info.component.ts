@@ -19,6 +19,8 @@ export class PurchaseOrderInfoComponent implements OnInit {
   formArrayDetails!: FormArray;
   keepOrder = () => 0;
 
+  isLoading:boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private utils: UtilityService,
@@ -29,7 +31,7 @@ export class PurchaseOrderInfoComponent implements OnInit {
   ngOnInit(): void {
     this.formFields = [
       {
-        controlName: 'contact',
+        controlName: 'contactId',
         controlType: 'select',
         controlLabel: 'Contact',
         controlWidth: '48%',
@@ -39,7 +41,7 @@ export class PurchaseOrderInfoComponent implements OnInit {
         order: 1
       },
       {
-        controlName: 'refNo',
+        controlName: 'referenceNumber',
         controlType: 'text',
         controlLabel: 'Reference Number',
         controlWidth: '48%',
@@ -48,7 +50,7 @@ export class PurchaseOrderInfoComponent implements OnInit {
         initialValue: ''
       },
       {
-        controlName: 'agent',
+        controlName: 'agentId',
         controlType: 'select',
         controlLabel: 'Assigned Agent',
         controlWidth: '48%',
@@ -58,12 +60,12 @@ export class PurchaseOrderInfoComponent implements OnInit {
         order: 3
       },
       {
-        controlName: 'associatedQuotation',
+        controlName: 'associatedQuotationId',
         controlType: 'select',
         controlLabel: 'Associated Quotation',
         controlWidth: '48%',
         initialValue: '',
-        selectOptions: {},
+        selectOptions: this.utils.arrayToObject(this.data.quotations, 'referenceNumber'),
         validators: [],
         order: 4
       },
@@ -89,7 +91,7 @@ export class PurchaseOrderInfoComponent implements OnInit {
     this.formFields.sort((a,b) => (a.order - b.order));
     this.form = this.fb.group({
       orderItemDetails: new FormArray([]),
-      orderTotal: new FormControl(0)
+      orderTotal: new FormControl(this.data.isExisting ? this.data.data.orderTotal : 0)
     });
 
     this.formFields.forEach(field => {
@@ -98,17 +100,25 @@ export class PurchaseOrderInfoComponent implements OnInit {
     });
 
     this.formArrayDetails = this.form.get("orderItemDetails") as FormArray;
-    this.addOrderItem();
-    this.calcOrderTotal();
+    if(this.data.isExisting) {
+      this.data.data.orderItemDetails.forEach((item:any) => {
+        this.addOrderItem(item);
+      });
+      this.calcOrderTotal();
+    }
+    else {
+      this.addOrderItem();
+      this.calcOrderTotal();
+    }
   }
 
-  addOrderItem() {
+  addOrderItem(item?:any) {
     const orderItem = this.fb.group({
-      description: new FormControl('', Validators.required),
-      quantity: new FormControl(1, Validators.required),
-      unitPrice: new FormControl(0, Validators.required),
-      tax: new FormControl(0, Validators.required),
-      subTotal: new FormControl(0, Validators.required)
+      description: new FormControl(item ? item.description : '', Validators.required),
+      quantity: new FormControl(item ? item.quantity : 1, Validators.required),
+      unitPrice: new FormControl(item ? item.unitPrice : 0, Validators.required),
+      tax: new FormControl(item ? item.tax : 0, Validators.required),
+      subTotal: new FormControl(item ? item.subTotal : 0, Validators.required)
     });
 
     this.formArrayDetails.push(orderItem);
@@ -133,5 +143,42 @@ export class PurchaseOrderInfoComponent implements OnInit {
     const sum = order.reduce((accumulator: any, currentValue: any) => accumulator + currentValue.subTotal, 0);
     this.form.controls['orderTotal'].setValue(sum);
     console.log(this.form.value);
+  }
+
+  handleFormAction() {
+    this.isLoading = true;
+    const payload = this.form.value;
+    console.log("Default submit:", payload);
+    this.data.isExisting ? 
+    this.crmService.updatePO(payload, this.data.data._id).subscribe({
+      next: res => {
+        //console.log('Update Response', res)
+        if(res.success) this.notify.showSuccess('Purchase order was updated successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    }) 
+    :
+    this.crmService.createPO(payload).subscribe({
+      next: res => {
+        if(res.success) this.notify.showSuccess('Purchase order was created successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    })
+    
+  }
+
+  emitResponse() {
+    this.submit.emit({
+      action: 'submit',
+      dirty: true
+    });
   }
 }

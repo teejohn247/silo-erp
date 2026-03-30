@@ -137,12 +137,12 @@ export class CrmService {
 
   //Update Deal
   public updateDeal(payload: any, dealId: string): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/updateContact/${dealId}`, payload, this.requestOptions);
+    return this.http.patch<any>(`${this.baseUrl}/updateDeal/${dealId}`, payload, this.requestOptions);
   }
 
   //Delete Deal
   public deleteDeal(dealId: any): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/deleteContact/${dealId}`, this.requestOptions);
+    return this.http.delete<any>(`${this.baseUrl}/deleteDeal/${dealId}`, this.requestOptions);
   }
 
   //Create a new deal status
@@ -163,6 +163,75 @@ export class CrmService {
   //Delete Deal Status
   public deleteDealStatus(statusId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteDealStage/${statusId}`, this.requestOptions);
+  }
+
+  /*************** QUOTATION RELATED ACTIONS ***************/
+
+  //Create a new Quotation
+  public createQuotation(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createQuotation`, info, this.requestOptions);
+  }
+
+  //Get the list of all Quotations
+  public getQuotations(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchQuotations`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update Quotation
+  public updateQuotation(payload: any, quotationId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateQuotation/${quotationId}`, payload, this.requestOptions);
+  }
+
+  //Delete Quotation
+  public deleteQuotation(quotationId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteQuotation/${quotationId}`, this.requestOptions);
+  }
+
+  /*************** PURCHASE ORDER RELATED ACTIONS ***************/
+
+  //Create a new PO
+  public createPO(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createPurchaseOrder`, info, this.requestOptions);
+  }
+
+  //Get the list of all POs
+  public getPOs(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchPurchaseOrders`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update PO
+  public updatePO(payload: any, poId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updatePurchaseOrder/${poId}`, payload, this.requestOptions);
+  }
+
+  //Delete Quotation
+  public deletePO(poId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deletePurchaseOrder/${poId}`, this.requestOptions);
+  }
+
+  /*************** INVOICE RELATED ACTIONS ***************/
+
+  //Create a new Invoice
+  public createInvoice(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createInvoice`, info, this.requestOptions);
+  }
+
+  //Get the list of all Invoices
+  public getInvoices(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchInvoices`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update Invoice
+  public updateInvoice(payload: any, invoiceId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateInvoice/${invoiceId}`, payload, this.requestOptions);
+  }
+
+  //Delete Invoice
+  public deleteInvoice(invoiceId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteInvoice/${invoiceId}`, this.requestOptions);
   }
 
   /*************** AGENT RELATED ACTIONS ***************/

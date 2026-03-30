@@ -19,6 +19,8 @@ export class QuotationInfoComponent implements OnInit {
   formArrayDetails!: FormArray;
   keepOrder = () => 0;
 
+  isLoading:boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private utils: UtilityService,
@@ -42,42 +44,42 @@ export class QuotationInfoComponent implements OnInit {
         order: 1
       },
       {
-        controlName: 'contact',
+        controlName: 'contactId',
         controlType: 'select',
         controlLabel: 'Contact',
         controlWidth: '48%',
-        initialValue: '',
+        initialValue: this.data.isExisting ? this.data.data?.contactId : null,
         hidden: true,
         selectOptions: this.utils.arrayToObject(this.data.contacts, 'name'),
         validators: [Validators.required],
         order: 1
       },
       {
-        controlName: 'lead',
+        controlName: 'leadId',
         controlType: 'select',
         controlLabel: 'Lead',
         controlWidth: '48%',
-        initialValue: '',
+        initialValue: this.data.isExisting ? this.data.data?.leadId : null,
         hidden: true,
         selectOptions: this.utils.arrayToObject(this.data.leads, 'name'),
         validators: [Validators.required],
         order: 1
       },
       {
-        controlName: 'refNo',
+        controlName: 'referenceNumber',
         controlType: 'text',
         controlLabel: 'Reference Number',
         controlWidth: '48%',
         validators: [Validators.required],
         order: 2,
-        initialValue: ''
+        initialValue: this.data.isExisting ? this.data.data?.referenceNumber : null
       },
       {
-        controlName: 'agent',
+        controlName: 'agentId',
         controlType: 'select',
         controlLabel: 'Assigned Agent',
         controlWidth: '48%',
-        initialValue: '',
+        initialValue: this.data.isExisting ? this.data.data?.agentId : null,
         selectOptions: this.utils.arrayToObject(this.data.agents, 'fullName'),
         validators: [Validators.required],
         order: 3
@@ -87,7 +89,7 @@ export class QuotationInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Issue Date',
         controlWidth: '48%',
-        initialValue: '',
+        initialValue: this.data.isExisting ? this.data.data?.issueDate : null,
         validators: [Validators.required],
         order: 4
       },
@@ -96,7 +98,7 @@ export class QuotationInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Expiry Date',
         controlWidth: '48%',
-        initialValue: '',
+        initialValue: this.data.isExisting ? this.data.data?.expiryDate : null,
         validators: [Validators.required],
         order: 5
       },
@@ -106,6 +108,7 @@ export class QuotationInfoComponent implements OnInit {
         controlLabel: 'Payment Terms',
         controlWidth: '100%',
         validators: [],
+        initialValue: this.data.isExisting ? this.data.data?.paymentTerms : null,
         order: 6
       },
     ]
@@ -113,7 +116,7 @@ export class QuotationInfoComponent implements OnInit {
     this.formFields.sort((a,b) => (a.order - b.order));
     this.form = this.fb.group({
       orderItemDetails: new FormArray([]),
-      orderTotal: new FormControl(0)
+      orderTotal: new FormControl(this.data.isExisting ? this.data.data.orderTotal : 0)
     });
 
     this.formFields.forEach(field => {
@@ -124,8 +127,18 @@ export class QuotationInfoComponent implements OnInit {
     this.form.controls['customerType'].valueChanges.subscribe(val => this.toggleCustomerTypeFields(val));
 
     this.formArrayDetails = this.form.get("orderItemDetails") as FormArray;
-    this.addOrderItem();
-    this.calcOrderTotal();
+
+    if(this.data.isExisting) {
+      this.data.data.orderItemDetails.forEach((item:any) => {
+        this.addOrderItem(item);
+      });
+      this.calcOrderTotal();
+    }
+    else {
+      this.addOrderItem();
+      this.calcOrderTotal();
+    }
+    
   }
 
   toggleCustomerTypeFields(type: string) {
@@ -147,13 +160,13 @@ export class QuotationInfoComponent implements OnInit {
     this.formFields = [...this.formFields];
   }
 
-  addOrderItem() {
+  addOrderItem(item?:any) {
     const orderItem = this.fb.group({
-      description: new FormControl('', Validators.required),
-      quantity: new FormControl(1, Validators.required),
-      unitPrice: new FormControl(0, Validators.required),
-      tax: new FormControl(0, Validators.required),
-      subTotal: new FormControl(0, Validators.required)
+      description: new FormControl(item ? item.description : '', Validators.required),
+      quantity: new FormControl(item ? item.quantity : 1, Validators.required),
+      unitPrice: new FormControl(item ? item.unitPrice : 0, Validators.required),
+      tax: new FormControl(item ? item.tax : 0, Validators.required),
+      subTotal: new FormControl(item ? item.subTotal : 0, Validators.required)
     });
 
     this.formArrayDetails.push(orderItem);
@@ -178,6 +191,43 @@ export class QuotationInfoComponent implements OnInit {
     const sum = order.reduce((accumulator: any, currentValue: any) => accumulator + currentValue.subTotal, 0);
     this.form.controls['orderTotal'].setValue(sum);
     console.log(this.form.value);
+  }
+
+  handleFormAction() {
+    this.isLoading = true;
+    const payload = this.form.value;
+    console.log("Default submit:", payload);
+    this.data.isExisting ? 
+    this.crmService.updateQuotation(payload, this.data.data._id).subscribe({
+      next: res => {
+        //console.log('Update Response', res)
+        if(res.success) this.notify.showSuccess('Quotation was updated successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    }) 
+    :
+    this.crmService.createQuotation(payload).subscribe({
+      next: res => {
+        if(res.success) this.notify.showSuccess('Quotation was created successfully');
+        this.isLoading = false;
+        this.emitResponse();
+      },
+      error: err => {
+        this.isLoading = false;
+      }
+    })
+    
+  }
+
+  emitResponse() {
+    this.submit.emit({
+      action: 'submit',
+      dirty: true
+    });
   }
 
 }

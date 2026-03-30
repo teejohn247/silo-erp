@@ -21,6 +21,7 @@ export class SalesOverviewComponent implements OnInit {
   agentsList:any[] = [];
   contactsList:any[] = [];
   leadsList:any[] = [];
+  quotationslist:any[] = [];
   industriesList:any[] = [];
   selectedRows:any[] = [];
   tableData!: any[];
@@ -184,13 +185,16 @@ export class SalesOverviewComponent implements OnInit {
     this.tableData = [];
 
     forkJoin({
-      contacts: this.crmService.getContacts(),
-      leads: this.crmService.getLeads(),
-      agents: this.crmService.getAgents()
-    }).subscribe(({ contacts, leads, agents }) => {
+      contacts: this.crmService.getContacts(1, 100),
+      leads: this.crmService.getLeads(1, 100),
+      agents: this.crmService.getAgents(1, 100),
+      quotations: this.crmService.getQuotations(1, 100),
+      // purchaseOrders:
+    }).subscribe(({ contacts, leads, agents, quotations }) => {
       this.contactsList = contacts.data;
       this.leadsList = leads.data;
-      this.agentsList = agents.data
+      this.agentsList = agents.data;
+      this.quotationslist = quotations.data;
     }); 
 
     this.crmService.getContacts().subscribe(res => this.contactsList = res.data);
@@ -329,7 +333,8 @@ export class SalesOverviewComponent implements OnInit {
       data: modalData,
       leads: this.leadsList,
       contacts: this.contactsList,
-      agents: this.agentsList
+      agents: this.agentsList,
+      quotations: this.quotationslist
     }
     this.modalService.open(
       PurchaseOrderInfoComponent, 

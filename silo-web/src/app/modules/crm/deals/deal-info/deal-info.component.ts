@@ -260,7 +260,7 @@ export class DealInfoComponent implements OnInit {
     const payload = event.value;
     console.log("Default submit:", payload);
     this.data.isExisting ? 
-    this.crmService.updateLead(payload, this.data.data._id).subscribe({
+    this.crmService.updateDeal(payload, this.data.data._id).subscribe({
       next: res => {
         //console.log('Update Response', res)
         if(res.success) this.notify.showSuccess('Deal was updated successfully');
@@ -272,7 +272,7 @@ export class DealInfoComponent implements OnInit {
       }
     }) 
     :
-    this.crmService.createLead(payload).subscribe({
+    this.crmService.createDeal(payload).subscribe({
       next: res => {
         if(res.success) this.notify.showSuccess('Deal was created successfully');
         this.isLoading = false;
