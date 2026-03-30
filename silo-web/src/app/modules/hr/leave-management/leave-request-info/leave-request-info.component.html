@@ -12,7 +12,7 @@
         </div>
         <div *ngIf="data.forApproval" class="details">
             <div class="title">{{ data.data?.fullName }}</div>
-            <div class="preamble">Leave application from {{data.data?.leaveStartDate | date: 'mediumDate'}} {{data.data?.leaveEndDate | date: 'mediumDate'}}</div>        
+            <div class="preamble">Leave application from {{data.data?.leaveStartDate | date: 'mediumDate'}} - {{data.data?.leaveEndDate | date: 'mediumDate'}}</div>        
         </div>                
     </section>
 

@@ -157,7 +157,7 @@
 <div *ngIf="currentPlan" class="row-section mt-4 pb-4">
     <div class="subscriptions-wrap">
         <div *ngFor="let plan of subscriptionPlans; let i = index" class="subscription">
-            <div class="name">{{plan.name}} <span *ngIf="i == 2">Edition</span></div>
+            <div class="name">{{plan.name}} <span *ngIf="i == 2">Plan</span></div>
             <div *ngIf="i < 2" class="price">
                 {{ getSubscriptionCurrency() }}
                 <span class="amount">{{ getSubscriptionPrice(plan) | localeString }}</span>

@@ -69,6 +69,26 @@ export class CrmService {
     return this.http.delete<any>(`${this.baseUrl}/deleteLead/${leadId}`, this.requestOptions);
   }
 
+  //Create a new lead status
+  public createLeadStatus(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createLeadStage`, info, this.requestOptions);
+  }
+
+  //Get Lead Statuses
+  public getLeadStatuses(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchLeadStages`, this.requestOptions);
+  }
+
+  //Update Lead Status
+  public updateLeadStatus(payload: any, statusId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateLeadStage/${statusId}`, payload, this.requestOptions);
+  }
+
+  //Delete Lead Status
+  public deleteLeadStatus(statusId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteLeadStage/${statusId}`, this.requestOptions);
+  }
+
   /*************** CONTACT RELATED ACTIONS ***************/
 
   //Create a new contact
@@ -115,6 +135,26 @@ export class CrmService {
     return this.http.delete<any>(`${this.baseUrl}/deleteContact/${dealId}`, this.requestOptions);
   }
 
+  //Create a new deal status
+  public createDealStatus(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createDealStage`, info, this.requestOptions);
+  }
+
+  //Get Deal Statuses
+  public getDealStatuses(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchDealStages`, this.requestOptions);
+  }
+
+  //Update Deal Status
+  public updateDealStatus(payload: any, statusId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateDealStage/${statusId}`, payload, this.requestOptions);
+  }
+
+  //Delete Deal Status
+  public deleteDealStatus(statusId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteDealStage/${statusId}`, this.requestOptions);
+  }
+
   /*************** AGENT RELATED ACTIONS ***************/
 
   //Create a new agent
@@ -146,9 +186,29 @@ export class CrmService {
     return this.http.patch<any>(`${this.baseUrl}/updateTicket/${dealId}`, payload, this.requestOptions);
   }
 
-  //Delete Deal
+  //Delete Ticket
   public deleteTicket(dealId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteTicket/${dealId}`, this.requestOptions);
+  }
+
+  //Create a new ticket status
+  public createTicketStatus(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createTicketStage`, info, this.requestOptions);
+  }
+
+  //Get Ticket Statuses
+  public getTicketStatuses(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchTicketStages`, this.requestOptions);
+  }
+
+  //Update Ticket Status
+  public updateTicketStatus(payload: any, statusId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateTicketStage/${statusId}`, payload, this.requestOptions);
+  }
+
+  //Delete Ticket Status
+  public deleteTicketStatus(statusId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteTicketStage/${statusId}`, this.requestOptions);
   }
 
 }

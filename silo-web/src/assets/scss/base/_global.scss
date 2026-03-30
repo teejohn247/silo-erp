@@ -861,6 +861,13 @@ a {
   }
 }
 
+.mat-mdc-menu-panel {
+  &.xl {
+    width: 23rem !important;
+    max-width: unset !important;
+  }
+} 
+
 .mat-mdc-menu-content {
   padding: 0 !important;
 

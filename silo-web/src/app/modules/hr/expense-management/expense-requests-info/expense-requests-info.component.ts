@@ -36,12 +36,14 @@ export class ExpenseRequestsInfoComponent implements OnInit {
       {
         key: 'decline',
         label: 'Decline',
-        class: 'cta cta-warning lg'
+        class: 'cta cta-warning lg',
+        visible: this.data.data.status === 'Pending'
       },
       {
         key: 'approve',
         label: 'Approve',
-        class: 'cta cta-primary lg'
+        class: 'cta cta-primary lg',
+        visible: this.data.data.status === 'Pending'
       }
     ] : [];
 

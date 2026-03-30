@@ -12,7 +12,7 @@
         </div>
         <div *ngIf="data.forApproval" class="details">
             <div class="title">{{ 'Expense Request' }}</div>
-            <div class="preamble">Reimbursement for {{data.data?.employeeName}} on {{data.data?.dateUsed | date: 'mediumDate'}}</div>        
+            <div class="preamble">Reimbursement for {{data.data?.employeeName}} on {{data.data?.expenseDate | date: 'mediumDate'}}</div>        
         </div>                
     </section>
 

@@ -1,0 +1,23 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/entity.png" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Support Message' : 'Send Support Message' }}</div>
+            <div class="preamble">Enter information details</div>        
+        </div>
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            [buttonSaveLabel]="'Send Message'"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>

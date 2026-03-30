@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DynamicField } from '@models/general/dynamic-field';
+import { CrmService } from '@services/crm/crm.service';
 import { HrService } from '@services/hr/hr.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
@@ -20,7 +21,7 @@ export class StatusInfoComponent implements OnInit {
 
   constructor(
     private utils: UtilityService,
-    private hrService: HrService,
+    private crmService: CrmService,
     private notify: NotificationService
   ) {}
 
@@ -28,11 +29,11 @@ export class StatusInfoComponent implements OnInit {
     console.log(this.data);
     this.formFields = [
       {
-        controlName: 'statusName',
+        controlName: 'name',
         controlType: 'text',
         controlLabel: 'Status Name',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.statusName : null,
+        initialValue: this.data.isExisting ? this.data.data.name : null,
         validators: [Validators.required],
         order: 1
       },
@@ -78,30 +79,40 @@ export class StatusInfoComponent implements OnInit {
     this.isLoading = true;
     const payload = event.value;
     console.log("Default submit:", payload);
-    this.data.isExisting ?  this.emitResponse(payload, false) : this.emitResponse(payload, true);
-    // this.hrService.updateDepartment(payload, this.data.data._id).subscribe({
-    //   next: res => {
-    //     //console.log('Update Response', res)
-    //     if(res.success) this.notify.showSuccess('Department was updated successfully');
-    //     this.isLoading = false;
-    //     this.emitResponse(payload, false);
-    //   },
-    //   error: err => {
-    //     this.isLoading = false;
-    //   }
-    // }) 
-    // :
-    // this.hrService.createDepartment(payload).subscribe({
-    //   next: res => {
-    //     console.log('Create Response', res)
-    //     if(res.success) this.notify.showSuccess('Department was created successfully');
-    //     this.isLoading = false;
-    //     this.emitResponse();
-    //   },
-    //   error: err => {
-    //     this.isLoading = false;
-    //   }
-    // })
+    const statusConfig:any = {
+      lead: {
+        create: this.crmService.createLeadStatus.bind(this.crmService),
+        update: this.crmService.updateLeadStatus.bind(this.crmService),
+        label: 'Lead status'
+      },
+      deal: {
+        create: this.crmService.createDealStatus.bind(this.crmService),
+        update: this.crmService.updateDealStatus.bind(this.crmService),
+        label: 'Deal status'
+      },
+      ticket: {
+        create: this.crmService.createTicketStatus.bind(this.crmService),
+        update: this.crmService.updateTicketStatus.bind(this.crmService),
+        label: 'Ticket status'
+      },
+    };
+
+    const config = statusConfig[this.data.statusType];
+
+    const request$ = this.data.isExisting ? config.update(payload, this.data.data._id) : config.create(payload);
+    request$.subscribe({
+      next: (res:any) => {
+        if (res.success) {
+          const action = this.data.isExisting ? 'updated' : 'created';
+          this.notify.showSuccess(`${config.label} was ${action} successfully`);
+        }
+        this.isLoading = false;
+        this.emitResponse(payload, !this.data.isExisting);
+      },
+      error: (err:any) => {
+        this.isLoading = false;
+      }
+    });
   }
 
   emitResponse(formValue:any, newEntry:boolean) {

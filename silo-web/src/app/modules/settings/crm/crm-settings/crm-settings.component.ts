@@ -29,6 +29,42 @@ export class CrmSettingsComponent implements OnInit {
       supportTicketStatus: new FormControl(''),
     });
 
+    this.accordionItems = [
+      {
+        label: "Lead Status",
+        key: "lead",
+        list: [],
+        loading: false,
+        api: () => this.crmService.getLeadStatuses(),
+        deleteApi: (entity:any) => this.crmService.deleteLeadStatus(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No lead statuses available",
+        emptyImage: "assets/img/project/illustrations/equalizer.png"
+      },
+      {
+        label: "Deal Status",
+        key: "deal",
+        list: [],
+        loading: false,
+        api: () => this.crmService.getDealStatuses(),
+        deleteApi: (entity:any) => this.crmService.deleteDealStatus(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No deal statuses available",
+        emptyImage: "assets/img/project/illustrations/equalizer.png"
+      },
+      {
+        label: "Ticket Status",
+        key: "ticket",
+        list: [],
+        loading: false,
+        api: () => this.crmService.getTicketStatuses(),
+        deleteApi: (entity:any) => this.crmService.deleteTicketStatus(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No ticket statuses found",
+        emptyImage: "assets/img/project/illustrations/equalizer.png"
+      }
+    ];
+
     this.loadAccordionData();
   }
 
@@ -68,30 +104,13 @@ export class CrmSettingsComponent implements OnInit {
     )
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
-        // this.updateAccordionList('payrollDebits');
-        // this.form.controls['payrollDebit'].reset();
+        this.updateAccordionList(statusType);
       }
     });
   }
 
   editEntity(type: string, entity: any) {
-    switch(type) {
-
-      case "departments":
-        break;
-
-      case "leaveTypes":
-        break;
-
-      case "holidayTypes":
-        break;
-
-      case "expenseTypes":
-        break;
-
-      case "designations":
-        break;
-    }
+    this.openStatusModal(type, entity);
   }
 
   deleteEntity(type: string, entity: any) {
@@ -99,7 +118,7 @@ export class CrmSettingsComponent implements OnInit {
     if (!item) return;
 
     const title = `Remove ${item.display(entity)}`;
-    const message = `Are you sure you want to remove this ${item.label.toLowerCase().slice(0, -1)}?`;
+    const message = `Are you sure you want to remove this ${item.label.toLowerCase()}?`;
 
     this.notify.confirmAction({
       title: title,

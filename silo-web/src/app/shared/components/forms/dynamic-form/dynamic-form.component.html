@@ -133,18 +133,20 @@
 
         <!-- ✅ If buttons were passed -->
         <ng-container *ngIf="buttons?.length; else defaultButton">
-            <button
-                *ngFor="let btn of buttons"
-                [type]="btn.type || 'button'"
-                [ngClass]="btn.class"
-                class="w-100"
-                [disabled]="isLoading"
-                (click)="triggerAction(btn.key)"
-            >
-                {{ btn.label }}
-                <!-- Spinner only for clicked button -->
-                <span *ngIf="isLoading && loadingButtonKey === btn.key" class="loader"></span>
-            </button>
+            <ng-container *ngFor="let btn of buttons">
+                <button
+                    *ngIf="btn.visible"
+                    [type]="btn.type || 'button'"
+                    [ngClass]="btn.class"
+                    class="w-100"
+                    [disabled]="isLoading"
+                    (click)="triggerAction(btn.key)"
+                >
+                    {{ btn.label }}
+                    <!-- Spinner only for clicked button -->
+                    <span *ngIf="isLoading && loadingButtonKey === btn.key" class="loader"></span>
+                </button>
+            </ng-container>
         </ng-container>
 
         <!-- ✅ Default single submit button -->

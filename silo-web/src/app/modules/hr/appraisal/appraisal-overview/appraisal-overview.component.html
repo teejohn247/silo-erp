@@ -64,10 +64,10 @@
                 </div>
                 <div *ngIf="!isLoading && appraisalRequests && appraisalRequests.length" class="request-wrap">
                     <div (click)="viewAppraisalInfo(employee)" *ngFor="let employee of appraisalRequests" class="request-hld">
-                        <div class="inner pending"
+                        <div class="inner"
                             [ngClass]="{
                                 'inReview': employee.status == 'Awaiting Manager Review',
-                                'reviewed': employee.status == 'Manager reviewed',
+                                'reviewed': employee.status == 'Manager Reviewed',
                                 'pending': employee.status === 'Pending'
                             }"
                         >

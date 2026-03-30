@@ -25,7 +25,7 @@
                             <div class="card-glow"></div>
                             <div class="card-balance">
                                 <div class="hdr">Renewal Payment</div>
-                                <div class="amount mt-1">{{currency}} {{ !userSubscription?.activeSubscription?.isNonRenewing ? userSubscription.activeSubscription.amount : 0 | localeString}}</div>
+                                <div class="amount mt-1">{{currency}} {{(!userSubscription?.activeSubscription?.isNonRenewing ? userSubscription.activeSubscription.amount/100 : 0 ).toLocaleString()}}</div>
                             </div>
                             <div class="card-circles"></div>
                             <div class="card-contactless">

@@ -1,0 +1,33 @@
+<div *ngIf="notifications?.length" class="listed-items my-3 px-3">
+    <div role='button' *ngFor="let item of notifications" class="item align-items-start">
+        <ng-container *ngIf="item.notificationType">
+            <div *ngIf="item?.notificationType === 'Leave Request'" class="icon" [class.text-danger]="item?.notificationType === 'Leave Request'">
+                <app-icon [iconName]="'palmTree'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+            </div>
+            <div *ngIf="item?.notificationType === 'Meeting Invitation'" class="icon" [class.text-primary]="item?.notificationType === 'Meeting Invitation'">
+                <app-icon [iconName]="'calendarCheck'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+            </div>
+            <div *ngIf="item?.notificationType === 'Expense Request'" class="icon" [class.text-info]="item?.notificationType === 'Expense Request'">
+                <app-icon [iconName]="'bankNote'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+            </div>
+            <div *ngIf="item?.notificationType === 'Appraisal Reviewed'" class="icon" [class.text-success]="item?.notificationType === 'Appraisal Reviewed'">
+                <app-icon [iconName]="'userStar'" [iconWidth]="24" [iconHeight]="24"></app-icon>
+            </div>
+            <div class="content">
+                <div class="det">
+                    <div class="major font-regular">{{item.notificationContent}}</div>
+                    <div class="minor d-flex align-items-center justify-content-between mt-1"><span>{{item.createdAt | timeDuration}}</span></div>
+                    <!-- <div *ngIf="request.type == 'expense'" class="minor">NGN {{request.amount.toLocaleString()}} - {{request.expenseTypeName}}</div> -->
+                </div>
+            </div>
+        </ng-container>
+    </div> 
+</div>
+
+<app-no-data 
+    *ngIf="!notifications?.length"
+    [height]="'10rem'"
+    [message]="'You currently have no notifications'" 
+    [imageUrl]="'assets/img/project/illustrations/equalizer.png'" 
+    [messageFontSize]="'1rem'"
+></app-no-data>

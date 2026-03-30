@@ -1,0 +1,94 @@
+.search-wrap {
+    width: 47vw;
+    position: relative;
+    overflow: visible;
+}
+
+.search-bar {
+    position: relative;
+    border-radius: var(--radius-xs);
+
+    .icon {
+        position: absolute;
+        color: rgba(0, 0, 0, 0.54);
+        transform: translateY(-50%);
+        left: 1rem;
+        top: 50%;
+    }
+
+    .clear-btn {
+        font-size: 1.3rem;
+        position: absolute;
+        color: var(--warning);
+        transform: translateY(-50%);
+        right: 1rem;
+        top: 50%;
+    }
+
+    input {
+        width: 100%;
+        letter-spacing: 0.05rem;
+        font-family: var(--font-regular);
+        //border: none;
+        border: 1px solid var(--border-2);
+        padding: 0.5rem 1rem 0.5rem 3rem;
+        border-radius: var(--radius-xs);
+        background-color: var(--bkg-1);
+
+        &::placeholder {
+            font-size: 0.845rem;
+            letter-spacing: 0.03rem;
+        }
+
+        &:focus {
+            outline: none;
+            //border: 1px solid var(--border-black-lightest);
+        }
+    }
+}
+
+.search-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.3rem;
+    width: 100%;
+    padding: 1rem;
+    
+    max-height: 20rem;  /* panel won’t grow beyond this */
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-md);
+    box-shadow: var(--card-shadow);
+    background: white;
+    z-index: 1000;
+    
+    display: flex;
+    flex-direction: column;  /* so header, results, etc. stack */
+    
+    .res-wrap {
+        overflow-y: auto;       /* vertical scroll only */
+        overflow-x: hidden;     /* hide horizontal scroll */
+        flex: 1;                /* fill remaining height */
+        padding: 0.5rem 1rem;
+        
+        .listed-wrap {
+
+            .item {
+                transition: all 0.5s ease;
+
+                &:hover {
+                    background: var(--primary-light);
+                }
+            }
+        }
+    }
+    
+    /* Optional: smooth scroll for nicer UX */
+    .res-wrap::-webkit-scrollbar {
+        width: 6px;
+    }
+    .res-wrap::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.2);
+        border-radius: 3px;
+    }
+}

@@ -108,12 +108,11 @@ export class SiloOnboardingAdminComponent implements OnInit {
     private notifyService: NotificationService,
     private utilityService: UtilityService,
     private router: Router
-  ) {
-    this.initFormGroup();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
+    this.initFormGroup();
     this.utilityService.hasActiveModule() ? this.currentStep = 4 : this.currentStep = 1;
     this.addEmployee();
   }
@@ -121,7 +120,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
   private initFormGroup(): void {
     this.form = new FormGroup(
       {
-        companyName: new FormControl('', Validators.required),
+        companyName: new FormControl(this.loggedInUser?.companyName ?? '', Validators.required),
         industry: new FormControl('', Validators.required),
         companySize: new FormControl('', Validators.required),
         modules: new FormControl([], Validators.required),

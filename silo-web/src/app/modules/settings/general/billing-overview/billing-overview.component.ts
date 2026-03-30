@@ -17,7 +17,7 @@ export class BillingOverviewComponent implements OnInit {
   loggedInUser:any;
   userSubscription:any;
   activeCard:any;
-  currency = '$';
+  currency:any;
 
   tableData!:any;
   tableFilters!: FilterConfig[];
@@ -124,6 +124,7 @@ export class BillingOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
+    this.currency = this.utils.currency;
     
     //this.getSubscriptionPlans();
     this.getUserSubscription();

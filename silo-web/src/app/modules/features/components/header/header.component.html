@@ -1,16 +1,17 @@
 <div class="header only-desktop">
-    <div class="search-bar">
-        <span class="icon"><i class="bi bi-search"></i></span>
-        <input type="text" placeholder="Search for an employee by name, department or position">
-    </div>
+    <app-header-search-panel></app-header-search-panel>
 
     <div class="user-actions">
-        <span>
+        <span (click)="openSupportModal()" role="button">
             <app-icon [iconName]="'circleQuestionMark'" [iconWidth]="22" [iconHeight]="22"></app-icon>
         </span>
-        <span>
+        <span [matMenuTriggerFor]="notificationsMenu" role="button">
             <app-icon [iconName]="'bell'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+            <div *ngIf="notificationBadgeCount > 0" class="badge">{{notificationBadgeCount}}</div>
         </span>
+        <mat-menu #notificationsMenu="matMenu" xPosition="before" (closed)="markAllAsRead()" class="xl">
+            <app-notifications-panel [notifications]="notifications"></app-notifications-panel>
+        </mat-menu>
         <span (click)="goToCalendar()" role="button">
             <app-icon [iconName]="'calendarRange'" [iconWidth]="22" [iconHeight]="22"></app-icon>
         </span>

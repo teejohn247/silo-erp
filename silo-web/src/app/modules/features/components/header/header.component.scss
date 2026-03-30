@@ -71,6 +71,8 @@
         gap: 1.3rem;
 
         span {
+            display: inline-block;
+            position: relative;
 
             &:first-child,
             &:last-child {
@@ -79,6 +81,21 @@
 
             i {
                 font-size: 1.1rem;
+            }
+
+            .badge {
+                width: 1rem;
+                height: 1rem;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.6rem;
+                line-height: 1;
+                border-radius: 0.2rem;
+                background: var(--warning);
+                position: absolute;
+                right: -0.4rem;
+                top: -0.4rem;
             }
         }
 

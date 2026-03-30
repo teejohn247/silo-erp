@@ -1,0 +1,57 @@
+<div class="search-wrap">
+    <div class="search-bar w-100">
+        <span class="icon"><i class="bi bi-search"></i></span>
+
+        <input 
+            type="text" 
+            [placeholder]="currentModule === 'hr' ? 'Search for an employee by name, department or position' : 'Search for a contact by name'"
+            [formControl]="searchControl"
+        >
+
+        <!-- Clear button -->
+        <span class="clear-btn" *ngIf="searchControl.value" (click)="clearSearch()" role="button">&times;</span>
+    </div>
+
+    <!-- Search Panel -->
+    <div class="search-panel w-100" *ngIf="showPanel">
+        
+        <!-- Loader -->
+        <div *ngIf="isLoading">
+            <app-data-loading [height]="'8rem'"></app-data-loading>
+        </div>
+
+        <!-- Results -->
+        <div *ngIf="!isLoading && searchResponse.length" class="res-wrap">
+            <div class="listed-items">
+                <div *ngFor="let item of searchResponse | slice:0:10; let i = index" class="item" (click)="viewRow(item)" [attr.role]="this.loggedInUser.isSuperAdmin ? 'button' : 'text'">
+                    <div class="content">
+                        <div class="det d-flex align-items-end gap-3">
+                            <div class="image rd bkg-standard" style="background-image: url('{{item.profilePic}}');"></div>
+                            <div class="info">
+                                <div class="major bd">{{item.fullName}}</div>
+                                <div class="minor">{{item?.email}}</div>
+                            </div>
+                        </div>
+                        <div class="det right">
+                            <div class="info">
+                                <div class="major">{{item?.department}}</div>
+                                <div class="minor">{{item?.companyRole}}</div>
+                            </div>
+                            <!-- <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty -->
+        <div *ngIf="!isLoading && !searchResponse.length">
+            <app-no-data
+                [height]="'10rem'"
+                [iconHeight]="'4rem'"
+                [imageUrl]="'assets/img/project/illustrations/user.webp'"
+                [message]="'No records were found matching your search'"
+            ></app-no-data>
+        </div>
+    </div>
+</div>

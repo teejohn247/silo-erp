@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
-import { BehaviorSubject, forkJoin, Observable, tap } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, switchMap, tap, timer } from 'rxjs';
 import { AuthService } from '../utils/auth.service';
 import { buildUrlWithParams } from '@helpers/query-params.helper';
 
@@ -47,6 +47,32 @@ export class SettingsService {
   }
 
 
+  public sendComplaint(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/complaints`, payload, this.requestOptions);
+  }
+
+
+  /*************** NOTIFICATIONS RELATED ACTIONS ***************/
+
+  //Get all notifications
+  public getNotifications(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/notifications`, this.requestOptions);
+  }
+
+  //Constantly poll notifications
+  pollNotifications(intervalMs = 5000): Observable<any> { 
+    return timer(0, intervalMs).pipe( 
+      switchMap(() => this.getNotifications())
+    ); 
+  }
+
+  //Read Notification
+  public readNotification(notificationId:string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/notifications/markAsRead/${notificationId}`, undefined, this.requestOptions);
+  }
+
+  /*************** SUBSCRIPTION RELATED ACTIONS ***************/
+
   //Get subscription plans
   public getSubscriptionPlans(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/subscription/plans`, this.requestOptions);
@@ -83,6 +109,8 @@ export class SettingsService {
     return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
+  /*************** ROLES & PERMISSIONS RELATED ACTIONS ***************/
+
   //Create Role
   public createRole(payload: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/createRole`, payload, this.requestOptions);
@@ -98,6 +126,8 @@ export class SettingsService {
     return this.http.get<any>(`${this.baseUrl}/roles`, this.requestOptions);
   }
 
+  /*************** COMPANY INFORMATION RELATED ACTIONS ***************/
+  
   //Get company information
   public getCompanyInfo(companyId:string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/fetchCompany/${companyId}`, this.requestOptions);

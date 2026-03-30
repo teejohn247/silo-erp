@@ -45,15 +45,24 @@
             .inner {
                 padding: 0.8rem 0.7rem;
                 border: 1px solid var(--black-tint-sm);
+                border-radius: var(--radius-sm);
 
                 &.pending {
-                    border-radius: var(--radius-sm);
-                    //box-shadow: var(--box-shadow-1);
                     background: var(--yellow-theme-lightest);
 
                     .det {
                         .date {
                             color: var(--yellow-theme);
+                        }
+                    }
+                }
+
+                &.reviewed {
+                    background: var(--green-theme-lightest);
+
+                    .det {
+                        .date {
+                            color: var(--green-theme);
                         }
                     }
                 }

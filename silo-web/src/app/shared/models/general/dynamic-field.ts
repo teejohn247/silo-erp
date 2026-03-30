@@ -28,6 +28,7 @@ export interface DynamicFormButton {
     label: string;
     class?: string;
     type?: 'submit' | 'button';
+    visible?: boolean
 }
 
 export interface DynamicFormAction {

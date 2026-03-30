@@ -172,10 +172,19 @@
         .table-wrap {
             margin-top: 1.5rem;
 
+            .card-title {
+                font-size: 0.85rem;
+                font-family: var(--font-medium);
+            }
+
             .dataTable {
+                width: 100%;
+                overflow: hidden;
+                border-radius: var(--radius-md);
+                border: 1px solid var(--black-tint-sm);
 
                 thead {
-                    height: 56px;
+                    height: 40px;
                     background-color: var(--primary-light);
 
                     tr {

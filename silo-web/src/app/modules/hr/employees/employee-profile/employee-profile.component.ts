@@ -4,7 +4,7 @@ import { ModalService } from '@services/utils/modal.service';
 import { UtilityService } from '@services/utils/utility.service';
 import { EmployeeInfoComponent } from '../employee-info/employee-info.component';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { LeaveAssignmentComponent } from '@hr/leave-management/leave-assignment/leave-assignment.component';
 import { DocumentUploadComponent } from '@sharedWeb/components/blocks/document-upload/document-upload.component';
 import { PaymentInfoComponent } from '@hr/payroll/payment-info/payment-info.component';
@@ -20,9 +20,11 @@ export class EmployeeProfileComponent implements OnInit {
 
   loggedInUser:any;
   employeeDetails: any;
+  employeeId!:string;
   totalLeaveDays!:number;
   leaveDaysUsed!:number;
   leaveChartTotalView: boolean = false;
+  private unsubscribe$ = new Subject<void>();
 
   chartColorScheme = {
     domain: ['rgba(235, 87, 87, 0.7)', 'rgba(54, 171, 104, 0.7)', 'rgba(229, 166, 71, 0.7)', 'rgba(66, 133, 244, 0.7)', 'rgba(255, 150, 85, 0.7)']
@@ -65,6 +67,22 @@ export class EmployeeProfileComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
     this.getEmployeeDetails();
+
+    this.route.paramMap.pipe(
+      takeUntil(this.unsubscribe$))
+      .subscribe(params => {
+        const id = params.get('id');
+        if (id && id !== this.employeeId) {
+          this.employeeId = id;
+          this.getEmployeeDetails(); // call your function whenever id changes
+        }
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getEmployeeDetails() {
@@ -73,8 +91,8 @@ export class EmployeeProfileComponent implements OnInit {
       this.generateLeaveCharts(this.employeeDetails.leaveAssignment);
       return
     }
-    const employeeId = this.route.snapshot.params["id"];
-    this.hrService.getEmployeeDetails(employeeId).subscribe({
+    this.employeeId = this.route.snapshot.params["id"];
+    this.hrService.getEmployeeDetails(this.employeeId).subscribe({
       next: res => {
         this.employeeDetails = res.data;
         console.log('Employee', this.employeeDetails);
