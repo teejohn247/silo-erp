@@ -236,6 +236,7 @@ export class EmployeeListComponent implements OnInit {
 
   // Filter changes
   onFilterChange(filters: any) {
+    console.log('Filters', filters)
     this.filters$.next(filters);
   }
 

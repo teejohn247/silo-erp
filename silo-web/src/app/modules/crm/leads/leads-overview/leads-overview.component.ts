@@ -15,10 +15,12 @@ import { LeadsInfoComponent } from '../leads-info/leads-info.component';
   styleUrl: './leads-overview.component.scss'
 })
 export class LeadsOverviewComponent implements OnInit {
+  leadsStats:any;
+  leadStages!: any[];
   agentsList:any[] = [];
   industriesList:any[] = [];
   selectedRows:any[] = [];
-  tableData!: any[];
+  currency!: string;
   isLoading = false;
 
   bulkActions = [
@@ -49,6 +51,7 @@ export class LeadsOverviewComponent implements OnInit {
     // },
   ]
 
+  tableData!: any[];
   tableFilters!: FilterConfig[];
   private search$ = new Subject<string>();
   private filters$ = new BehaviorSubject<any>({});
@@ -131,16 +134,12 @@ export class LeadsOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "status",
+      key: "stage",
       label: "Status",
       order: 10,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'status',
-      statusMap: {
-        true: 'active',
-        false: 'pending'
-      },
+      type: 'colorStatus',
       sortable: true
     },
     {
@@ -206,6 +205,21 @@ export class LeadsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currency = this.utils.currency;
+
+    forkJoin({
+      stages: this.crmService.getLeadStatuses(),
+      stats: this.crmService.getLeadStats(),
+      agents: this.crmService.getAgents(),
+    }).subscribe(({ stages, stats, agents }) => {
+      this.leadStages = stages.data;
+      this.leadsStats = stats.data;
+      this.agentsList = agents.data;
+
+      console.log('Stats', this.leadsStats)
+      this.buildFilters();
+    });
+
     // Reactive pipeline
     const tableData$ = combineLatest([
       this.search$.pipe(
@@ -227,6 +241,7 @@ export class LeadsOverviewComponent implements OnInit {
     tableData$.subscribe(res => {
       //console.log('Employees', res)
       this.tableData = res.data;
+      this.tableData = this.leadStages.length > 0 ? this.utils.mapThemeToData(this.tableData, this.leadStages, 'stage') : this.tableData;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
@@ -234,12 +249,7 @@ export class LeadsOverviewComponent implements OnInit {
     // Trigger initial load
     this.search$.next('');
 
-    forkJoin({
-      agents: this.crmService.getAgents(),
-    }).subscribe(({ agents }) => {
-      this.agentsList = agents.data;
-      this.buildFilters();
-    });
+   
   }
 
   ngOnDestroy() {

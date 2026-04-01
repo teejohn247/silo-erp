@@ -20,15 +20,15 @@
             class="kanban-stage {{'color-theme-'+stage.theme}}"
             *ngFor="let stage of vm; trackBy: trackStage"
             cdkDropList
-            [id]="stage.id"
+            [id]="stage._id"
             [cdkDropListData]="stage.items"
             [cdkDropListConnectedTo]="connectedStageIds"
-            (cdkDropListDropped)="onDrop($event, stage.id)"
+            (cdkDropListDropped)="onDrop($event, stage._id)"
         >
             <div class="stage-header">
                 <div class="title">
                     <span class="dot"></span>
-                    <span class="text">{{ stage.title }}</span>
+                    <span class="text">{{ stage.name }}</span>
                 </div>
                 <span class="count">{{ stage.items.length }}</span>
             </div>
@@ -43,13 +43,14 @@
                         (cdkDragStarted)="onDragStarted()"
                         (cdkDragEnded)="onDragEnded()"
                     >
-                        <div class="drag-handle" title="Drag">
+                        <div 
+                            class="drag-handle"
+                            title="Drag"
+                        >
                             <span></span><span></span><span></span>
                         </div>
 
-                        <ng-container
-                            *ngComponentOutlet="cardComponent; injector: createInjector(item)"
-                        ></ng-container>
+                        <ng-container *ngComponentOutlet="cardComponent; injector: createInjector(item)"></ng-container>
 
                         <ng-template cdkDragPlaceholder>
                             <div class="card-placeholder"></div>

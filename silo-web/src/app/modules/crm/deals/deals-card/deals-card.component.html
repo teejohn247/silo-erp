@@ -1,16 +1,16 @@
 <div class="deals-card {{'color-theme-'+ theme}}">
     <div class="header">
-        <div class="value">$ {{data.value}}</div>
-        <div class="icon {{data.priority}}">
-            <app-icon [iconName]="data.priority == 'hot' ? 'flame' : data.priority == 'cold' ? 'cold' : 'warm'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        <div class="value">{{currency}} {{data.expectedRevenue | localeString}}</div>
+        <div class="icon {{data.dealPriority}}">
+            <app-icon [iconName]="data.dealPriority == 'hot' ? 'flame' : data.dealPriority == 'cold' ? 'cold' : 'warm'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
         </div>
     </div>
     <div class="body">
-        <div class="title">{{data.title}}</div>
+        <div class="title">{{data.description}}</div>
         <div class="info">
             <div class="info-hld">
                 <span>{{data.company}}</span>
-                <span>{{data.date}}</span>
+                <span>{{data.createdAt | date: 'mediumDate'}} {{data.createdAt | date: 'shortTime'}}</span>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
             <span class="card-img bkg-standard" style="background-image: url('{{data.avatar}}');"></span>
         </div>
         <div class="info">
-            <div class="name">{{data.contactName}}</div>
+            <div class="name">{{data?.dealClientType === 'contact' ? data?.contactName : data?.leadName}}</div>
             <div class="email">{{data.email}}</div>
         </div>
     </div>

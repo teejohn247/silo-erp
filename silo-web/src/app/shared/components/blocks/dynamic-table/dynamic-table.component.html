@@ -136,6 +136,11 @@
 
                             <!-- PRIORITY CELL -->
                             <span *ngSwitchCase="'priority'" [class]="row[col.key]" class="priority-status"></span>
+
+                            <!-- COLOR STATUS CELL -->
+                            <span *ngSwitchCase="'colorStatus'" class="color-status" [class]="row['colorStatusTheme']">
+                                {{ row[col.key] }}
+                            </span>
                             
                             <!-- STATUS CELL -->
                             <span *ngSwitchCase="'status'" [ngClass]="getStatusClass(row, col)">

@@ -99,6 +99,11 @@ export class CrmService {
     return this.http.patch<any>(`${this.baseUrl}/convertLeadToDeal/${leadId}`, undefined, this.requestOptions);
   }
 
+  //Get Lead Stats
+  public getLeadStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/leads/stats`, this.requestOptions);
+  }
+
   /*************** CONTACT RELATED ACTIONS ***************/
 
   //Create a new contact
@@ -121,6 +126,12 @@ export class CrmService {
   public deleteContact(contactId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteContact/${contactId}`, this.requestOptions);
   }
+
+  //Get Contact Stats
+  public getContactStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/contacts/stats`, this.requestOptions);
+  }
+
 
   /*************** DEAL RELATED ACTIONS ***************/
 
@@ -163,6 +174,19 @@ export class CrmService {
   //Delete Deal Status
   public deleteDealStatus(statusId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteDealStage/${statusId}`, this.requestOptions);
+  }
+
+  //Move deal
+  public moveDeal(payload:any, dealId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/moveDealStage/${dealId}`, payload, this.requestOptions);
+  }
+
+  /*************** SALES RELATED ACTIONS ***************/
+
+  //Get the list of all sales orders
+  public getSalesOrders(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchSalesOrders`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   /*************** QUOTATION RELATED ACTIONS ***************/

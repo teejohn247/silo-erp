@@ -1,6 +1,7 @@
 export interface KanbanStage {
     id: string;
-    title: string;
+    _id?: any;
+    name: string;
     order: number;
     color?: string;
     theme?: string;

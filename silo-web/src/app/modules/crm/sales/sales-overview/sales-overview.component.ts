@@ -66,7 +66,7 @@ export class SalesOverviewComponent implements OnInit {
 
   tableColumns: any[] = [
     {
-      key: "refNo",
+      key: "referenceNumber",
       label: "Reference No",
       order: 1,
       columnWidth: "10%",
@@ -74,7 +74,7 @@ export class SalesOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "contactName",
+      key: "name",
       label: "Name",
       order: 2,
       columnWidth: "12%",
@@ -82,12 +82,12 @@ export class SalesOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "createdAt",
-      label: "Date Created",
+      key: "issueDate",
+      label: "Date Issued",
       order: 3,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'datetime',
+      type: 'date',
       sortable: true
     },
     {
@@ -96,11 +96,11 @@ export class SalesOverviewComponent implements OnInit {
       order: 4,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'datetime',
+      type: 'date',
       sortable: true
     },
     {
-      key: "assignedAgentName",
+      key: "agentName",
       label: "Agent",
       order: 5,
       columnWidth: "12%",
@@ -108,7 +108,7 @@ export class SalesOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "amount",
+      key: "orderTotal",
       label: "Amount",
       order: 6,
       columnWidth: "12%",
@@ -182,7 +182,33 @@ export class SalesOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tableData = [];
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.crmService.getSalesOrders(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    tableData$.subscribe(res => {
+      //console.log('Employees', res)
+      this.tableData = res.data;
+      console.log('Sales History', this.tableData);
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    // Trigger initial load
+    this.search$.next('');
 
     forkJoin({
       contacts: this.crmService.getContacts(1, 100),
@@ -197,7 +223,6 @@ export class SalesOverviewComponent implements OnInit {
       this.quotationslist = quotations.data;
     }); 
 
-    this.crmService.getContacts().subscribe(res => this.contactsList = res.data);
   }
 
   ngOnDestroy() {
@@ -365,5 +390,12 @@ export class SalesOverviewComponent implements OnInit {
         //this.search$.next('');
       }
     });
+  }
+
+  filterSales(orderType:string) {
+    this.activeTab = orderType;
+    this.onFilterChange({
+      orderType: orderType === 'all' ? null : orderType
+    })
   }
 }

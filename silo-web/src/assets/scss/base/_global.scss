@@ -542,6 +542,34 @@ a {
   }
 }
 
+.color-status {
+  font-size: 0.7rem;
+  line-height: 1;
+  border-radius: var(--radius-lg);
+  padding: 0.3rem 0.8rem;
+  color: white;
+
+  &.blue {
+    background: var(--blue-theme);
+  }
+
+  &.green {
+    background: var(--green-theme);
+  }
+
+  &.orange {
+    background: var(--orange-theme);
+  }
+
+  &.red {
+    background: var(--red-theme);
+  }
+
+  &.yellow {
+    background: var(--yellow-theme);
+  }
+}
+
 //Progress bar Styling
 .progress-bar {
   width: 100%;

@@ -7,7 +7,10 @@ export interface IPaging {
 }
 
 export type TableCellType =
-    | 'text'
+    | 'actions'
+    | 'colorStatus'
+    | 'custom'
+    | 'document'
     | 'number'
     | 'amount'
     | 'currency'
@@ -16,11 +19,9 @@ export type TableCellType =
     | 'time'
     | 'profile'
     | 'switch'
-    | 'document'
-    | 'custom'
     | 'priority'
     | 'status'
-    | 'actions';
+    | 'text'
 
 export interface TableColumn {
     key: string;
@@ -34,6 +35,7 @@ export interface TableColumn {
     clickable?: boolean;
     order?:number;
     sortable?:boolean;
+    colorStatusTheme?: any,
     statusMap?: { [key: string]: string };
     actions?: any
     menuActions?: TableAction[];

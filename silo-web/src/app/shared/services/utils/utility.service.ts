@@ -398,4 +398,38 @@ export class UtilityService {
     window.URL.revokeObjectURL(url);
   }
 
+  //Add Color Status Theme
+  mapThemeToData(
+    dataArray: any,
+    stages: any[],
+    targetProp: string,
+  ): any[] {
+    // Create a quick lookup map: stageKey -> themeKey
+    const themeMap: Record<string, any> = {};
+    stages.forEach(stage => {
+      themeMap[stage.name] = stage.theme;
+    });
+
+    // Return a new array with the new property added
+    return dataArray.map((item:any) => ({
+      ...item,
+      colorStatusTheme: themeMap[item[targetProp]] || 'default' // fallback if no match
+    }));
+  }
+
+  //Generate Kanban board items
+  transformKanbanItems(items: any[], stages: any[]) {
+    return items.map((item, index) => {
+      // Find matching stage
+      const stage = stages.find(s => s.name === item.stage);
+
+      return {
+        id: item._id || String(index + 1),
+        stageId: stage ? String(stage._id) : '',
+        theme: stage ? stage.theme : 'blue',
+        data: item // ✅ keep original object unchanged
+      };
+    });
+  }
+
 }

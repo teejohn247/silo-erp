@@ -15,7 +15,9 @@ import { TicketInfoComponent } from '../ticket-info/ticket-info.component';
 })
 export class SupportOverviewComponent implements OnInit {
   agentsList:any[] = [];
+  contactsList:any[] = [];
   industriesList:any[] = [];
+  ticketStatuses: any[] = [];
   selectedRows:any[] = [];
   tableData!: any[];
   isLoading = false;
@@ -86,13 +88,12 @@ export class SupportOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "status",
+      key: "stage",
       label: "Status",
       order: 10,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'status',
-      statusMap: this.utils.statusMap ,
+      type: 'colorStatus',
       sortable: true
     },
     {
@@ -120,6 +121,17 @@ export class SupportOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    forkJoin({
+      statuses: this.crmService.getTicketStatuses(),
+      contacts: this.crmService.getContacts(),
+      agents: this.crmService.getAgents(),
+    }).subscribe(({ statuses, contacts, agents }) => {
+      this.ticketStatuses = statuses.data;
+      this.contactsList = contacts.data;
+      this.agentsList = agents.data;
+      this.buildFilters();
+    });
+
     // Reactive pipeline
     const tableData$ = combineLatest([
       this.search$.pipe(
@@ -141,6 +153,7 @@ export class SupportOverviewComponent implements OnInit {
     tableData$.subscribe(res => {
       //console.log('Employees', res)
       this.tableData = res.data;
+      this.tableData = this.ticketStatuses.length > 0 ? this.utils.mapThemeToData(this.tableData, this.ticketStatuses, 'stage') : this.tableData;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
@@ -148,12 +161,7 @@ export class SupportOverviewComponent implements OnInit {
     // Trigger initial load
     this.search$.next('');
 
-    forkJoin({
-      agents: this.crmService.getAgents(),
-    }).subscribe(({ agents }) => {
-      this.agentsList = agents.data;
-      this.buildFilters();
-    });
+    
   }
 
   ngOnDestroy() {
@@ -206,15 +214,16 @@ export class SupportOverviewComponent implements OnInit {
         key: 'status', 
         label: 'Ticket Status', 
         type: 'select', 
-        options: {
-          New: 'New',
-          Triaged: 'Triaged',
-          Assigned: 'Assigned',
-          Investigating: 'Investigating',
-          Progress: 'In progress',
-          Waiting: 'Awaiting Customer Response',
-          Resolved: 'Resolved'
-        }, 
+        options: this.utils.arrayToObject(this.ticketStatuses, 'name'), 
+        // options: {
+        //   New: 'New',
+        //   Triaged: 'Triaged',
+        //   Assigned: 'Assigned',
+        //   Investigating: 'Investigating',
+        //   Progress: 'In progress',
+        //   Waiting: 'Awaiting Customer Response',
+        //   Resolved: 'Resolved'
+        // }, 
         includeIfEmpty: false 
       }
     ];
@@ -301,7 +310,9 @@ export class SupportOverviewComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '40%',
       data: modalData,
-      agents: this.agentsList
+      agents: this.agentsList,
+      contacts: this.contactsList,
+      ticketStatuses: this.ticketStatuses
     }
     this.modalService.open(
       TicketInfoComponent, 

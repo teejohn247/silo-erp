@@ -46,7 +46,7 @@ export class TicketInfoComponent implements OnInit {
         controlLabel: 'Contact',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.contactId : null,
-        selectOptions: this.utils.arrayToObject(this.contactsList, 'firstName'),
+        selectOptions: this.utils.arrayToObject(this.data.contacts, 'name'),
         validators: [Validators.required],
         order: 2
       },
@@ -70,15 +70,7 @@ export class TicketInfoComponent implements OnInit {
         controlLabel: 'Stage',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.stage : null,
-        selectOptions: {
-          New: 'New',
-          Triaged: 'Triaged',
-          Assigned: 'Assigned',
-          Investigating: 'Investigating',
-          Progress: 'In progress',
-          Waiting: 'Awaiting Customer Response',
-          Resolved: 'Resolved'
-        },
+        selectOptions: this.utils.arrayToObject(this.data.ticketStatuses, 'name'),
         validators: [Validators.required],
         order: 4
       },

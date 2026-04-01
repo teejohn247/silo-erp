@@ -15,10 +15,11 @@ import { ContactsInfoComponent } from '../contacts-info/contacts-info.component'
   styleUrl: './contacts-overview.component.scss'
 })
 export class ContactsOverviewComponent implements OnInit {
+  pageStats:any;
   agentsList:any[] = [];
   industriesList:any[] = [];
   selectedRows:any[] = [];
-  tableData!: any[];
+  currency!: string;
   isLoading = false;
 
   bulkActions = [
@@ -44,6 +45,7 @@ export class ContactsOverviewComponent implements OnInit {
     // },
   ]
 
+  tableData!: any[];
   tableFilters!: FilterConfig[];
   private search$ = new Subject<string>();
   private filters$ = new BehaviorSubject<any>({});
@@ -220,9 +222,13 @@ export class ContactsOverviewComponent implements OnInit {
     this.search$.next('');
 
     forkJoin({
+      stats: this.crmService.getContactStats(),
       agents: this.crmService.getAgents(),
-    }).subscribe(({ agents }) => {
+    }).subscribe(({ stats, agents }) => {
+      this.pageStats = stats.data;
       this.agentsList = agents.data;
+
+      console.log('Stats', this.pageStats)
       this.buildFilters();
     });
   }

@@ -26,7 +26,7 @@ export class StatusInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    //console.log(this.data);
     this.formFields = [
       {
         controlName: 'name',
@@ -51,7 +51,7 @@ export class StatusInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Color theme',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data?.colorTheme : null,
+        initialValue: this.data.isExisting ? this.data.data?.theme : null,
         selectOptions: {
           blue: 'blue',
           green: 'green',

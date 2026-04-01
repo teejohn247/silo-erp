@@ -1,17 +1,45 @@
 <div class="content-wrap">
     <div class="inner-wrap">
         <div class="row-section d-flex justify-content-between align-items-center">
-            <div class="page-header">Deals Pipeline</div>
-            <div class="main-actions d-flex justify-content-start align-items-center">
+            <div class="page-header">Deals Pipeline <span *ngIf="tableData && tableData.length > 0" class="count">{{paging.total}}</span></div>
+            <div class="main-actions d-flex justify-content-start align-items-center gap-3">
+                <div class="form-trigger-wrap">
+                    <div class="inner-wrap">
+                        <div [ngClass]="activeTab" id="" class="bkg-switch"></div>
+                        <div (click)="activeTab = 'tableView'" [class.active]="activeTab == 'tableView'" class="trigger tableView">Table View</div>
+                        <div (click)="activeTab = 'kanban'" [class.active]="activeTab == 'kanban'" class="trigger orders">Kanban Board</div>
+                    </div>
+                </div>
                 <div (click)="openDealsModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Deal</div>
             </div>
         </div>
 
-        <div class="row-section mt-4">
+        <div *ngIf="activeTab === 'tableView'" class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [displayFilters]="false"
+                [data]="tableData"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No deals records exist currently.'"
+                [emptyDataImage]="'assets/img/project/illustrations/puzzle.webp'"
+                (rowClick)="viewRow($event)"
+                (bulkAction)="onBulkAction($event)"
+                (actionClick)="onTableAction($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+
+        <div *ngIf="kanbanItems && activeTab !== 'tableView'" class="row-section mt-4">
             <kanban-board
                 #kanbanBoard
                 [stages]="stages"
-                [items]="items"
+                [items]="kanbanItems"
                 [cardComponent]="kanbanCardComponent"
                 (itemMoved)="onCardMoved($event)">
             </kanban-board>

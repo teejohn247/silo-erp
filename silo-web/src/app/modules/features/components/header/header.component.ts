@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
         ];
       }
 
-      console.log('Notifications (processed)', this.notifications);
+      //console.log('Notifications (processed)', this.notifications);
     });
   }
 

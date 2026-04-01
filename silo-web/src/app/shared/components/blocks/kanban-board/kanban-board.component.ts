@@ -115,6 +115,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
     map(([stages, items]) => {
       const sortedStages = [...stages].sort((a, b) => a.order - b.order);
 
+      console.log('Stages', sortedStages);
+
       // group items by stage
       const byStage = new Map<string, KanbanItem[]>();
       for (const it of items) {
@@ -129,10 +131,14 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
         byStage.set(k, arr);
       }
 
-      return sortedStages.map((s) => ({
+      let reqStages = sortedStages.map((s) => ({
         ...s,
-        items: byStage.get(s.id) ?? [],
+        items: byStage.get(s._id) ?? [],
       }));
+
+      console.log('Req', reqStages);
+
+      return reqStages
     }),
     shareReplay(1)
   );
@@ -169,6 +175,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
   /** Drop handler */
   onDrop(event: CdkDragDrop<KanbanItem[]>, targetStageId: string) {
     if (this.disableDrop) return;
+    
+    console.log('Drag Event', event);
 
     const item: KanbanItem = event.item.data;
     const fromStageId = event.previousContainer.id; // we set [id]="stage.id" on cdkDropList
