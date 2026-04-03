@@ -241,7 +241,7 @@ export class LeadsOverviewComponent implements OnInit {
     tableData$.subscribe(res => {
       //console.log('Employees', res)
       this.tableData = res.data;
-      this.tableData = this.leadStages.length > 0 ? this.utils.mapThemeToData(this.tableData, this.leadStages, 'stage') : this.tableData;
+      this.tableData = this.leadStages?.length > 0 ? this.utils.mapThemeToData(this.tableData, this.leadStages, 'stage') : this.tableData;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
