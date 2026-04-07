@@ -153,11 +153,7 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
         body.userId = this.userId;
       }
 
-      // Validation
-      if (!body.companyId && !body.userId) {
-        throw new Error('User identification failed. Please log in again.');
-      }
-
+      
       const response = await this.http
         .post<CopilotResponse>(`${environment.aiBaseUrl}/copilot/chat`, body)
         .toPromise();
