@@ -329,6 +329,27 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
 
       // ── Billing ────────────────────────────────────────────────────────────
       billing:            'app/settings/general-settings/billing',
+
+      // ── CRM Settings ───────────────────────────────────────────────────────
+      leads:              'app/crm/leads',
+      lead:               'app/crm/leads',
+      contacts:           'app/crm/contacts',
+      contact:            'app/crm/contacts',
+      deals:              'app/crm/deals-pipeline',
+      deal:               'app/crm/deals-pipeline',
+      sales:              'app/crm/sales',
+      sale:               'app/crm/sales',
+      activities:         'app/crm/calendar',
+      activity:           'app/crm/calendar',
+      support:            'app/crm/support',
+      supports:           'app/crm/support',
+      agents:             'app/crm/agents',
+      agent:              'app/crm/agents',
+      crm_reports:        'app/crm/reports',
+      crm_report:         'app/crm/reports',
+      crm_dashboard:      'app/crm/dashboard',
+      crm_settings:       'app/settings/crm-settings',
+      crm_setting:       'app/settings/crm-settings',
     };
 
     const route = intentRoutes[intent];
