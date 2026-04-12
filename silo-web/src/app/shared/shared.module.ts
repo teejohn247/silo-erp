@@ -78,6 +78,7 @@ import { SliderComponent } from './components/forms/slider/slider.component';
 import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
 import { LocaleDatePipe } from './pipes/locale-date.pipe';
 import { DataLoadingComponent } from './components/blocks/data-loading/data-loading.component';
+import { ZeraTriggerComponent } from './components/blocks/zera-trigger/zera-trigger.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -135,6 +136,7 @@ const SHARED_COMP = [
     NoDataComponent,
     QuillEditorComponent,
     StatusInfoComponent,
+    ZeraTriggerComponent,
 
     // Forms
     FormConfirmComponent,
@@ -180,6 +182,7 @@ const SHARED_COMP = [
     KanbanBoardComponent,
     NoDataComponent,
     StatusInfoComponent,
+    ZeraTriggerComponent,
 
     // External modules
     TranslateModule,

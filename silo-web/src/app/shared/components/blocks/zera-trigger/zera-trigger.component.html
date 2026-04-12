@@ -1,0 +1,26 @@
+<button
+    type="button"
+    class="chatbot-trigger"
+    aria-label="Open AI Assistant"
+>
+    <span class="chatbot-trigger__ping-ring"></span>
+    <span class="chatbot-trigger__glow-ring"></span>
+
+    <div class="chatbot-trigger__image-wrap">
+        <img
+            [src]="'assets/img/project/illustrations/chatbot.png'"
+            alt="AI Assistant"
+            class="chatbot-trigger__image"
+        />
+
+        <span class="chatbot-trigger__badge">
+            <span class="chatbot-trigger__badge-ping"></span>
+            <span class="chatbot-trigger__badge-dot"></span>
+        </span>
+    </div>
+
+    <div class="chatbot-trigger__tooltip">
+        {{ 'Chat with Zera AI ✨' }}
+        <div class="chatbot-trigger__tooltip-arrow"></div>
+    </div>
+</button>
