@@ -50,6 +50,10 @@ interface Suggestion {
 export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
+  image = 'assets/img/project/illustrations/chatbot.png';
+  title = 'Zera';
+  subtitle = 'SILO AI Assistant'
+
   // State
   isOpen = false;
   messages: Message[] = [];

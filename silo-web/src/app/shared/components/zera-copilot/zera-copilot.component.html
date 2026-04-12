@@ -1,111 +1,166 @@
 <!-- Floating Button -->
 <div class="zera-fab" [class.open]="isOpen" (click)="toggleOpen()">
-    <svg *ngIf="!isOpen" class="fab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-    </svg>
-    <svg *ngIf="isOpen" class="fab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-    </svg>
-  </div>
+  <app-zera-trigger></app-zera-trigger>
+  <!-- <svg *ngIf="!isOpen" class="fab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+  </svg>
+  <svg *ngIf="isOpen" class="fab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+  </svg> -->
+</div>
   
-  <!-- Copilot Drawer -->
-  <div class="zera-drawer" [class.open]="isOpen">
-  
-    <!-- Header -->
-    <div class="zera-header">
-      <div class="zera-title">
-        <span class="zera-brand">Zera</span>
-        <span class="zera-tagline">SILO AI Assistant</span>
-      </div>
-      <button class="zera-close" (click)="close()" aria-label="Close copilot">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        </svg>
-      </button>
+<!-- Copilot Drawer -->
+<div class="zera-drawer" [class.open]="isOpen">
+
+  <!-- Header -->
+  <!-- <div class="zera-header">
+    <div class="zera-title">
+      <span class="zera-brand">Zera</span>
+      <span class="zera-tagline">SILO AI Assistant</span>
     </div>
-  
-    <!-- Messages Container -->
-    <div class="zera-messages" #messagesContainer>
-  
-      <!-- Initial state: show suggestions -->
-      <ng-container *ngIf="messages.length === 0 && suggestions.length > 0">
-        <div class="zera-welcome">
-          <div class="zera-welcome-text">
-            <p class="zera-welcome-title">Ask about employees, payroll, absences & more</p>
-            <p class="zera-welcome-subtitle">Quick suggestions below</p>
-          </div>
-          <div class="zera-suggestions-grid">
-            <button
-              *ngFor="let suggestion of suggestions; trackBy: trackByIndex"
-              class="zera-suggestion-chip"
-              (click)="selectSuggestion(suggestion)"
-              [disabled]="isLoading"
-            >
-              {{ suggestion }}
-            </button>
-          </div>
+    <button class="zera-close" (click)="close()" aria-label="Close copilot">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+  </div> -->
+
+  <div class="zera-header">
+    <div class="zera-header__avatar">
+      <img [src]="image" [alt]="title" />
+    </div>
+
+    <div class="zera-header__content">
+      <h3 class="zera-header__title">{{ title }}</h3>
+      <p class="zera-header__subtitle">
+        <span class="zera-header__status-dot"></span>
+        {{ subtitle }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="zera-header__close"
+      (click)="close()"
+      aria-label="Close copilot"
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Messages Container -->
+  <div class="zera-messages" #messagesContainer>
+
+    <!-- Initial state: show suggestions -->
+    <!-- <ng-container *ngIf="messages.length === 0 && suggestions.length > 0">
+      <div class="zera-welcome">
+        <div class="zera-welcome-text">
+          <p class="zera-welcome-title">Ask about employees, payroll, absences & more</p>
+          <p class="zera-welcome-subtitle">Quick suggestions below</p>
         </div>
-      </ng-container>
-  
-      <!-- Messages -->
-      <ng-container *ngFor="let msg of messages; trackBy: trackByIndex">
-        <div class="zera-message" [class.user]="msg.role === 'user'" [class.assistant]="msg.role === 'assistant'">
-          <div class="zera-message-content">
-            {{ msg.content }}
-          </div>
-        </div>
-      </ng-container>
-  
-      <!-- ✅ Animated typing indicator — replaces the plain spinner -->
-      <div class="zera-message assistant" *ngIf="isLoading">
-        <div class="zera-message-content zera-typing">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-  
-      <!-- Download link for CSV reports -->
-      <div class="zera-message assistant" *ngIf="downloadLink && !isLoading">
-        <div class="zera-download-row">
-          <a
-            [href]="downloadLink.url"
-            [download]="downloadLink.label"
-            class="zera-download-btn"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div class="zera-suggestions-grid">
+          <button
+            *ngFor="let suggestion of suggestions; trackBy: trackByIndex"
+            class="zera-suggestion-chip"
+            (click)="selectSuggestion(suggestion)"
+            [disabled]="isLoading"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="download-icon">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-            </svg>
-            {{ downloadLink.label }}
-          </a>
+            {{ suggestion }}
+          </button>
         </div>
       </div>
-  
+    </ng-container> -->
+
+    <ng-container *ngIf="messages.length === 0 && suggestions.length > 0">
+      <div class="zera-empty-state">
+        <div class="zera-empty-state__image">
+          <img [src]="image" [alt]="title" />
+        </div>
+
+        <div class="zera-empty-state__text">
+          <h4 class="zera-empty-state__title">Hi there! 👋</h4>
+          <p class="zera-empty-state__subtitle">
+            Ask Zera anything. How can I help you today?
+          </p>
+          <p class="zera-empty-state__helper">Quick suggestions below</p>
+        </div>
+
+        <div class="zera-empty-state__suggestions">
+          <button
+            *ngFor="let suggestion of suggestions; trackBy: trackByIndex"
+            type="button"
+            class="zera-empty-state__suggestion"
+            (click)="selectSuggestion(suggestion)"
+            [disabled]="isLoading"
+          >
+            <span class="zera-empty-state__suggestion-icon">✦</span>
+            <span>{{ suggestion }}</span>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Messages -->
+    <ng-container *ngFor="let msg of messages; trackBy: trackByIndex">
+      <div class="zera-message" [class.user]="msg.role === 'user'" [class.assistant]="msg.role === 'assistant'">
+        <div class="zera-message-content">
+          {{ msg.content }}
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- ✅ Animated typing indicator — replaces the plain spinner -->
+    <div class="zera-message assistant" *ngIf="isLoading">
+      <div class="zera-message-content zera-typing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-  
-    <!-- Input -->
-    <div class="zera-input-row">
-      <input
-        type="text"
-        class="zera-input"
-        [(ngModel)]="inputValue"
-        (keydown.enter)="sendMessage()"
-        [disabled]="isLoading"
-        placeholder="Ask about payroll, employees, absence..."
-        autocomplete="off"
-      />
-      <button
-        class="zera-send-btn"
-        (click)="sendMessage()"
-        [disabled]="isLoading || !inputValue.trim()"
-        aria-label="Send message"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.9429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.05821114 C3.34915502,0.740315502 2.40734225,0.740315502 1.77946707,1.31701319 C0.994623095,1.88372088 0.837654326,2.97305068 1.15159189,3.75854756 L3.03521743,10.1995405 C3.03521743,10.3566379 3.19218622,10.5137353 3.50612381,10.5137353 L16.6915026,11.2992222 C16.6915026,11.2992222 17.1624089,11.2992222 17.1624089,11.8659299 L17.1624089,12.0230272 C17.1624089,12.5897349 16.6915026,12.4744748 16.6915026,12.4744748 Z"/>
-        </svg>
-      </button>
+
+    <!-- Download link for CSV reports -->
+    <div class="zera-message assistant" *ngIf="downloadLink && !isLoading">
+      <div class="zera-download-row">
+        <a
+          [href]="downloadLink.url"
+          [download]="downloadLink.label"
+          class="zera-download-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="download-icon">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+          {{ downloadLink.label }}
+        </a>
+      </div>
     </div>
-  
+
   </div>
+
+  <!-- Input -->
+  <div class="zera-input-row">
+    <input
+      type="text"
+      class="zera-input"
+      [(ngModel)]="inputValue"
+      (keydown.enter)="sendMessage()"
+      [disabled]="isLoading"
+      placeholder="Ask Zera anything about using the application..."
+      autocomplete="off"
+    />
+    <button
+      class="zera-send-btn"
+      (click)="sendMessage()"
+      [disabled]="isLoading || !inputValue.trim()"
+      aria-label="Send message"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.9429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.05821114 C3.34915502,0.740315502 2.40734225,0.740315502 1.77946707,1.31701319 C0.994623095,1.88372088 0.837654326,2.97305068 1.15159189,3.75854756 L3.03521743,10.1995405 C3.03521743,10.3566379 3.19218622,10.5137353 3.50612381,10.5137353 L16.6915026,11.2992222 C16.6915026,11.2992222 17.1624089,11.2992222 17.1624089,11.8659299 L17.1624089,12.0230272 C17.1624089,12.5897349 16.6915026,12.4744748 16.6915026,12.4744748 Z"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
