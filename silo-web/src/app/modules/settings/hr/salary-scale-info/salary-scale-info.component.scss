@@ -1,0 +1,44 @@
+.modal-container {
+    position: relative;
+
+    .close {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: inline-flex;
+        font-size: 1.2rem;
+        border-radius: 50%;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        background: var(--warning);
+        cursor: pointer;
+        color: white;
+        right: 1rem;
+        top: 1rem;
+    }
+}
+
+
+form {
+    overflow: hidden;
+    .form-wrap {
+        height: auto;
+        padding-top: 0.5rem;
+        max-height: 33rem;
+        overflow: auto;
+        gap: 1rem 0;
+
+        &.visible {
+            max-height: 100%;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .btn-hld {
+        display: flex;
+        justify-content: end;
+    }
+}

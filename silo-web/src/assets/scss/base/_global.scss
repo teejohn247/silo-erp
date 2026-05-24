@@ -931,6 +931,10 @@ a {
   border: 1px solid var(--black-tint-mmd) !important;
 }
 
+.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-left: none !important;
+}
+
 //NGX TIMEPICKER
 .timepicker {
   overflow: hidden !important;

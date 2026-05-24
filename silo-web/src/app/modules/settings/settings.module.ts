@@ -21,6 +21,7 @@ import { SubscriptionHistoryComponent } from './general/subscription-history/sub
 import { SubscriptionOverviewComponent } from './general/subscription-overview/subscription-overview.component';
 import { CrmSettingsComponent } from './crm/crm-settings/crm-settings.component';
 import { CompanyRoleInfoComponent } from './general/company-role-info/company-role-info.component';
+import { SalaryScaleInfoComponent } from './hr/salary-scale-info/salary-scale-info.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { CompanyRoleInfoComponent } from './general/company-role-info/company-ro
     AuditTrailComponent,
     BillingOverviewComponent,
     RolesPermissionManagementComponent,
+    SalaryScaleInfoComponent,
     SubscriptionHistoryComponent,
     SubscriptionOverviewComponent
   ],

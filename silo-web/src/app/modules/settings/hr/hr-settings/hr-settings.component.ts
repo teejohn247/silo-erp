@@ -10,6 +10,7 @@ import { DesignationInfoComponent } from '../designation-info/designation-info.c
 import { NotificationService } from '@services/utils/notification.service';
 import { PayrollCreditInfoComponent } from '../payroll-credit-info/payroll-credit-info.component';
 import { PayrollDebitInfoComponent } from '../payroll-debit-info/payroll-debit-info.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-hr-settings',
@@ -21,6 +22,12 @@ export class HrSettingsComponent implements OnInit {
   accordionItems: any[] = [];
   activeTab:number = -1;
   employees:any[] = [];
+
+  payrollCreditList: any[] = [];
+  payrollDebitList: any[] = [];
+  sideModalOpened: boolean = false;
+  editMode!:boolean;
+  salaryScaleInView$ = new BehaviorSubject<any>(null);
 
   constructor(
     private modalService: ModalService,
@@ -109,6 +116,17 @@ export class HrSettingsComponent implements OnInit {
         display: (x: any) => x.name,
         emptyText: "No payroll debits added",
         emptyImage: "assets/img/project/illustrations/wallet.webp"
+      },
+      {
+        label: "Salary Scales",
+        key: "salaryScales",
+        list: [],
+        loading: false,
+        api: () => this.hrService.getSalaryScales(),
+        deleteApi: (entity:any) => this.hrService.deleteSalaryScale(entity._id),
+        display: (x: any) => x.name,
+        emptyText: "No salary scales added",
+        emptyImage: "assets/img/project/illustrations/puzzle.webp"
       }
     ];
 
@@ -119,7 +137,8 @@ export class HrSettingsComponent implements OnInit {
       holidayName: new FormControl(''),
       expenseType: new FormControl(''),
       payrollCredit: new FormControl(''),
-      payrollDebit: new FormControl('')
+      payrollDebit: new FormControl(''),
+      salaryScale: new FormControl('')
     });
 
     this.loadAccordionData();
@@ -138,6 +157,8 @@ export class HrSettingsComponent implements OnInit {
         item.api().subscribe({
           next: (res: any) => {
             item.list = res.data;
+            if(item.key === 'payrollCredits') this.payrollCreditList = item.list;
+            if(item.key === 'payrollDebits') this.payrollDebitList = item.list;
             item.loading = false; // stop loading
           },
           error: () => {
@@ -348,6 +369,18 @@ export class HrSettingsComponent implements OnInit {
         reqObj.loading = false; // stop loading on error too
       }
     });
+  }
+
+  openSideModal() {
+    this.salaryScaleInView$.next(null);
+    this.editMode = false;
+    this.sideModalOpened = true;
+  }
+
+  closeSideModal() {
+    this.salaryScaleInView$.next(null);
+    // console.log('I am closing side modal')
+    this.sideModalOpened = !this.sideModalOpened
   }
   
 }

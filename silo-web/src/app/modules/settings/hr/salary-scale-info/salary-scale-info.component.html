@@ -1,0 +1,74 @@
+<div class="modal-container">
+    <div (click)="closeModal()" class="close">&times;</div>
+
+    <div class="modal-wrap">
+        <section class="modal-header">
+            <div class="illustration">
+                <div class="img-wrap">
+                    <img src="assets/img/project/illustrations/wallet.webp" alt="">
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="title">{{ editMode ? 'Edit Salary Scale' : 'Create Salary Scale' }}</div>
+                <div class="preamble">Enter the salary scale information</div>        
+            </div>        
+        </section>
+
+        <section class="modal-body">
+            <div class="form-container">
+                <form class="" [formGroup]="form">
+                    <div class="form-wrap visible d-flex flex-wrap justify-content-between">
+                        <ng-container *ngFor="let field of formFields">
+                            <ng-container *ngIf="!field.hidden" [ngSwitch]="field.controlType">
+                                <!-- Text Input -->
+                                <mat-form-field *ngSwitchCase="'text'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                                    <mat-label>{{ field.controlLabel }}</mat-label>
+                                    <input matInput [formControlName]="field.controlName" [readonly]="field.readonly">
+                                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                                    <mat-error *ngIf="form.get(field.controlName)?.hasError('email')">Please enter a valid email</mat-error>
+                                </mat-form-field>
+
+                                <!-- Text Area -->
+                                <mat-form-field *ngSwitchCase="'textarea'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                                    <mat-label>{{field.controlLabel}}</mat-label>
+                                    <textarea type="field.controlType" rows="3" matInput [formControlName]="field.controlName"></textarea>
+                                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                                </mat-form-field>
+
+                                <!-- Number -->
+                                <mat-form-field *ngSwitchCase="'number'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                                    <mat-label>{{field.controlLabel}}</mat-label>
+                                    <input matInput min="0" [max]="field.numberMax" type="number" [formControlName]="field.controlName">
+                                    <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                                </mat-form-field>
+
+                                <!-- Quill Editor -->
+                                <ng-container *ngSwitchCase="'quillEditor'">
+                                    <label class="quill-label">{{field.controlLabel}}</label>
+                                    <app-quill-editor class="w-100 mb-lg-3" [formControlName]="field.controlName"></app-quill-editor>
+                                    <mat-error *ngIf="form.get(field.controlName)?.touched && form.get(field.controlName)?.hasError('required')">
+                                        {{ field.controlLabel }} is required
+                                    </mat-error>
+                                </ng-container>
+
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <!-- BUTTON SECTION -->
+                    <div class="btn-hld w-100 d-flex gap-2 mt-3">
+
+                        <button
+                            type="button"
+                            class="cta cta-primary xl w-100"
+                        >
+                            Save <span *ngIf="isLoading" class="loader"></span> 
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>

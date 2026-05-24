@@ -33,3 +33,46 @@
         border-radius: var(--radius-md);
     }
 }
+
+
+.sidenav-container {
+    width: 0;
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    right: 0;
+    top: 0;
+    z-index: 7;
+
+    &.opened {
+        width: 100%;
+    }
+
+    .sidenav-bkg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .sidenav-content {
+        width: 0;
+        opacity: 0;
+        height: 100%;
+        overflow: scroll;
+        position: absolute;
+        background-color: white;
+        transition: all 0.7s ease;
+        -webkit-box-shadow: -20px 0 25px -10px rgba(0,0,0,0.2);
+        box-shadow: -20px 0 25px -10px rgba(0,0,0,0.2);
+        right: 0;
+        top: 0;
+        z-index: 3;
+
+        &.opened {
+            opacity: 1;
+            width: 50%;
+        }
+    }
+}
