@@ -56,6 +56,7 @@ import { TimeDurationPipe } from './pipes/time-duration.pipe';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 import { ProgressBarComponent } from './components/charts/progress-bar/progress-bar.component';
 import { DynamicFormComponent } from './components/forms/dynamic-form/dynamic-form.component';
+import { FormBuilderComponent } from './components/forms/form-builder/form-builder.component';
 import { NoDataComponent } from './components/blocks/no-data/no-data.component';
 import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 import { FileUploadComponent } from './components/forms/file-upload/file-upload.component';
@@ -79,6 +80,9 @@ import { RangeSliderComponent } from './components/forms/range-slider/range-slid
 import { LocaleDatePipe } from './pipes/locale-date.pipe';
 import { DataLoadingComponent } from './components/blocks/data-loading/data-loading.component';
 import { ZeraTriggerComponent } from './components/blocks/zera-trigger/zera-trigger.component';
+import { ConversationListComponent } from './components/messaging/conversation-list/conversation-list.component';
+import { ChatThreadComponent } from './components/messaging/chat-thread/chat-thread.component';
+import { ChatInputComponent } from './components/messaging/chat-input/chat-input.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -138,9 +142,15 @@ const SHARED_COMP = [
     StatusInfoComponent,
     ZeraTriggerComponent,
 
+    // Messaging
+    ConversationListComponent,
+    ChatThreadComponent,
+    ChatInputComponent,
+
     // Forms
     FormConfirmComponent,
     DynamicFormComponent,
+    FormBuilderComponent,
     FileUploadComponent,
     RangeSliderComponent,
     SliderComponent,
@@ -184,6 +194,11 @@ const SHARED_COMP = [
     StatusInfoComponent,
     ZeraTriggerComponent,
 
+    // Messaging
+    ConversationListComponent,
+    ChatThreadComponent,
+    ChatInputComponent,
+
     // External modules
     TranslateModule,
     AngularSvgIconModule,
@@ -205,6 +220,7 @@ const SHARED_COMP = [
     FileUploadComponent,
     FormConfirmComponent,
     DynamicFormComponent,
+    FormBuilderComponent,
     RangeSliderComponent,
     SliderComponent,
     SwitchComponent,

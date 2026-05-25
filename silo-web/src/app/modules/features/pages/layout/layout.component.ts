@@ -10,6 +10,7 @@ import { AuthService } from '@sharedWeb/services/utils/auth.service';
 export class LayoutComponent implements OnInit {
 
   userDetails: any;
+  rightPanelOpen = false;
 
   constructor(
     private authService: AuthService
@@ -17,6 +18,10 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.userDetails = this.authService.loggedInUser;
+  }
+
+  toggleRightPanel() {
+    this.rightPanelOpen = !this.rightPanelOpen;
   }
 
 }

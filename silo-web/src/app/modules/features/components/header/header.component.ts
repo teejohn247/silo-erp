@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@services/settings/settings.service';
 import { ModalService } from '@services/utils/modal.service';
@@ -15,6 +15,8 @@ import { PlatformSupportInfoComponent } from '../platform-support-info/platform-
 export class HeaderComponent implements OnInit {
 
   @Input() userDetails:any;
+  @Output() togglePanel = new EventEmitter<void>();
+
   userName!:string;
   userRole!:string;
   profilePhoto!: string;

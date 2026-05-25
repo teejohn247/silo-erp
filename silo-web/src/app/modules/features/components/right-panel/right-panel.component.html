@@ -1,0 +1,125 @@
+<div class="right-panel">
+
+    <div class="panel-tabs">
+        <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab === 'messages'"
+            (click)="setTab('messages')"
+        >
+            <i class="bi bi-chat-dots"></i>
+            <span>Messages</span>
+        </button>
+        <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab === 'notifications'"
+            (click)="setTab('notifications')"
+        >
+            <i class="bi bi-bell"></i>
+            <span>Notifications</span>
+            <span *ngIf="notificationBadgeCount > 0" class="tab-badge">{{ notificationBadgeCount }}</span>
+        </button>
+        <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab === 'noticeboard'"
+            (click)="setTab('noticeboard')"
+        >
+            <i class="bi bi-megaphone"></i>
+            <span>Notice Board</span>
+        </button>
+    </div>
+
+    <div class="panel-body">
+
+        <!-- ── Messages ────────────────────────────────────────── -->
+        <div *ngIf="activeTab === 'messages'" class="panel-tab-content messaging-tab">
+
+            <!-- Conversation list -->
+            <app-conversation-list
+                *ngIf="messagingView === 'list'"
+                [conversations]="conversations"
+                [currentUserId]="currentUserId"
+                [activeConversationId]="activeConversation?._id ?? null"
+                (conversationSelected)="openConversation($event)"
+                (newConversation)="openNewConversationView()"
+            ></app-conversation-list>
+
+            <!-- Chat thread -->
+            <ng-container *ngIf="messagingView === 'thread' && activeConversation">
+                <app-chat-thread
+                    [conversation]="activeConversation"
+                    [messages]="activeMessages"
+                    [currentUserId]="currentUserId"
+                    (back)="backToList()"
+                ></app-chat-thread>
+                <app-chat-input (messageSent)="sendMessage($event)"></app-chat-input>
+            </ng-container>
+
+            <!-- New conversation: employee picker -->
+            <div *ngIf="messagingView === 'new'" class="new-conv-view">
+                <div class="new-conv-hdr">
+                    <button type="button" class="back-link" (click)="messagingView = 'list'">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <span class="new-conv-title">New Message</span>
+                </div>
+
+                <div class="employee-search-wrap">
+                    <i class="bi bi-search search-icon"></i>
+                    <input
+                        class="employee-search-input"
+                        type="text"
+                        placeholder="Search employees…"
+                        [(ngModel)]="employeeSearch"
+                        (ngModelChange)="onSearchChange()"
+                    >
+                </div>
+
+                <div *ngIf="isSearching" class="employee-empty">
+                    <span class="loader"></span>
+                </div>
+                <div *ngIf="!isSearching && filteredEmployees.length === 0" class="employee-empty">
+                    <p>No employees found.</p>
+                </div>
+
+                <div class="employee-list">
+                    <div
+                        *ngFor="let emp of filteredEmployees"
+                        class="employee-item"
+                        [class.disabled]="isStartingConv"
+                        (click)="startConversation(emp)"
+                    >
+                        <div class="emp-avatar">
+                            <img *ngIf="emp.profilePic" [src]="emp.profilePic" [alt]="emp.fullName">
+                            <span *ngIf="!emp.profilePic">{{ emp.fullName | slice:0:1 }}{{ emp.lastName | slice:0:1 }}</span>
+                        </div>
+                        <div class="emp-info">
+                            <span class="emp-name">{{ emp.fullName }}</span>
+                            <span *ngIf="emp.companyRole" class="emp-role">{{ emp.companyRole }}</span>
+                        </div>
+                        <i *ngIf="isStartingConv" class="bi bi-arrow-right emp-arrow"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Notifications ──────────────────────────────────── -->
+        <div *ngIf="activeTab === 'notifications'" class="panel-tab-content">
+            <app-notifications-panel [notifications]="notifications"></app-notifications-panel>
+        </div>
+
+        <!-- ── Notice Board ───────────────────────────────────── -->
+        <div *ngIf="activeTab === 'noticeboard'" class="panel-tab-content">
+            <app-no-data
+                [height]="'16rem'"
+                [message]="'Notice board coming soon'"
+                [imageUrl]="'assets/img/project/illustrations/equalizer.png'"
+                [messageFontSize]="'0.85rem'"
+            ></app-no-data>
+        </div>
+
+    </div>
+</div>
