@@ -15,5 +15,9 @@ export class RecruitmentPortalComponent {
       routeLink: 'jobs',
       label: 'Job Board',
     },
+    {
+      routeLink: 'forms',
+      label: 'Job Forms',
+    },
   ]
 }

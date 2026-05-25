@@ -1,0 +1,57 @@
+<div class="apply-page">
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="state-wrap">
+        <app-data-loading></app-data-loading>
+    </div>
+
+    <!-- Not found -->
+    <div *ngIf="!isLoading && notFound" class="state-wrap">
+        <app-no-data
+            [height]="'20rem'"
+            [message]="'This form is no longer available or does not exist.'"
+            [imageUrl]="'assets/img/project/illustrations/flag.webp'"
+            [messageFontSize]="'1rem'"
+        ></app-no-data>
+    </div>
+
+    <!-- Submitted -->
+    <div *ngIf="!isLoading && submitted" class="state-wrap">
+        <div class="success-state">
+            <i class="bi bi-check-circle-fill success-icon"></i>
+            <div class="success-title">Application Submitted</div>
+            <div class="success-msg">Thank you! Your application has been received. We will be in touch shortly.</div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div *ngIf="!isLoading && !notFound && !submitted" class="apply-card">
+        <div class="apply-brand">
+            <img src="assets/img/project/logo/logo.webp" alt="Logo" class="apply-logo" onerror="this.style.display='none'">
+        </div>
+
+        <div class="apply-hdr">
+            <div class="apply-title">{{ formData?.formName }}</div>
+            <div *ngIf="formData?.description" class="apply-desc">{{ formData?.description }}</div>
+            <div *ngIf="formData?.jobPostTitle" class="apply-job">
+                <i class="bi bi-briefcase"></i> {{ formData.jobPostTitle }}
+            </div>
+        </div>
+
+        <div class="apply-body">
+            <app-dynamic-form
+                *ngIf="fields.length"
+                [fields]="fields"
+                [isLoading]="isSubmitting"
+                [buttonSaveLabel]="'Submit Application'"
+                [noScroll]="true"
+                (formAction)="handleSubmit($event)"
+            ></app-dynamic-form>
+
+            <div *ngIf="!fields.length" class="no-fields">
+                This form has no fields configured yet.
+            </div>
+        </div>
+    </div>
+
+</div>

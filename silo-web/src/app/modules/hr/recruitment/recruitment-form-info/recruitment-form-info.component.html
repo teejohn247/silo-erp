@@ -1,0 +1,72 @@
+<div class="row-section d-flex justify-content-between align-items-center mt-2">
+    <div class="page-header">
+        <span (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span>
+        {{ formInView ? 'Edit Form' : 'New Form' }}
+    </div>
+    <div class="main-actions d-flex align-items-center gap-3">
+        <button
+            *ngIf="formInView"
+            type="button"
+            class="cta cta-trans icon lg"
+            (click)="copyLink()"
+        >
+            <i class="bi bi-link-45deg"></i> Copy Link
+        </button>
+        <button
+            type="button"
+            class="cta cta-primary icon lg"
+            [disabled]="isLoading"
+            (click)="save()"
+        >
+            <i class="bi bi-floppy"></i> Save Form <span *ngIf="isLoading" class="loader ms-1"></span>
+        </button>
+    </div>
+</div>
+
+<div class="row-section d-flex justify-content-between align-items-start mt-4 gap-4">
+
+    <!-- Left: meta -->
+    <div class="col-section card-sm">
+        <div class="row-card">
+            <div class="card-cont">
+                <div class="card-hdr mb-3">Form Details</div>
+                <form [formGroup]="metaForm">
+                    <mat-form-field appearance="outline" color="primary" style="width:100%">
+                        <mat-label>Form Name</mat-label>
+                        <input matInput formControlName="formName">
+                        <mat-error *ngIf="metaForm.get('formName')?.hasError('required')">Form name is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" color="primary" style="width:100%">
+                        <mat-label>Description (optional)</mat-label>
+                        <textarea matInput formControlName="description" rows="3"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" color="primary" style="width:100%">
+                        <mat-label>Link to Job Post (optional)</mat-label>
+                        <mat-select formControlName="jobPost" panelClass="compact-dropdown lg" disableOptionCentering>
+                            <mat-option [value]="''">— None —</mat-option>
+                            <mat-option *ngFor="let job of jobPosts" [value]="job._id">
+                                {{ job.jobTitle }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+
+                <div *ngIf="formInView" class="share-hint mt-2">
+                    <i class="bi bi-info-circle"></i>
+                    Share the application link so candidates can fill this form without logging in.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: builder -->
+    <div class="col-section card-xlg">
+        <app-form-builder
+            [initialFields]="formFields"
+            (fieldsChange)="onFieldsChange($event)"
+        ></app-form-builder>
+    </div>
+
+</div>

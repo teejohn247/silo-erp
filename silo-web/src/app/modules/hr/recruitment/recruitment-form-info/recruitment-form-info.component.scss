@@ -1,0 +1,23 @@
+.card-hdr {
+    font-size: 0.85rem;
+    font-family: var(--font-medium);
+    color: var(--black-tint);
+    letter-spacing: 0.03rem;
+}
+
+.share-hint {
+    font-size: 0.75rem;
+    font-family: var(--font-regular);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+    line-height: 1.5;
+    padding: 0.65rem 0.75rem;
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary);
+
+    i {
+        margin-right: 0.3rem;
+        color: var(--primary);
+    }
+}

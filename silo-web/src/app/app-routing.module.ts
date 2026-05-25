@@ -33,6 +33,10 @@ const routes : Routes = [
     loadComponent: () => import('./modules/auth/login/login.component').then(m => m.LoginComponent),
   },
   {
+    path: 'apply/:formId',
+    loadComponent: () => import('./modules/public/job-application/job-application.component').then(m => m.JobApplicationComponent),
+  },
+  {
     path: 'app',
     loadChildren: () => import('./modules/features/features.module').then(m => m.FeaturesModule),
     canActivate: [ AuthGuard ]
