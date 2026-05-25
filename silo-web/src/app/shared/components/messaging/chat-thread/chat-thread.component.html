@@ -1,0 +1,33 @@
+<div class="chat-thread">
+
+    <!-- Thread header -->
+    <div class="thread-hdr">
+        <button type="button" class="back-btn" (click)="back.emit()">
+            <i class="bi bi-arrow-left"></i>
+        </button>
+        <div class="thread-avatar">
+            <span>{{ getInitials(getDisplayName()) }}</span>
+        </div>
+        <div class="thread-name">{{ getDisplayName() }}</div>
+    </div>
+
+    <!-- Messages -->
+    <div class="thread-messages">
+        <div *ngIf="messages.length === 0" class="thread-empty">
+            <p>Say hello! This is the start of your conversation.</p>
+        </div>
+
+        <div *ngFor="let msg of messages" class="msg-row" [class.mine]="isMine(msg)">
+            <div *ngIf="!isMine(msg)" class="msg-avatar">
+                <span>{{ getInitials(msg.sender.fullName) }}</span>
+            </div>
+            <div class="msg-bubble" [class.mine]="isMine(msg)">
+                <p>{{ msg.content }}</p>
+                <span class="msg-time">{{ msg.createdAt | timeDuration }}</span>
+            </div>
+        </div>
+
+        <div #messagesEnd></div>
+    </div>
+
+</div>

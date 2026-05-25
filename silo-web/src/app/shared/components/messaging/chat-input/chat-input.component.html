@@ -1,0 +1,17 @@
+<div class="chat-input-wrap">
+    <textarea
+        class="chat-textarea"
+        [(ngModel)]="text"
+        (keydown)="onKeydown($event)"
+        placeholder="Type a message…"
+        rows="1"
+    ></textarea>
+    <button
+        type="button"
+        class="send-btn"
+        [disabled]="!text.trim()"
+        (click)="send()"
+    >
+        <i class="bi bi-send-fill"></i>
+    </button>
+</div>
