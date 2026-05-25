@@ -584,6 +584,10 @@ export class HrService {
     return this.http.delete<any>(`${this.baseUrl}/deleteSalaryScale/${salaryScaleId}`, this.requestOptions);
   }
 
+  public assignSalaryScale(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/assignSalaryScale`, data, this.requestOptions);
+  }
+
 
   /*************** ATTENDANCE RELATED ACTIONS ***************/
 
