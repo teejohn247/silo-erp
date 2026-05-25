@@ -1,4 +1,16 @@
+// Host fills the full sidenav panel height
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+// ─── Layout: fixed header + scrollable body ───────────────────────────────────
+
 .modal-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     position: relative;
 
     .close {
@@ -12,33 +24,201 @@
         justify-content: center;
         background: var(--warning);
         cursor: pointer;
-        color: white;
+        color: var(--white);
         right: 1rem;
         top: 1rem;
+        z-index: 1;
     }
 }
 
-
-form {
+.modal-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
-    .form-wrap {
-        height: auto;
-        padding-top: 0.5rem;
-        max-height: 33rem;
-        overflow: auto;
-        gap: 1rem 0;
 
-        &.visible {
-            max-height: 100%;
-        }
+    // Fixed header — does not scroll
+    .modal-header {
+        flex-shrink: 0;
+    }
+
+    // Scrollable body
+    .modal-body {
+        flex: 1;
+        overflow-y: auto;
+        padding-top: 0;
 
         &::-webkit-scrollbar {
             display: none;
         }
     }
+}
 
-    .btn-hld {
+// ─── Levels section ───────────────────────────────────────────────────────────
+
+.levels-section {
+    .sec-hdr {
         display: flex;
-        justify-content: end;
+        align-items: center;
+        justify-content: space-between;
+
+        .sec-title {
+            font-size: 0.9rem;
+            font-family: var(--font-medium);
+            color: var(--black-tint);
+            letter-spacing: 0.02rem;
+        }
     }
+
+    // The global _global.scss accordion styles apply here.
+    // We only add overrides specific to the salary scale form accordion.
+    .accordion {
+        .accordion-button {
+            font-family: var(--font-medium);
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+
+            .name {
+                flex: 1;
+                text-align: left;
+            }
+
+            // Suppress Bootstrap's built-in chevron — we render our own
+            &::after {
+                display: none;
+            }
+
+            // Bootstrap adds an inset box-shadow on the open state that
+            // renders as a border line under the level title — suppress it.
+            // Also reset Bootstrap's default open-state colour overrides.
+            &:not(.collapsed) {
+                box-shadow: none;
+                color: inherit;
+                background-color: transparent;
+            }
+        }
+
+        // Chevron indicator — circular hover, no background at rest
+        .level-chevron {
+            width: 1.75rem;
+            height: 1.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: var(--transition-norm);
+
+            &:hover {
+                background: var(--primary-light);
+            }
+
+            i {
+                display: inline-block;
+                transition: transform 0.3s ease;
+            }
+        }
+
+        // Chevron points down when collapsed, up when open
+        .accordion-button.collapsed .level-chevron i {
+            transform: rotate(0deg);
+        }
+
+        .accordion-button:not(.collapsed) .level-chevron i {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0;
+
+            .form-wrap {
+                gap: 0.25rem 0;
+            }
+        }
+    }
+}
+
+// ─── Credits / Debits items ───────────────────────────────────────────────────
+
+.items-wrap {
+    .items-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+
+        .items-title {
+            font-size: 0.8rem;
+            font-family: var(--font-medium);
+            color: var(--text-dark-4);
+            letter-spacing: 0.02rem;
+        }
+    }
+
+    .item-fields-wrap {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        // Divider + spacing only between items — first item has no top gap
+        &:not(:first-child) {
+            border-top: 1px dashed var(--border-2);
+            padding-top: 1rem;
+        }
+    }
+
+    .item-actions {
+        display: flex;
+        align-items: center;
+        padding-top: 0.5rem;
+    }
+
+    .empty-items {
+        font-size: 0.78rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.02rem;
+        color: var(--text-dark-4);
+        padding: 0.5rem 0;
+    }
+}
+
+// ─── Misc ─────────────────────────────────────────────────────────────────────
+
+// Match dynamic-form .form-wrap gap
+.form-wrap {
+    gap: 1rem 0;
+}
+
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--red-theme-lightest);
+    color: var(--red-theme);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: var(--transition-norm);
+
+    &:hover {
+        background: var(--red-theme);
+        color: var(--white);
+    }
+}
+
+form .btn-hld {
+    display: flex;
+    justify-content: flex-end;
 }
