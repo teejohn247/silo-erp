@@ -326,6 +326,18 @@ export class HrSettingsComponent implements OnInit {
       case "designations":
         this.openDesignationModal(entity);
         break;
+
+      case "payrollCredits":
+        this.openPayrollCreditModal(entity);
+        break;
+
+      case "payrollDebits":
+        this.openPayrollDebitModal(entity);
+        break;
+
+      case "salaryScales":
+        this.openSalaryScaleForEdit(entity);
+        break;
     }
   }
 
@@ -352,21 +364,23 @@ export class HrSettingsComponent implements OnInit {
             item.list = item.list.filter((x:any) => x._id !== entity._id);
           }
         },
-        error: (err:any) => {}
+        error: () => {}
       });
     });
   }
 
   updateAccordionList(accordionKey:string) {
     let reqObj = this.accordionItems.find(x => x.key === accordionKey);
-    reqObj.loading = true; // start loading
+    reqObj.loading = true;
     reqObj.api().subscribe({
       next: (res: any) => {
         reqObj.list = res.data;
-        reqObj.loading = false; // stop loading
+        if (accordionKey === 'payrollCredits') this.payrollCreditList = reqObj.list;
+        if (accordionKey === 'payrollDebits')  this.payrollDebitList  = reqObj.list;
+        reqObj.loading = false;
       },
       error: () => {
-        reqObj.loading = false; // stop loading on error too
+        reqObj.loading = false;
       }
     });
   }
@@ -377,10 +391,22 @@ export class HrSettingsComponent implements OnInit {
     this.sideModalOpened = true;
   }
 
+  openSalaryScaleForEdit(entity: any) {
+    this.editMode = true;
+    this.salaryScaleInView$.next(entity);
+    this.sideModalOpened = true;
+  }
+
   closeSideModal() {
     this.salaryScaleInView$.next(null);
-    // console.log('I am closing side modal')
-    this.sideModalOpened = !this.sideModalOpened
+    this.sideModalOpened = false;
+  }
+
+  onSalaryScaleClosed(event: { dirty: boolean }) {
+    this.closeSideModal();
+    if (event.dirty) {
+      this.updateAccordionList('salaryScales');
+    }
   }
   
 }

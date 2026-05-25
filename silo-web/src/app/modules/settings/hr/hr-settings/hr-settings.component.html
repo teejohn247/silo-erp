@@ -135,9 +135,10 @@
     <div [class.opened]="sideModalOpened" class="sidenav-content">
         <app-salary-scale-info
             [editMode]="editMode"
-            [payrollCredits]="payrollCreditList "
+            [payrollCredits]="payrollCreditList"
             [payrollDebits]="payrollDebitList"
-            (triggerModalClosure)="closeSideModal()"
+            [salaryScaleInfo$]="salaryScaleInView$"
+            (triggerModalClosure)="onSalaryScaleClosed($event)"
         >
         </app-salary-scale-info>
     </div>
