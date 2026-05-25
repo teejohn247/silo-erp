@@ -17,6 +17,7 @@ import { ExpenseManagementOverviewComponent } from './expense-management/expense
 import { ExpenseRequestsInfoComponent } from './expense-management/expense-requests-info/expense-requests-info.component';
 import { ExpenseRequestsOverviewComponent } from './expense-management/expense-requests-overview/expense-requests-overview.component';
 import { EmployeeAssignmentComponent } from './employees/employee-assignment/employee-assignment.component';
+import { EmployeeSalaryScaleComponent } from './employees/employee-salary-scale/employee-salary-scale.component';
 import { AttendancePortalComponent } from './attendance/attendance-portal/attendance-portal.component';
 import { AttendanceLogComponent } from './attendance/attendance-log/attendance-log.component';
 import { VisitorInfoComponent } from './attendance/visitor-info/visitor-info.component';
@@ -63,6 +64,7 @@ import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/
     CalendarEventsComponent,
     DashboardComponent,
     EmployeeAssignmentComponent,
+    EmployeeSalaryScaleComponent,
     EmployeeListComponent,
     EmployeeInfoComponent,
     EmployeeProfileComponent,

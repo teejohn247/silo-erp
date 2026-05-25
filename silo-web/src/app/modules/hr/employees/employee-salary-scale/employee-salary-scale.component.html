@@ -1,0 +1,58 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/wallet.webp" alt="">
+            </div>
+        </div>
+        <div class="details">
+            <div class="title">Assign Salary Scale</div>
+            <div class="preamble">Select the salary scale and level to assign.</div>
+        </div>
+    </section>
+
+    <section class="my-3">
+        <ul class="chip-wrap">
+            <li *ngFor="let employee of data.selectedEmployees">{{ employee.fullName }}</li>
+        </ul>
+    </section>
+
+    <section class="modal-body">
+        <form [formGroup]="form">
+            <div class="form-wrap d-flex flex-wrap justify-content-between">
+
+                <mat-form-field appearance="outline" style="width: 100%" color="primary">
+                    <mat-label>Salary Scale</mat-label>
+                    <mat-select formControlName="salaryScale" panelClass="compact-dropdown lg" disableOptionCentering>
+                        <mat-option *ngFor="let opt of salaryScaleOptions | keyvalue" [value]="opt.key">
+                            {{ opt.value }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('salaryScale')?.hasError('required')">Salary scale is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%" color="primary">
+                    <mat-label>Scale Level</mat-label>
+                    <mat-select formControlName="scaleLevel" panelClass="compact-dropdown lg" disableOptionCentering>
+                        <mat-option *ngFor="let opt of scaleLevelOptions | keyvalue" [value]="opt.key">
+                            {{ opt.value }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('scaleLevel')?.hasError('required')">Scale level is required</mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div class="btn-hld w-100 d-flex mt-3">
+                <button
+                    type="button"
+                    class="cta cta-primary xl w-100"
+                    [disabled]="isLoading || form.invalid"
+                    (click)="onSubmit()"
+                >
+                    Save Assignment <span *ngIf="isLoading" class="loader ms-1"></span>
+                </button>
+            </div>
+        </form>
+    </section>
+</div>

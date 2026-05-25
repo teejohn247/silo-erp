@@ -49,10 +49,19 @@ interface Suggestion {
 })
 export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
+  @ViewChild('zeraHost') hostEl!: ElementRef;
 
   image = 'assets/img/project/illustrations/chatbot.png';
   title = 'Zera';
   subtitle = 'SILO AI Assistant'
+
+  // Drag state
+  isDragging = false;
+  hostX: number | null = null;
+  hostY: number | null = null;
+  private dragOffsetX = 0;
+  private dragOffsetY = 0;
+  private hasDragged = false;
 
   // State
   isOpen = false;
@@ -95,6 +104,8 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    document.removeEventListener('mousemove', this.boundDragMove);
+    document.removeEventListener('mouseup', this.boundDragEnd);
   }
 
   // ───────────────────────────────────────────────────────────────
@@ -102,6 +113,10 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
   // ───────────────────────────────────────────────────────────────
 
   toggleOpen(): void {
+    if (this.hasDragged) {
+      this.hasDragged = false;
+      return;
+    }
     this.isOpen = !this.isOpen;
     if (this.isOpen && this.messages.length === 0) {
       this.loadSuggestions();
@@ -110,6 +125,42 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
       this.shouldScroll = true;
     }
   }
+
+  // ───────────────────────────────────────────────────────────────
+  // Drag to reposition
+  // ───────────────────────────────────────────────────────────────
+
+  onFabMouseDown(event: MouseEvent): void {
+    event.preventDefault();
+    this.isDragging = true;
+    this.hasDragged = false;
+
+    const host = this.hostEl.nativeElement as HTMLElement;
+    const rect = host.getBoundingClientRect();
+    this.dragOffsetX = event.clientX - rect.left;
+    this.dragOffsetY = event.clientY - rect.top;
+
+    document.addEventListener('mousemove', this.boundDragMove);
+    document.addEventListener('mouseup', this.boundDragEnd);
+  }
+
+  private boundDragMove = (event: MouseEvent): void => {
+    if (!this.isDragging) return;
+    this.hasDragged = true;
+
+    const host = this.hostEl.nativeElement as HTMLElement;
+    const maxX = window.innerWidth  - host.offsetWidth;
+    const maxY = window.innerHeight - host.offsetHeight;
+
+    this.hostX = Math.max(0, Math.min(event.clientX - this.dragOffsetX, maxX));
+    this.hostY = Math.max(0, Math.min(event.clientY - this.dragOffsetY, maxY));
+  };
+
+  private boundDragEnd = (): void => {
+    this.isDragging = false;
+    document.removeEventListener('mousemove', this.boundDragMove);
+    document.removeEventListener('mouseup', this.boundDragEnd);
+  };
 
   close(): void {
     this.isOpen = false;

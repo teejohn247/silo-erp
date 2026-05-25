@@ -562,6 +562,33 @@ export class HrService {
     return this.http.get<any>(`${this.baseUrl}/payrollGraph/${year}`, this.requestOptions);
   }
 
+  /*************** SALARY SCALE RELATED ACTIONS ***************/
+
+  //Create a new salary scale
+  public createSalaryScale(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createSalaryScale`, payload, this.requestOptions);
+  }
+
+  //Get the payroll salary scales
+  public getSalaryScales(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchSalaryScale`, this.requestOptions);
+  }
+
+  //Update Payroll salary scale
+  public updateSalaryScale(salaryScaleId: any, payload:any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateSalaryScale/${salaryScaleId}`, payload, this.requestOptions);
+  }
+
+  //Delete payroll salary scale
+  public deleteSalaryScale(salaryScaleId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteSalaryScale/${salaryScaleId}`, this.requestOptions);
+  }
+
+  public assignSalaryScale(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/assignSalaryScale`, data, this.requestOptions);
+  }
+
+
   /*************** ATTENDANCE RELATED ACTIONS ***************/
 
   //Get the attendance list

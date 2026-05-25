@@ -68,6 +68,14 @@
                             </mat-form-field>
                             <div (click)="openPayrollDebitModal()" class="cta-add"><i class="bi bi-plus"></i></div>
                         </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Salary Scale</mat-label>
+                                <input matInput formControlName="salaryScale" id="salaryScale" name="salaryScale" placeholder="Enter salary scale name">
+                            </mat-form-field>
+                            <div (click)="openSideModal()" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -118,5 +126,20 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div [class.opened]="sideModalOpened" class="sidenav-container"> 
+    <div (click)="closeSideModal()" class="sidenav-bkg"></div> 
+    <div [class.opened]="sideModalOpened" class="sidenav-content">
+        <app-salary-scale-info
+            [editMode]="editMode"
+            [payrollCredits]="payrollCreditList"
+            [payrollDebits]="payrollDebitList"
+            [salaryScaleInfo$]="salaryScaleInView$"
+            (triggerModalClosure)="onSalaryScaleClosed($event)"
+        >
+        </app-salary-scale-info>
     </div>
 </div>

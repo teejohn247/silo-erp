@@ -132,8 +132,8 @@ export class ExpenseRequestsInfoComponent implements OnInit {
         next: res => {
           // console.log(res);
           if(res.status == 200) {
-            if(payload.approved) this.notify.showSuccess('This leave request has been approved');
-            else this.notify.showInfo('This leave request has been declined');
+            if(payload.approved) this.notify.showSuccess('This expense request has been approved');
+            else this.notify.showInfo('This expense request has been declined');
             this.isLoading = false;
           }
           //this.getPageData();
@@ -151,7 +151,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
       this.hrService.updateExpenseRequest(formData, this.data.data._id).subscribe({
         next: res => {
           //console.log('Update Response', res)
-          if(res.success) this.notify.showSuccess('Your leave application has been updated successfully');
+          if(res.success) this.notify.showSuccess('Your expense request has been updated successfully');
           this.isLoading = false;
           this.emitResponse();
         },
@@ -163,7 +163,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
       this.hrService.createExpenseRequest(formData).subscribe({
         next: res => {
           console.log('Create Response', res)
-          if(res.success) this.notify.showSuccess('Your leave application has been sent successfully');
+          if(res.success) this.notify.showSuccess('Your expense request has been sent successfully');
           this.isLoading = false;
           this.emitResponse();
         },

@@ -8,6 +8,7 @@ import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeAssignmentComponent } from '../employee-assignment/employee-assignment.component';
+import { EmployeeSalaryScaleComponent } from '../employee-salary-scale/employee-salary-scale.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -338,6 +339,24 @@ export class EmployeeListComponent implements OnInit {
     })
   }
 
+  openSalaryScaleModal() {
+    this.hrService.getSalaryScales().pipe(
+      switchMap(res => {
+        const modalConfig: any = {
+          isExisting: false,
+          width: '40%',
+          salaryScales: res.data,
+          selectedEmployees: this.selectedRows
+        };
+        return this.modalService.open(EmployeeSalaryScaleComponent, modalConfig);
+      })
+    ).subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.search$.next('');
+      }
+    });
+  }
+
   openAssignmentModal(type:string) {
     this.hrService.getEmployees(1, 100).pipe(
       switchMap(res => {
@@ -405,6 +424,10 @@ export class EmployeeListComponent implements OnInit {
         this.selectedRows.push(event.row);
         this.openAssignmentModal('approver');
         break;
+      case 'assignSalaryScale':
+        this.selectedRows = [event.row];
+        this.openSalaryScaleModal();
+        break;
       case 'delete':
         this.deleteRow(event.row);
         break;
@@ -423,6 +446,9 @@ export class EmployeeListComponent implements OnInit {
           break;
         case 'assignApprover':
           this.openAssignmentModal('approver');
+          break;
+        case 'assignSalaryScale':
+          this.openSalaryScaleModal();
           break;
       }
     }

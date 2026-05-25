@@ -1,0 +1,248 @@
+<div class="modal-container">
+    <div (click)="closeModal()" class="close">&times;</div>
+
+    <div class="modal-wrap">
+        <section class="modal-header">
+            <div class="illustration">
+                <div class="img-wrap">
+                    <img src="assets/img/project/illustrations/wallet.webp" alt="">
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="title">{{ editMode ? 'Edit Salary Scale' : 'Create Salary Scale' }}</div>
+                <div class="preamble">Enter the salary scale information</div>
+            </div>
+        </section>
+
+        <section class="modal-body">
+            <form [formGroup]="form">
+
+                <!-- Top-level fields -->
+                <div class="form-wrap d-flex flex-wrap justify-content-between">
+
+                    <mat-form-field appearance="outline" style="width: 100%" color="primary">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-48" color="primary">
+                        <mat-label>Min Amount</mat-label>
+                        <input matInput type="number" min="0" formControlName="minAmount">
+                        <mat-error *ngIf="form.get('minAmount')?.hasError('required')">Min amount is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-48" color="primary">
+                        <mat-label>Max Amount</mat-label>
+                        <input matInput type="number" min="0" formControlName="maxAmount">
+                        <mat-error *ngIf="form.get('maxAmount')?.hasError('required')">Max amount is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" style="width: 100%" color="primary">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput rows="2" formControlName="description"></textarea>
+                    </mat-form-field>
+
+                </div>
+
+                <!-- Salary Scale Levels -->
+                <section formArrayName="salaryScaleLevels" class="levels-section mt-4 w-100">
+
+                    <div class="sec-hdr">
+                        <span class="sec-title">Salary Scale Levels</span>
+                        <button type="button" class="cta cta-primary md" (click)="addLevel()">Add Level</button>
+                    </div>
+
+                    <div class="accordion mt-3">
+                        <div
+                            *ngFor="let _ of salaryScaleLevelDetails.controls; let i = index"
+                            class="accordion-item"
+                        >
+                            <!-- Accordion header -->
+                            <div class="accordion-header">
+                                <button
+                                    type="button"
+                                    class="accordion-button"
+                                    [class.collapsed]="activeTab !== i"
+                                    (click)="toggleLevel(i)"
+                                >
+                                    <span
+                                        *ngIf="salaryScaleLevelDetails.length > 1"
+                                        class="btn-delete"
+                                        (click)="$event.stopPropagation(); removeLevel(i)"
+                                    >
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </span>
+                                    <span class="name">
+                                        {{ salaryScaleLevelDetails.at(i).get('levelName')?.value || ('Level ' + (i + 1)) }}
+                                    </span>
+                                    <span class="level-chevron">
+                                        <i class="bi bi-chevron-down"></i>
+                                    </span>
+                                </button>
+                            </div>
+
+                            <!-- Accordion body -->
+                            <div class="accordion-collapse collapse" [class.show]="activeTab === i">
+                                <div class="accordion-body" [formGroupName]="i">
+
+                                    <div class="form-wrap d-flex flex-wrap justify-content-between w-100">
+
+                                        <mat-form-field appearance="outline" style="width: 100%" color="primary">
+                                            <mat-label>Level Name</mat-label>
+                                            <input matInput formControlName="levelName">
+                                            <mat-error *ngIf="salaryScaleLevelDetails.at(i).get('levelName')?.hasError('required')">Level name is required</mat-error>
+                                        </mat-form-field>
+
+                                        <!-- Credits -->
+                                        <div class="items-wrap w-100">
+                                            <div class="items-hdr">
+                                                <span class="items-title">Credits (+)</span>
+                                                <button type="button" class="cta cta-trans sm" (click)="addLevelCredit(i)">Add Credit</button>
+                                            </div>
+
+                                            <div formArrayName="payrollCredits" class="item-fields-wrap">
+                                                <div
+                                                    *ngFor="let _ of levelCredits(i).controls; let cIndex = index"
+                                                    class="item-row"
+                                                >
+                                                    <ng-container [formGroupName]="cIndex">
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Payroll Credit</mat-label>
+                                                            <mat-select formControlName="name" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payrollCreditOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="levelCredits(i).at(cIndex).get('name')?.hasError('required')">Required</mat-error>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Pay Type</mat-label>
+                                                            <mat-select formControlName="type" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payTypeOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="levelCredits(i).at(cIndex).get('type')?.hasError('required')">Required</mat-error>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Value</mat-label>
+                                                            <input matInput type="number" min="0" [max]="payValueLimit(i, cIndex, 'credit')" formControlName="value">
+                                                        </mat-form-field>
+
+                                                        <mat-form-field *ngIf="payValueRef(i, cIndex, 'credit')" appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Reference Credit</mat-label>
+                                                            <mat-select formControlName="ref" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payrollCreditOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <div class="item-actions">
+                                                            <span class="btn-delete" (click)="removeLevelCredit(i, cIndex)">
+                                                                <i class="bi bi-trash3-fill"></i>
+                                                            </span>
+                                                        </div>
+
+                                                    </ng-container>
+                                                </div>
+
+                                                <div *ngIf="levelCredits(i).length === 0" class="empty-items">
+                                                    No credits added yet.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Debits -->
+                                        <div class="items-wrap w-100 mt-3">
+                                            <div class="items-hdr">
+                                                <span class="items-title">Debits (-)</span>
+                                                <button type="button" class="cta cta-trans sm" (click)="addLevelDebit(i)">Add Debit</button>
+                                            </div>
+
+                                            <div formArrayName="payrollDebits" class="item-fields-wrap">
+                                                <div
+                                                    *ngFor="let _ of levelDebits(i).controls; let dIndex = index"
+                                                    class="item-row"
+                                                >
+                                                    <ng-container [formGroupName]="dIndex">
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Payroll Debit</mat-label>
+                                                            <mat-select formControlName="name" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payrollDebitOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="levelDebits(i).at(dIndex).get('name')?.hasError('required')">Required</mat-error>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Pay Type</mat-label>
+                                                            <mat-select formControlName="type" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payTypeOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error *ngIf="levelDebits(i).at(dIndex).get('type')?.hasError('required')">Required</mat-error>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Value</mat-label>
+                                                            <input matInput type="number" min="0" [max]="payValueLimit(i, dIndex, 'debit')" formControlName="value">
+                                                        </mat-form-field>
+
+                                                        <mat-form-field *ngIf="payValueRef(i, dIndex, 'debit')" appearance="outline" class="w-48" color="primary">
+                                                            <mat-label>Reference Credit</mat-label>
+                                                            <mat-select formControlName="ref" panelClass="compact-dropdown lg" disableOptionCentering>
+                                                                <mat-option *ngFor="let opt of payrollCreditOptions | keyvalue" [value]="opt.key">
+                                                                    {{ opt.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+
+                                                        <div class="item-actions">
+                                                            <span class="btn-delete" (click)="removeLevelDebit(i, dIndex)">
+                                                                <i class="bi bi-trash3-fill"></i>
+                                                            </span>
+                                                        </div>
+
+                                                    </ng-container>
+                                                </div>
+
+                                                <div *ngIf="levelDebits(i).length === 0" class="empty-items">
+                                                    No debits added yet.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Submit -->
+                <div class="btn-hld w-100 d-flex gap-2 mt-4">
+                    <button
+                        type="button"
+                        class="cta cta-primary xl w-100"
+                        [disabled]="isLoading"
+                        (click)="onSubmit()"
+                    >
+                        {{ editMode ? 'Update' : 'Save' }}
+                        <span *ngIf="isLoading" class="loader ms-1"></span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+</div>

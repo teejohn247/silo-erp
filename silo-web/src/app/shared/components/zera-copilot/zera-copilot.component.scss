@@ -1,58 +1,66 @@
 // Zera Copilot Styles
 
 // ─────────────────────────────────────────────────────────────
+// Draggable host — wraps FAB + drawer so they move together
+// ─────────────────────────────────────────────────────────────
+
+.zera-host {
+    position: fixed;
+    bottom: 2rem;
+    right: 4rem;
+    z-index: 999;
+
+    // Once the user has dragged, top/left are set via inline style.
+    // Override bottom/right so they don't fight the new position.
+    &.positioned {
+        bottom: auto;
+        right: auto;
+    }
+
+    &.dragging {
+        cursor: grabbing;
+        user-select: none;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
 // Floating Action Button (FAB)
 // ─────────────────────────────────────────────────────────────
 
 .zera-fab {
-    position: fixed;
-    bottom: 2rem;
-    right: 4rem;
+    position: relative;
     width: auto;
     height: auto;
     border-radius: 50%;
-    //background: var(--primary, rgb(65, 202, 200));
     color: white;
     border: none;
-    //box-shadow: 0 4px 12px rgba(65, 202, 200, 0.3);
-    cursor: pointer;
+    cursor: grab;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     transition: all var(--transition-norm, 0.3s ease);
-    z-index: 999;
-  
-    // &:hover {
-    //   transform: scale(1.1);
-    //   box-shadow: 0 6px 20px rgba(65, 202, 200, 0.4);
-    // }
-  
+
     &:active {
-      transform: scale(0.95);
+        transform: scale(0.95);
     }
-  
-    // &.open {
-    //   background: rgb(65, 202, 200);
-    //   box-shadow: 0 4px 12px rgba(30, 35, 85, 0.3);
-    // }
-  
+
     .fab-icon {
-      display: block;
-      line-height: 1;
-      width: 28px;
-      height: 28px;
+        display: block;
+        line-height: 1;
+        width: 28px;
+        height: 28px;
     }
-  }
-  
-  // ─────────────────────────────────────────────────────────────
-  // Drawer / Modal
-  // ─────────────────────────────────────────────────────────────
-  
-  .zera-drawer {
-    position: fixed;
-    bottom: 120px;
-    right: 2rem;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Drawer / Modal — positioned above the FAB within the host
+// ─────────────────────────────────────────────────────────────
+
+.zera-drawer {
+    position: absolute;
+    bottom: calc(100% + 1rem);
+    right: 0;
     width: 420px;
     max-width: 90vw;
     height: 600px;
@@ -66,24 +74,24 @@
     pointer-events: none;
     transform: translateY(20px);
     transition: all 0.3s ease;
-    z-index: 998;
-  
+
     &.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
     }
-  
+
     @media (max-width: 600px) {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      bottom: 0;
-      right: 0;
-      border-radius: 16px 16px 0 0;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        bottom: 0;
+        right: 0;
+        border-radius: 16px 16px 0 0;
     }
-  }
+}
   
   // ─────────────────────────────────────────────────────────────
   // Header
@@ -684,45 +692,22 @@
   // ─────────────────────────────────────────────────────────────
   
   @media (max-width: 768px) {
-    .zera-fab {
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 56px;
-      height: 56px;
-      font-size: 20px;
-    }
-  
-    .zera-drawer {
-      bottom: 100px;
-    }
-  
     .zera-message-content {
       max-width: 90%;
     }
   }
-  
+
   @media (max-width: 480px) {
-    .zera-fab {
-      bottom: 1rem;
-      right: 1rem;
-    }
-  
-    .zera-drawer {
-      bottom: 80px;
-      right: 1rem;
-      width: calc(100% - 2rem);
-    }
-  
     .zera-message-content {
       font-size: 0.85rem;
       max-width: 100%;
     }
-  
+
     .zera-input-row {
       gap: 0.5rem;
       padding: 1rem;
     }
-  
+
     .zera-messages {
       padding: 1rem;
     }
