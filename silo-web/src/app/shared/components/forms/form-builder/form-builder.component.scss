@@ -1,0 +1,427 @@
+// ─── Host ────────────────────────────────────────────────────────────────────
+
+:host {
+    display: block;
+}
+
+// ─── Outer layout ────────────────────────────────────────────────────────────
+
+.form-builder {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    width: 100%;
+}
+
+// ─── Left: Palette ───────────────────────────────────────────────────────────
+
+.palette {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--bkg-2);
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+.palette-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.palette-title {
+    font-size: 0.8rem;
+    font-family: var(--font-medium);
+    color: var(--black-tint);
+    letter-spacing: 0.03rem;
+}
+
+.palette-hint {
+    font-size: 0.65rem;
+    font-family: var(--font-regular);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.palette-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.65rem 0.4rem;
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    cursor: pointer;
+    transition: var(--transition-norm);
+    text-align: center;
+
+    i {
+        font-size: 1.1rem;
+        color: var(--primary);
+        line-height: 1;
+    }
+
+    span {
+        font-size: 0.65rem;
+        font-family: var(--font-regular);
+        color: var(--text-dark-4);
+        letter-spacing: 0.02rem;
+        line-height: 1.2;
+    }
+
+    &:hover {
+        border-color: var(--primary);
+        background: var(--primary-light);
+
+        i, span {
+            color: var(--primary);
+        }
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+}
+
+// ─── Right: Canvas ───────────────────────────────────────────────────────────
+
+.canvas {
+    flex: 1;
+    min-width: 0;
+}
+
+.canvas-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.canvas-title {
+    font-size: 0.8rem;
+    font-family: var(--font-medium);
+    color: var(--black-tint);
+    letter-spacing: 0.03rem;
+
+    .count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: var(--white);
+        font-family: var(--font-medium);
+        font-size: 0.6rem;
+        border-radius: 99px;
+        padding: 0.1rem 0.45rem;
+        margin-left: 0.35rem;
+    }
+}
+
+.canvas-hint {
+    font-size: 0.65rem;
+    font-family: var(--font-regular);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+}
+
+// Empty state
+
+.canvas-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 240px;
+    border: 2px dashed var(--border-2);
+    border-radius: var(--radius-md);
+    color: var(--text-dark-4);
+    text-align: center;
+    padding: 2rem;
+
+    i {
+        font-size: 2.25rem;
+        opacity: 0.4;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.8rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.02rem;
+        opacity: 0.7;
+        max-width: 240px;
+        line-height: 1.5;
+    }
+}
+
+// ─── Field list ───────────────────────────────────────────────────────────────
+
+.fields-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 60px;
+}
+
+// CDK drag placeholder
+.field-placeholder {
+    height: 60px;
+    background: var(--primary-light);
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius-md);
+    opacity: 0.5;
+}
+
+// CDK drag preview
+.cdk-drag-preview {
+    border-radius: var(--radius-md);
+    box-shadow: var(--box-shadow-1);
+    opacity: 0.9;
+}
+
+// ─── Field card ───────────────────────────────────────────────────────────────
+
+.field-card {
+    background: var(--white);
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: var(--box-shadow-1);
+    }
+}
+
+// Top row: handle + badge + spacer + remove
+
+.field-card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: var(--text-dark-4);
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem;
+    border-radius: var(--radius-xs);
+    transition: var(--transition-norm);
+
+    &:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+.type-badge {
+    font-size: 0.6rem;
+    font-family: var(--font-medium);
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 99px;
+    background: var(--primary-light);
+    color: var(--primary);
+
+    // Per-type accent colours
+    &[data-type="select"], &[data-type="mutipleSelect"] {
+        background: rgba(99, 102, 241, 0.1);
+        color: rgb(99, 102, 241);
+    }
+    &[data-type="date"], &[data-type="time"] {
+        background: var(--yellow-theme-lightest, rgba(245, 158, 11, 0.1));
+        color: var(--yellow-theme, #f59e0b);
+    }
+    &[data-type="file"] {
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(16, 185, 129);
+    }
+    &[data-type="number"] {
+        background: var(--blue-theme-lightest, rgba(59, 130, 246, 0.1));
+        color: var(--blue-theme, #3b82f6);
+    }
+}
+
+.field-card-spacer {
+    flex: 1;
+}
+
+// Delete button (small variant matching project style)
+
+.btn-delete.sm {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--red-theme-lightest);
+    color: var(--red-theme);
+    cursor: pointer;
+    font-size: 0.65rem;
+    transition: var(--transition-norm);
+    flex-shrink: 0;
+
+    &:hover {
+        background: var(--red-theme);
+        color: var(--white);
+    }
+}
+
+// ─── Label + Name inputs ──────────────────────────────────────────────────────
+
+.field-inputs {
+    display: flex;
+    gap: 0.75rem;
+
+    .field-input-label {
+        flex: 1.5;
+    }
+
+    .field-input-name {
+        flex: 1;
+    }
+
+    mat-form-field {
+        font-size: 0.8rem;
+    }
+}
+
+// ─── Width + Required controls ────────────────────────────────────────────────
+
+.field-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 0.1rem;
+}
+
+.ctrl-label {
+    font-size: 0.7rem;
+    font-family: var(--font-regular);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+    margin-right: 0.4rem;
+}
+
+.width-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+
+    button {
+        border: none;
+        background: transparent;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+        font-family: var(--font-regular);
+        color: var(--text-dark-4);
+        cursor: pointer;
+        transition: var(--transition-norm);
+
+        &:not(:last-child) {
+            border-right: 1px solid var(--border-2);
+        }
+
+        &.active {
+            background: var(--primary);
+            color: var(--white);
+            font-family: var(--font-medium);
+        }
+
+        &:not(.active):hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+    }
+}
+
+.required-ctrl {
+    display: flex;
+    align-items: center;
+}
+
+// ─── Options section ──────────────────────────────────────────────────────────
+
+.field-options {
+    border-top: 1px dashed var(--border-2);
+    padding-top: 0.65rem;
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.options-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.options-title {
+    font-size: 0.72rem;
+    font-family: var(--font-medium);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+}
+
+.options-empty {
+    font-size: 0.72rem;
+    font-family: var(--font-regular);
+    color: var(--text-dark-4);
+    letter-spacing: 0.02rem;
+    padding: 0.35rem 0;
+}
+
+.option-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    .opt-key {
+        width: 35%;
+        font-size: 0.8rem;
+    }
+
+    .opt-val {
+        flex: 1;
+        font-size: 0.8rem;
+    }
+
+    .btn-delete.sm {
+        margin-top: 0.6rem;
+        flex-shrink: 0;
+    }
+}

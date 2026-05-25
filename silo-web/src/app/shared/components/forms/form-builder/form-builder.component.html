@@ -1,0 +1,154 @@
+<div class="form-builder">
+
+    <!-- ── Left: Field Type Palette ───────────────────────────── -->
+    <aside class="palette">
+        <div class="palette-hdr">
+            <span class="palette-title">Field Types</span>
+            <span class="palette-hint">Click to add</span>
+        </div>
+
+        <div class="palette-grid">
+            <div
+                *ngFor="let ft of fieldTypes"
+                class="palette-tile"
+                (click)="addField(ft.type)"
+            >
+                <i class="bi {{ ft.biIcon }}"></i>
+                <span>{{ ft.label }}</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── Right: Form Canvas ──────────────────────────────────── -->
+    <div class="canvas">
+
+        <div class="canvas-hdr">
+            <span class="canvas-title">
+                Form Fields
+                <span *ngIf="fields.length > 0" class="count">{{ fields.length }}</span>
+            </span>
+            <span class="canvas-hint" *ngIf="fields.length > 0">Drag to reorder</span>
+        </div>
+
+        <!-- Empty state -->
+        <div *ngIf="fields.length === 0" class="canvas-empty">
+            <i class="bi bi-layout-text-window-reverse"></i>
+            <p>Click a field type on the left to start building your form.</p>
+        </div>
+
+        <!-- Field list -->
+        <div
+            cdkDropList
+            [cdkDropListData]="fields"
+            (cdkDropListDropped)="onDrop($event)"
+            class="fields-list"
+        >
+            <div
+                *ngFor="let field of fields; let i = index"
+                cdkDrag
+                class="field-card"
+            >
+                <!-- Drag placeholder -->
+                <div class="field-placeholder" *cdkDragPlaceholder></div>
+
+                <!-- Card top row -->
+                <div class="field-card-top">
+                    <span class="drag-handle" cdkDragHandle>
+                        <i class="bi bi-grip-vertical"></i>
+                    </span>
+                    <span class="type-badge" [attr.data-type]="field.controlType">
+                        {{ getTypeLabel(field.controlType) }}
+                    </span>
+                    <span class="field-card-spacer"></span>
+                    <span class="btn-delete sm" (click)="removeField(i)">
+                        <i class="bi bi-trash3-fill"></i>
+                    </span>
+                </div>
+
+                <!-- Label + Field Name -->
+                <div class="field-inputs">
+                    <mat-form-field appearance="outline" color="primary" class="field-input-label">
+                        <mat-label>Label</mat-label>
+                        <input
+                            matInput
+                            [(ngModel)]="field.controlLabel"
+                            (ngModelChange)="onLabelChange(field)"
+                        >
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" color="primary" class="field-input-name">
+                        <mat-label>Field Name</mat-label>
+                        <input
+                            matInput
+                            [(ngModel)]="field.controlName"
+                            (blur)="emit()"
+                        >
+                    </mat-form-field>
+                </div>
+
+                <!-- Width + Required -->
+                <div class="field-controls">
+                    <div class="width-toggle">
+                        <span class="ctrl-label">Width</span>
+                        <div class="toggle-group">
+                            <button
+                                type="button"
+                                [class.active]="field.controlWidth === '100%'"
+                                (click)="setWidth(field, '100%')"
+                            >Full</button>
+                            <button
+                                type="button"
+                                [class.active]="field.controlWidth === '48%'"
+                                (click)="setWidth(field, '48%')"
+                            >Half</button>
+                        </div>
+                    </div>
+                    <div class="required-ctrl">
+                        <span class="ctrl-label">Required</span>
+                        <app-switch
+                            [value]="field.required"
+                            (valueChange)="field.required = $event; emit()"
+                        ></app-switch>
+                    </div>
+                </div>
+
+                <!-- Options (select / multi-select only) -->
+                <div *ngIf="isSelectType(field.controlType)" class="field-options">
+                    <div class="options-hdr">
+                        <span class="options-title">Options</span>
+                        <button type="button" class="cta cta-trans sm" (click)="addOption(field)">
+                            + Add Option
+                        </button>
+                    </div>
+
+                    <div *ngIf="field.selectOptions.length === 0" class="options-empty">
+                        No options yet — click <strong>Add Option</strong> to add choices.
+                    </div>
+
+                    <div
+                        *ngFor="let opt of field.selectOptions; let oi = index"
+                        class="option-row"
+                    >
+                        <mat-form-field appearance="outline" color="primary" class="opt-key">
+                            <mat-label>Key</mat-label>
+                            <input matInput [(ngModel)]="opt.key" (blur)="emit()">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="primary" class="opt-val">
+                            <mat-label>Label</mat-label>
+                            <input
+                                matInput
+                                [(ngModel)]="opt.value"
+                                (ngModelChange)="onOptionValueChange(opt)"
+                                (blur)="emit()"
+                            >
+                        </mat-form-field>
+                        <span class="btn-delete sm" (click)="removeOption(field, oi)">
+                            <i class="bi bi-trash3-fill"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

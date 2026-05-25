@@ -70,6 +70,15 @@
         align-items: center;
         gap: 1.3rem;
 
+        .panel-toggle {
+            i { font-size: 1.1rem; color: var(--text-dark-4); }
+            &:hover i { color: var(--primary); }
+        }
+
+        @include screen-media-min(xxxl) {
+            .hide-at-xxxl { display: none !important; }
+        }
+
         span {
             display: inline-block;
             position: relative;

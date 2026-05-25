@@ -48,6 +48,8 @@ import { RecruitmentPortalComponent } from './recruitment/recruitment-portal/rec
 import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview/recruitment-overview.component';
 import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
 import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/recruitment-job-info.component';
+import { RecruitmentFormsComponent } from './recruitment/recruitment-forms/recruitment-forms.component';
+import { RecruitmentFormInfoComponent } from './recruitment/recruitment-form-info/recruitment-form-info.component';
 
 
 @NgModule({
@@ -88,6 +90,8 @@ import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/
     PayrollPeriodInfoComponent,
     PayslipComponent,
     PayrollSummaryComponent,
+    RecruitmentFormInfoComponent,
+    RecruitmentFormsComponent,
     RecruitmentJobBoardComponent,
     RecruitmentJobInfoComponent,
     RecruitmentOverviewComponent,

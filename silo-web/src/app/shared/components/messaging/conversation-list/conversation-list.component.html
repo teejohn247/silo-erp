@@ -1,0 +1,49 @@
+<div class="conv-list">
+
+    <div class="conv-list-hdr">
+        <span class="conv-list-title">Messages</span>
+        <button type="button" class="new-conv-btn" (click)="newConversation.emit()" title="New conversation">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+
+    <div *ngIf="conversations.length === 0" class="conv-empty">
+        <i class="bi bi-chat-dots"></i>
+        <p>No conversations yet.<br>Start one with a colleague.</p>
+        <button type="button" class="cta cta-primary sm" (click)="newConversation.emit()">
+            Start a conversation
+        </button>
+    </div>
+
+    <div *ngIf="conversations.length > 0" class="conv-items">
+        <div
+            *ngFor="let conv of conversations"
+            class="conv-item"
+            [class.active]="conv._id === activeConversationId"
+            (click)="selectConversation(conv)"
+        >
+            <div class="conv-avatar">
+                <img
+                    *ngIf="getOtherParticipants(conv)[0]?.profilePic"
+                    [src]="getOtherParticipants(conv)[0]?.profilePic"
+                    [alt]="getDisplayName(conv)"
+                >
+                <span *ngIf="!getOtherParticipants(conv)[0]?.profilePic">
+                    {{ getInitials(getDisplayName(conv)) }}
+                </span>
+            </div>
+
+            <div class="conv-info">
+                <div class="conv-name-row">
+                    <span class="conv-name">{{ getDisplayName(conv) }}</span>
+                    <span class="conv-time">{{ conv.lastMessage?.createdAt | timeDuration }}</span>
+                </div>
+                <div class="conv-preview-row">
+                    <span class="conv-preview">{{ conv.lastMessage?.content || 'No messages yet' }}</span>
+                    <span *ngIf="conv.unreadCount > 0" class="conv-badge">{{ conv.unreadCount }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

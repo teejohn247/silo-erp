@@ -31,6 +31,8 @@ import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview
 import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
 import { RecruitmentMasterListComponent } from './recruitment/recruitment-master-list/recruitment-master-list.component';
 import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/recruitment-job-info.component';
+import { RecruitmentFormsComponent } from './recruitment/recruitment-forms/recruitment-forms.component';
+import { RecruitmentFormInfoComponent } from './recruitment/recruitment-form-info/recruitment-form-info.component';
 
 const routes: Routes = [
   {
@@ -137,6 +139,18 @@ const routes: Routes = [
       {
         path : 'master-list',
         component: RecruitmentMasterListComponent
+      },
+      {
+        path : 'forms',
+        component: RecruitmentFormsComponent
+      },
+      {
+        path : 'forms/new',
+        component: RecruitmentFormInfoComponent
+      },
+      {
+        path : 'forms/:id',
+        component: RecruitmentFormInfoComponent
       }
     ]
   },

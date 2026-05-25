@@ -12,8 +12,8 @@
         <mat-menu #notificationsMenu="matMenu" xPosition="before" (closed)="markAllAsRead()" class="xl">
             <app-notifications-panel [notifications]="notifications"></app-notifications-panel>
         </mat-menu>
-        <span (click)="goToCalendar()" role="button">
-            <app-icon [iconName]="'calendarRange'" [iconWidth]="22" [iconHeight]="22"></app-icon>
+        <span class="panel-toggle hide-at-xxxl" (click)="togglePanel.emit()" role="button">
+            <i class="bi bi-layout-sidebar-reverse"></i>
         </span>
         <div class="user">
             <div class="info">

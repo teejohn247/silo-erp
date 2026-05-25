@@ -715,4 +715,34 @@ export class HrService {
     return this.http.patch<any>(`${this.baseUrl}/publishJob/${jobId}`, info, this.requestOptions);
   }
 
+  // ─── Job Forms ───────────────────────────────────────────────────────────
+
+  public createJobForm(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createJobForm`, payload, this.requestOptions);
+  }
+
+  public getJobForms(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchJobForms`, this.requestOptions);
+  }
+
+  public getJobFormById(formId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchJobForm/${formId}`, this.requestOptions);
+  }
+
+  public getPublicJobForm(formId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/publicJobForm/${formId}`);
+  }
+
+  public updateJobForm(formId: string, payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateJobForm/${formId}`, payload, this.requestOptions);
+  }
+
+  public deleteJobForm(formId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteJobForm/${formId}`, this.requestOptions);
+  }
+
+  public submitJobFormResponse(formId: string, payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/submitJobForm/${formId}`, payload);
+  }
+
 }

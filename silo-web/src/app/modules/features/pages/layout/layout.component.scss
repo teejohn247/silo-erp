@@ -1,5 +1,7 @@
 @import 'src/assets/scss/helpers/mixins';
 
+$right-panel-width: 380px;
+
 .page-wrap {
     display: flex;
     height: 100vh;
@@ -9,13 +11,8 @@
     .menu-sec {
         height: 100%;
         min-width: 200px;
-        //max-width: 280px;
         background: var(--bkg-2);
         overflow-y: auto;
-
-        // @include screen-media-min(xxxl) {
-        //     min-width: 300px;
-        // }
     }
 
     .main-page {
@@ -23,20 +20,77 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        overflow: hidden; // prevents page scroll, scroll inside content if needed
+        overflow: hidden;
+        min-width: 0;
 
         .header {
             flex: 0 0 auto;
-            height: var(--hdr-height); // fixed header height (adjust as needed)
-            background: #fff; // optional
-            //border-bottom: 1px solid #ddd;
+            height: var(--hdr-height);
+            background: #fff;
+        }
+
+        .content-row {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
         }
 
         .page-content {
-            flex: 1 1 auto;
-            overflow-y: auto; // scrollable if content exceeds space
-            padding: 0; // optional
+            flex: 1;
+            overflow-y: auto;
             background: var(--bkg-2);
+            min-width: 0;
         }
+
+        // ─── Right panel: slide-in drawer (below xxxl) ───────────────
+        .right-panel-wrap {
+            position: fixed;
+            top: var(--hdr-height);
+            right: 0;
+            width: $right-panel-width;
+            height: calc(100vh - var(--hdr-height));
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+            border-left: 1px solid var(--border-2);
+            box-shadow: var(--box-shadow-1);
+            flex-shrink: 0;
+
+            &.open {
+                transform: translateX(0);
+            }
+
+            // ─── At xxxl: always-visible inline panel ──────────────
+            @include screen-media-min(xxxl) {
+                position: relative;
+                top: auto;
+                right: auto;
+                height: 100%;
+                transform: none !important;
+                box-shadow: none;
+                transition: none;
+                z-index: auto;
+            }
+        }
+    }
+}
+
+// ─── Backdrop (below xxxl only) ──────────────────────────────────────────
+
+.panel-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 199;
+    cursor: pointer;
+
+    &.visible {
+        display: block;
+    }
+
+    @include screen-media-min(xxxl) {
+        display: none !important;
     }
 }

@@ -1,0 +1,62 @@
+<div class="row-section d-flex justify-content-between align-items-center">
+    <div class="page-header">Job Forms</div>
+    <div class="main-actions d-flex justify-content-start align-items-center gap-3">
+        <div (click)="openNewForm()" class="cta cta-primary icon lg">
+            <app-icon [iconName]="'fileText'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> New Form
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isLoading && forms.length === 0" class="row-section mt-4">
+    <div class="row-card w-100">
+        <div class="card-cont">
+            <app-no-data
+                [height]="'20rem'"
+                [message]="'No forms have been created yet'"
+                [imageUrl]="'assets/img/project/illustrations/flag.webp'"
+                [messageFontSize]="'1rem'"
+            ></app-no-data>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isLoading && forms.length > 0" class="row-section mt-4">
+    <div class="forms-grid">
+        <div *ngFor="let form of forms" class="form-card">
+            <div class="form-card-header">
+                <span class="form-icon">
+                    <i class="bi bi-ui-checks"></i>
+                </span>
+                <span class="form-status" [class.linked]="form.jobPost">
+                    {{ form.jobPost ? 'Linked' : 'Unlinked' }}
+                </span>
+            </div>
+
+            <div class="form-name">{{ form.formName }}</div>
+            <div *ngIf="form.description" class="form-desc">{{ form.description }}</div>
+
+            <div class="form-meta">
+                <div class="meta-item">
+                    <span class="meta-lbl">Job Post</span>
+                    <span class="meta-val">{{ form.jobPostTitle || '—' }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-lbl">Fields</span>
+                    <span class="meta-val">{{ form.fields?.length ?? 0 }}</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="cta cta-trans sm" (click)="copyLink(form)">
+                    <i class="bi bi-link-45deg"></i> Copy Link
+                </button>
+                <button type="button" class="cta cta-trans sm" (click)="editForm(form)">
+                    <i class="bi bi-pencil"></i> Edit
+                </button>
+                <button type="button" class="btn-delete sm" (click)="deleteForm(form)">
+                    <i class="bi bi-trash3-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
